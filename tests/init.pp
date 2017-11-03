@@ -1,4 +1,4 @@
-pingdom { $facts['hostname']:
+pingdom { "http://#{$facts['hostname']}/check":
     ensure   => present,
     username => '<your pingdom username>',
     password => '<your pingdom password>',
