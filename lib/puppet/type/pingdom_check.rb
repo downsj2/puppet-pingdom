@@ -35,6 +35,7 @@ Puppet::Type.newtype(:pingdom_check) do
         defaultto 5
 
         def insync?(is)
+            puts "insync? #{is} -> #{should}"
             is.to_s == should.to_s
         end
     end
