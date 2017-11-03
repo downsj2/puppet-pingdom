@@ -5,10 +5,11 @@ Puppet type and provider for Pingdom API
 - Check CRUD
   - create works
   - delete works
-  - update works partially
-      - scalar attributes work
-      - structured tags attribute works
-      - other structured attributes TBD
+  - update works 
+  - properties work partially
+      - scalar properties work
+      - structured tags properties works
+      - other structured properties TBD
 - Team CRUD TBD
 - User CRUD TBD
 
@@ -35,6 +36,6 @@ pingdom_check { "http://${facts['hostname']}/check":
 }
 ```
 ### Known issues
-- `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters.
+- `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
 - Pingdom API doesn't seem to respect setting `notifywhenbackup`.
   
