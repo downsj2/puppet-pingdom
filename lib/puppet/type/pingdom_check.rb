@@ -1,4 +1,4 @@
-Puppet::Type.newtype(:pingdom) do
+Puppet::Type.newtype(:pingdom_check) do
     @doc = 'Pingdom API'
 
     ensurable

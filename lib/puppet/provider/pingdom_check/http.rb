@@ -6,7 +6,7 @@ require File.expand_path( # yes, this is the recommended way :P
     )
 )
 
-Puppet::Type.type(:pingdom).provide(:http) do
+Puppet::Type.type(:pingdom_check).provide(:http) do
     has_feature :http
 
     mk_resource_methods
