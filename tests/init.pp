@@ -1,26 +1,29 @@
 pingdom { $facts['hostname']:
     ensure   => present,
-    provider => 'http',
     username => '<your pingdom username>',
     password => '<your pingdom password>',
     appkey   => '<your pingdom appkey>',
-    paused   => true,
 
-    params => {
-        host => $facts['hostname'],
-        url  => '/check',
-    }
+    # provider-specific properties
+    provider => 'http',
+    host     => $facts['hostname'],
+    url      => '/check',
 
-    # resolution => undef,
+    # common properties
+    paused                   => true,
+    resolution               => 5,
+    notifywhenbackup         => false,
+    sendnotificationwhendown => true,
+    notifywhenbackup         => false,
+    ipv6                     => false,
+    notifyagainevery         => 0,
+    responsetime_threshold   => 30000,
+
+    # *not implemented yet*
     # userids => [],
-    # sendnotificationwhendown => true,
-    # notifyagainevery => undef,
-    # notifywhenbackup => false,
-    # tags => [],
     # probe_filters => [],
-    # ipv6 => false,
-    # responsetime_threshold => undef,
     # integrationids => [],
-    # teamids => []
+    # teamids  => [],
+    # tags     => []
 }
 
