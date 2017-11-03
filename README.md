@@ -5,10 +5,11 @@ Puppet type and provider for Pingdom API
 - Check CRUD
   - create works
   - delete works
-  - update works partially
-      - scalar attributes work
-      - structured tags attribute works
-      - other structured attributes TBD
+  - update works 
+  - properties work partially
+      - scalar properties work
+      - structured tags properties works
+      - other structured properties TBD
 - Team CRUD TBD
 - User CRUD TBD
 
