@@ -73,7 +73,7 @@ class PingdomClient
         if @teams.nil? then
             result = @conn.get @@endpoint[:teams]
             res = JSON.parse(result.body)
-            @checks = res['teams']
+            @teams = res['teams']
         end
         @teams
     end
@@ -114,7 +114,7 @@ class PingdomClient
         if @users.nil? then
             result = @conn.get @@endpoint[:users]
             res = JSON.parse(result.body)
-            @checks = res['users']
+            @users = res['users']
         end
         @users
     end
@@ -154,21 +154,25 @@ Puppet::Type.type(:pingdom).provide(:http) do
     mk_resource_methods
 
     def exists?
-        client = PingdomClient.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
-        client.find_check @resource[:name]
+        if @client.nil? then
+            @client = PingdomClient.new(
+                @resource[:username],
+                @resource[:password],
+                @resource[:appkey]
+            )
+        end
+        @client.find_check @resource[:name]
     end
 
     def create
-        client = PingdomClient.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
-        client.create_check @resource[:name], {
+        if @client.nil? then
+            @client = PingdomClient.new(
+                @resource[:username],
+                @resource[:password],
+                @resource[:appkey]
+            )
+        end
+        @client.create_check @resource[:name], {
             :type => 'http',
             :name => @resource[:name],
             :host => @resource[:host],
@@ -177,12 +181,14 @@ Puppet::Type.type(:pingdom).provide(:http) do
     end
 
     def destroy
-        client = PingdomClient.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
-        check = client.find_check @resource[:name]
-        client.delete_check check
+        if @client.nil? then
+            @client = PingdomClient.new(
+                @resource[:username],
+                @resource[:password],
+                @resource[:appkey]
+            )
+        end
+        check = @client.find_check @resource[:name]
+        @client.delete_check check
     end
 end

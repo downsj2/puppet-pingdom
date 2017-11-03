@@ -35,9 +35,9 @@ Puppet::Type.newtype(:pingdom) do
         desc 'User identifiers [list of integers]'
         defaultto []
 
-        def insync?(is)
-            is.sort == should.sort
-        end
+        # def insync?(is)
+        #     is.sort == should.sort
+        # end
     end
 
     newproperty(:sendnotificationwhendown) do
@@ -64,10 +64,10 @@ Puppet::Type.newtype(:pingdom) do
             ','.join(value)
         end
 
-        def insync?(is)
-            isarr = is.split(',')
-            isarr.sort == should.sort
-        end
+        # def insync?(is)
+        #     isarr = is.split(',')
+        #     isarr.sort == should.sort
+        # end
     end
 
     newproperty(:probe_filters, :array_matching=>:all) do
@@ -76,9 +76,9 @@ Puppet::Type.newtype(:pingdom) do
         To remove all filters from a check, use an empty value [hash])
         defaultto []
 
-        def insync?(is)
-            is.sort == should.sort
-        end
+        # def insync?(is)
+        #     is.sort == should.sort
+        # end
     end
 
     newproperty(:ipv6) do
@@ -98,18 +98,18 @@ Puppet::Type.newtype(:pingdom) do
         desc 'Integration identifiers [list of integers]'
         defaultto []
 
-        def insync?(is)
-            is.sort == should.sort
-        end
+        # def insync?(is)
+        #     is.sort == should.sort
+        # end
     end
 
     newproperty(:teamids, :array_matching=>:all) do
         desc 'Teams to alert [list of integers]'
         defaultto []
 
-        def insync?(is)
-            is.sort == should.sort
-        end
+        # def insync?(is)
+        #     is.sort == should.sort
+        # end
     end
 
     #
