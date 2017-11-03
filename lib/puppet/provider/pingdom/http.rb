@@ -149,6 +149,8 @@ class PingdomClient
 end
 
 Puppet::Type.type(:pingdom).provide(:http) do
+    has_feature :http
+
     mk_resource_methods
 
     def exists?
@@ -169,8 +171,8 @@ Puppet::Type.type(:pingdom).provide(:http) do
         client.create_check @resource[:name], {
             :type => 'http',
             :name => @resource[:name],
-            :host => @resource[:params]['host'],
-            :url  => @resource[:params]['url']
+            :host => @resource[:host],
+            :url  => @resource[:url]
         }
     end
 

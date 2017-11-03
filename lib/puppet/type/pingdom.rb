@@ -19,10 +19,6 @@ Puppet::Type.newtype(:pingdom) do
         desc 'API app key [string]'
     end
 
-    newparam(:params) do
-        desc 'Provider-specific params'
-    end
-
     newproperty(:paused) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)
@@ -64,8 +60,13 @@ Puppet::Type.newtype(:pingdom) do
         desc 'Check tags [list of strings]'
         defaultto []
 
+        validate do |value|
+            ','.join(value)
+        end
+
         def insync?(is)
-            is.sort == should.sort
+            isarr = is.split(',')
+            isarr.sort == should.sort
         end
     end
 
@@ -109,5 +110,17 @@ Puppet::Type.newtype(:pingdom) do
         def insync?(is)
             is.sort == should.sort
         end
+    end
+
+    #
+    # provider-specific properties
+    #
+    feature :http, "HTTP check API"
+    newproperty(:host, :required_features => :http) do
+        desc 'HTTP host to check [string]'
+    end
+
+    newproperty(:url, :required_features => :http) do
+        desc 'URL to check [string]'
     end
 end
