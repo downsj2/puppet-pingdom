@@ -68,6 +68,15 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
         end
     end
 
+    #
+    # getters
+    #
+    def paused
+        if check = api.find_check(@resource[:name])
+            check.fetch('status', nil) == 'paused'
+        end
+    end
+
     def tags
         if check = api.find_check(@resource[:name])
             check.fetch('tags', []).map { |tag| tag['name'] }

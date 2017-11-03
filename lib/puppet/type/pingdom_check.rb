@@ -23,6 +23,10 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)
         defaultto :false
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
     end
 
     newproperty(:resolution) do
