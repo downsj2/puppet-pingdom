@@ -1,5 +1,5 @@
 pingdom { $facts['hostname']:
-    ensure   => absent,
+    ensure   => present,
     provider => 'http',
     username => '<your pingdom username>',
     password => '<your pingdom password>',
