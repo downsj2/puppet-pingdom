@@ -1,13 +1,19 @@
-require File.expand_path( # yes, this is the recommended way :P
-    File.join(
-        File.dirname(__FILE__),
-        '..', '..', '..',
-        'puppet_x', 'pingdom', 'client.rb'
+begin
+    require File.expand_path( # yes, this is the recommended way :P
+        File.join(
+            File.dirname(__FILE__),
+            '..', '..', '..',
+            'puppet_x', 'pingdom', 'client.rb'
+        )
     )
-)
+    has_pingdom_api = true
+rescue LoadError
+    has_pingdom_api = false
+end
 
 Puppet::Type.type(:pingdom_check).provide(:http) do
     has_feature :http
+    confine :true => has_pingdom_api
 
     mk_resource_methods
 
@@ -24,11 +30,11 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def create
-        params = { # @resource isn't iterable, so...
-            :type => 'http',
-            :name => @resource[:name],
-            :host => @resource[:host],
-            :url  => @resource[:url],
+        params = {
+            :type                     => 'http',
+            :name                     => @resource[:name],
+            :host                     => @resource[:host],
+            :url                      => @resource[:url],
             :paused                   => @resource[:paused],
             :resolution               => @resource[:resolution],
             :sendnotificationwhendown => @resource[:sendnotificationwhendown],
@@ -36,11 +42,11 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
             :ipv6                     => @resource[:ipv6],
             :notifyagainevery         => @resource[:notifyagainevery],
             :responsetime_threshold   => @resource[:responsetime_threshold],
-            :userids                  => @resource[:userids],
-            :probe_filters            => @resource[:probe_filters],
-            :integrationids           => @resource[:integrationids],
-            :teamids                  => @resource[:teamids],
-            :tags                     => @resource[:tags]
+            :userids                  => @resource[:userids].sort.join(','),
+            :probe_filters            => @resource[:probe_filters].sort.join(','),
+            :integrationids           => @resource[:integrationids].sort.join(','),
+            :teamids                  => @resource[:teamids].sort.join(','),
+            :tags                     => @resource[:tags].sort.join(',')
         }
         if check = api.find_check(@resource[:name])
             api.modify_check check, params
