@@ -29,7 +29,8 @@ pingdom_check { "http://${facts['hostname']}/check":
     tags     => [ 'web', 'sales' ]
 }
 ```
-### Known ssues
+### Known issues
+- `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters.
 - Pingdom API doesn't return the following properties, which means they will be set on every run
   - sendnotificationwhendown
   
