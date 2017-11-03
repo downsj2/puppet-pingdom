@@ -28,7 +28,7 @@ class PuppetX::Pingdom::Client
             result = @conn.get @@endpoint[:checks]
             res = JSON.parse(result.body)
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-            @checks = res['checks']
+            res['checks']
         end
     end
 
@@ -76,7 +76,7 @@ class PuppetX::Pingdom::Client
             result = @conn.get @@endpoint[:teams]
             res = JSON.parse(result.body)
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-            @teams = res['teams']
+            res['teams']
         end
     end
 
@@ -122,7 +122,7 @@ class PuppetX::Pingdom::Client
             result = @conn.get @@endpoint[:users]
             res = JSON.parse(result.body)
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-            @users = res['users']
+            res['users']
         end
     end
 
