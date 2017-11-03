@@ -30,7 +30,6 @@ class PuppetX::Pingdom::Client
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
             @checks = res['checks']
         end
-        @checks
     end
 
     def create_check(name, params)
@@ -79,7 +78,6 @@ class PuppetX::Pingdom::Client
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
             @teams = res['teams']
         end
-        @teams
     end
 
     def create_team(name, params)
@@ -126,7 +124,6 @@ class PuppetX::Pingdom::Client
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
             @users = res['users']
         end
-        @users
     end
 
     def create_user(name, params)
