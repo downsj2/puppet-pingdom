@@ -12,12 +12,10 @@ pingdom { $facts['hostname']:
     password => '<your pingdom password>',
     appkey   => '<your pingdom appkey>',
     paused   => true,
-
-    params => {
-        host => $facts['hostname'],
-        url  => '/check',
-    }
-
+    
+    host => $facts['hostname'],
+    url  => '/check',
+    
     # resolution => undef,
     # userids => [],
     # sendnotificationwhendown => true,
