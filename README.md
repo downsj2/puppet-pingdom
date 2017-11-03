@@ -7,6 +7,7 @@ Puppet type and provider for Pingdom API
   - delete works
   - update works partially
       - tags attribute works
+      - paused attribute works
       - other attributes TBD     
 - Team CRUD TBD
 - User CRUD TBD
@@ -28,3 +29,7 @@ pingdom_check { "http://${facts['hostname']}/check":
     tags     => [ 'web', 'sales' ]
 }
 ```
+### Known ssues
+- Pingdom API doesn't return the following properties, which means they will be set on every run
+  - sendnotificationwhendown
+  
