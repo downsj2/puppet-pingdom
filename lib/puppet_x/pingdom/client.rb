@@ -25,10 +25,10 @@ class PuppetX::Pingdom::Client
     def checks
         # list of checks with simple memoization
         @checks ||= begin
-            result = @conn.get @@endpoint[:checks]
-            res = JSON.parse(result.body)
-            raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-            res['checks']
+            response = @conn.get @@endpoint[:checks]
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['checks']
         end
     end
 
@@ -39,10 +39,10 @@ class PuppetX::Pingdom::Client
             :name => name
         }
         defaults.update(params)
-        result = @conn.post @@endpoint[:checks], defaults
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res['check']
+        response = @conn.post @@endpoint[:checks], defaults
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body['check']
     end
 
     def find_check(name)
@@ -51,19 +51,19 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        result = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res
+        response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body
     end
 
     def delete_check(check)
-        result = @conn.delete @@endpoint[:checks], {
+        response = @conn.delete @@endpoint[:checks], {
             :delcheckids => check['id'].to_s
         }
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body
     end
 
     #
@@ -72,10 +72,10 @@ class PuppetX::Pingdom::Client
     def teams
         # list of teams with simple memoization
         @teams ||= begin
-            result = @conn.get @@endpoint[:teams]
-            res = JSON.parse(result.body)
-            raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-            res['teams']
+            response = @conn.get @@endpoint[:teams]
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['teams']
         end
     end
 
@@ -85,10 +85,10 @@ class PuppetX::Pingdom::Client
             :name => name
         }
         defaults.update(params)
-        result = @conn.post @@endpoint[:teams], defaults
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res['team']
+        response = @conn.post @@endpoint[:teams], defaults
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body['team']
     end
 
     def find_team(name)
@@ -97,19 +97,19 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_team(team, params)
-        result = @conn.put "#{@@endpoint[:teams]}/#{team['id']}", params
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res
+        response = @conn.put "#{@@endpoint[:teams]}/#{team['id']}", params
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body
     end
 
     def delete_team(team)
-        result = @conn.delete @@endpoint[:teams], {
+        response = @conn.delete @@endpoint[:teams], {
             :delteamids => team['id'].to_s
         }
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body
     end
 
     #
@@ -118,10 +118,10 @@ class PuppetX::Pingdom::Client
     def users
         # list of users with simple memoization
         @users ||= begin
-            result = @conn.get @@endpoint[:users]
-            res = JSON.parse(result.body)
-            raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-            res['users']
+            response = @conn.get @@endpoint[:users]
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['users']
         end
     end
 
@@ -131,10 +131,10 @@ class PuppetX::Pingdom::Client
             :name => name
         }
         defaults.update(params)
-        result = @conn.post @@endpoint[:users], defaults
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res['user']
+        response = @conn.post @@endpoint[:users], defaults
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body['user']
     end
 
     def find_user(name)
@@ -143,18 +143,18 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_user(user, params)
-        result = @conn.put "#{@@endpoint[:users]}/#{user['id']}", params
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res
+        response = @conn.put "#{@@endpoint[:users]}/#{user['id']}", params
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body
     end
 
     def delete_user(user)
-        result = @conn.delete @@endpoint[:users], {
+        response = @conn.delete @@endpoint[:users], {
             :deluserids => user['id'].to_s
         }
-        res = JSON.parse(result.body)
-        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
-        res
+        body = JSON.parse(response.body)
+        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        body
     end
 end

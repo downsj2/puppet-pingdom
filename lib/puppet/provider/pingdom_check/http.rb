@@ -24,7 +24,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def create
-        params = {
+        params = { # @resource isn't iterable, so...
             :type => 'http',
             :name => @resource[:name],
             :host => @resource[:host],
