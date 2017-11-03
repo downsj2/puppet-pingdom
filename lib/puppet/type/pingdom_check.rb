@@ -37,7 +37,7 @@ Puppet::Type.newtype(:pingdom_check) do
 
         def insync?(is)
             isarr = is.split(',')
-            is.sort == should.sort
+            isarr.sort == should.sort
         end
     end
 
@@ -75,7 +75,7 @@ Puppet::Type.newtype(:pingdom_check) do
 
         def insync?(is)
             isarr = is.split(',')
-            is.sort == should.sort
+            isarr.sort == should.sort
         end
     end
 
@@ -98,7 +98,7 @@ Puppet::Type.newtype(:pingdom_check) do
 
         def insync?(is)
             isarr = is.split(',')
-            is.sort == should.sort
+            isarr.sort == should.sort
         end
     end
 
@@ -108,7 +108,7 @@ Puppet::Type.newtype(:pingdom_check) do
 
         def insync?(is)
             isarr = is.split(',')
-            is.sort == should.sort
+            isarr.sort == should.sort
         end
     end
 
