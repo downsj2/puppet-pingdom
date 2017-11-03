@@ -33,10 +33,12 @@ class PuppetX::Pingdom::Client
     end
 
     def get_check_details(check)
-        response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
-        body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['check']
+        @check_details ||= begin
+            response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['check']
+        end
     end
 
     def create_check(name, params)
@@ -55,7 +57,7 @@ class PuppetX::Pingdom::Client
     def find_check(name)
         # returns check or nil
         check = checks.select { |check| check['name'] == name } [0]
-        get_check_details check if check
+        get_check_details(check) if check
     end
 
     def modify_check(check, params)

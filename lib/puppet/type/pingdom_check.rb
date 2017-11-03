@@ -51,6 +51,34 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
+    newproperty(:sendnotificationwhendown) do
+        desc 'Send notification when down n times [integer]'
+        defaultto 2
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:notifyagainevery) do
+        desc 'Notify again every n result [integer]'
+        defaultto 0
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:notifywhenbackup) do
+        desc 'Notify when back up again [boolean]'
+        newvalues(:true, :false)
+        defaultto :false
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
+    end
+
     newproperty(:tags, :array_matching=>:all) do
         desc 'Check tags [list of strings]'
         defaultto []
