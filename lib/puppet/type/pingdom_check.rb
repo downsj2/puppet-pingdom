@@ -35,33 +35,8 @@ Puppet::Type.newtype(:pingdom_check) do
         defaultto 5
 
         def insync?(is)
-            puts "insync? #{is} -> #{should}"
             is.to_s == should.to_s
         end
-    end
-
-    newproperty(:sendnotificationwhendown) do
-        desc 'Send notification when down n times [integer]'
-        defaultto 2
-
-        def insync?(is)
-            is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:notifyagainevery) do
-        desc 'Notify again every n result. 0 means that no extra notifications will be sent [integer]'
-        defaultto 0
-
-        def insync?(is)
-            is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:notifywhenbackup) do
-        desc 'Notify when back up again [boolean]'
-        newvalues(:true, :false)
-        defaultto :false
     end
 
     newproperty(:ipv6) do
@@ -70,11 +45,6 @@ Puppet::Type.newtype(:pingdom_check) do
         will be overrided by the IP address version [boolean])
         newvalues(:true, :false)
         defaultto :false
-    end
-
-    newproperty(:responsetime_threshold) do
-        desc 'Triggers a down alert if the response time exceeds threshold specified in ms [integer]'
-        defaultto 30000
 
         def insync?(is)
             is.to_s == should.to_s

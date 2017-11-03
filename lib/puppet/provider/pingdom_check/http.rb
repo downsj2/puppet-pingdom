@@ -44,21 +44,17 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
 
     def update_or_create
         params = {
-            :name                     => @resource[:name],
-            :host                     => @resource[:host],
-            :url                      => @resource[:url],
-            :paused                   => @resource[:paused],
-            :resolution               => @resource[:resolution],
-            :sendnotificationwhendown => @resource[:sendnotificationwhendown],
-            :notifywhenbackup         => @resource[:notifywhenbackup],
-            :ipv6                     => @resource[:ipv6],
-            :notifyagainevery         => @resource[:notifyagainevery],
-            :responsetime_threshold   => @resource[:responsetime_threshold],
-            :userids                  => @resource[:userids].sort.join(','),
-            :probe_filters            => @resource[:probe_filters].sort.join(','),
-            :integrationids           => @resource[:integrationids].sort.join(','),
-            :teamids                  => @resource[:teamids].sort.join(','),
-            :tags                     => @resource[:tags].sort.join(',')
+            :name           => @resource[:name],
+            :host           => @resource[:host],
+            :url            => @resource[:url],
+            :paused         => @resource[:paused],
+            :resolution     => @resource[:resolution],
+            :ipv6           => @resource[:ipv6],
+            :userids        => @resource[:userids].sort.join(','),
+            :probe_filters  => @resource[:probe_filters].sort.join(','),
+            :integrationids => @resource[:integrationids].sort.join(','),
+            :teamids        => @resource[:teamids].sort.join(','),
+            :tags           => @resource[:tags].sort.join(',')
         }
         if check = api.find_check(@resource[:name])
             api.modify_check check, params
@@ -71,21 +67,43 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     #
     # getters
     #
+    def host
+        if check = api.find_check(@resource[:name])
+            check.fetch('hostname', :absent)
+        end
+    end
+
+    def ipv6
+        if check = api.find_check(@resource[:name])
+            check.fetch('ipv6', :absent)
+        end
+    end
+
     def paused
         if check = api.find_check(@resource[:name])
-            check.fetch('status', nil) == 'paused'
+            check.fetch('status', :absent) == 'paused'
         end
     end
 
     def resolution
         if check = api.find_check(@resource[:name])
-            check.fetch('resolution', nil)
+            check.fetch('resolution', :absent)
         end
     end
 
     def tags
         if check = api.find_check(@resource[:name])
             check.fetch('tags', []).map { |tag| tag['name'] }
+        else
+            :absent
+        end
+    end
+
+    def url
+        if check = api.find_check(@resource[:name])
+            check['type']['http']['url']
+        else
+            :absent
         end
     end
 end
