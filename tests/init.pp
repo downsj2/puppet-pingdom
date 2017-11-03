@@ -8,7 +8,7 @@ pingdom { $facts['hostname']:
 
     params => {
         host => $facts['hostname'],
-        url  => '/survey/demo/dashboard',
+        url  => '/check',
     }
 
     # resolution => undef,
