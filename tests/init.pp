@@ -1,4 +1,4 @@
-pingdom { "http://#{$facts['hostname']}/check":
+pingdom { "http://${facts['hostname']}/check":
     ensure   => present,
     username => '<your pingdom username>',
     password => '<your pingdom password>',
@@ -12,7 +12,6 @@ pingdom { "http://#{$facts['hostname']}/check":
     # common properties
     paused                   => true,
     resolution               => 5,
-    notifywhenbackup         => false,
     sendnotificationwhendown => true,
     notifywhenbackup         => false,
     ipv6                     => false,

@@ -24,7 +24,7 @@ class PuppetX::Pingdom::Client
     #
     def checks
         # list of checks with simple memoization
-        if @checks.nil?
+        @checks ||= begin
             result = @conn.get @@endpoint[:checks]
             res = JSON.parse(result.body)
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
@@ -73,7 +73,7 @@ class PuppetX::Pingdom::Client
     #
     def teams
         # list of teams with simple memoization
-        if @teams.nil?
+        @teams ||= begin
             result = @conn.get @@endpoint[:teams]
             res = JSON.parse(result.body)
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
@@ -120,7 +120,7 @@ class PuppetX::Pingdom::Client
     #
     def users
         # list of users with simple memoization
-        if @users.nil?
+        @users ||= begin
             result = @conn.get @@endpoint[:users]
             res = JSON.parse(result.body)
             raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
