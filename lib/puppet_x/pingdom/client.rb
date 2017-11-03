@@ -36,8 +36,7 @@ class PuppetX::Pingdom::Client
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         defaults = {
             :type => 'http',
-            :name => name,
-            :paused => true
+            :name => name
         }
         defaults.update(params)
         result = @conn.post @@endpoint[:checks], defaults
