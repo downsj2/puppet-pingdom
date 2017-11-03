@@ -1,4 +1,4 @@
-pingdom_check { "http://${facts['hostname']}/check":
+pingdom_check { "http://${facts['fqdn']}/check":
     ensure   => present,
     username => '<your pingdom username>',
     password => '<your pingdom password>',
@@ -6,23 +6,22 @@ pingdom_check { "http://${facts['hostname']}/check":
 
     # provider-specific properties
     provider => 'http',
-    host     => $facts['hostname'],
+    host     => $facts['fqdn'],
     url      => '/check',
 
     # common properties
     paused                   => true,
     resolution               => 5,
-    sendnotificationwhendown => true,
-    notifywhenbackup         => false,
     ipv6                     => false,
+    tags                     => ['sre', 'test', 'web'],
+    sendnotificationwhendown => 2,
     notifyagainevery         => 0,
-    responsetime_threshold   => 30000,
+    notifywhenbackup         => false,
 
     # *not implemented yet*
     # userids => [],
     # probe_filters => [],
     # integrationids => [],
     # teamids  => [],
-    # tags     => []
 }
 
