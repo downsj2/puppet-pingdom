@@ -24,7 +24,7 @@ class PingdomClient
         if @checks.nil?
             result = @conn.get @@endpoint[:checks]
             res = JSON.parse(result.body)
-            raise "checks: #{res['error']['errormessage']}" unless result.success?
+            raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
             @checks = res['checks']
         end
         @checks
@@ -40,7 +40,7 @@ class PingdomClient
         defaults.update(params)
         result = @conn.post @@endpoint[:checks], defaults
         res = JSON.parse(result.body)
-        raise "create_check: #{res['error']['errormessage']}" unless result.success?
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
         res['check']
     end
 
@@ -52,7 +52,7 @@ class PingdomClient
     def modify_check(check, params)
         result = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         res = JSON.parse(result.body)
-        raise "modify_check: #{res['error']['errormessage']}" unless result.success?
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
         res
     end
 
@@ -61,7 +61,7 @@ class PingdomClient
             :delcheckids => check['id'].to_s
         }
         res = JSON.parse(result.body)
-        raise "delete_check: #{res['error']['errormessage']}" unless result.success?
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
         res
     end
 
@@ -73,6 +73,7 @@ class PingdomClient
         if @teams.nil?
             result = @conn.get @@endpoint[:teams]
             res = JSON.parse(result.body)
+            raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
             @teams = res['teams']
         end
         @teams
@@ -86,6 +87,7 @@ class PingdomClient
         defaults.update(params)
         result = @conn.post @@endpoint[:teams], defaults
         res = JSON.parse(result.body)
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
         res['team']
     end
 
@@ -96,14 +98,18 @@ class PingdomClient
 
     def modify_team(team, params)
         result = @conn.put "#{@@endpoint[:teams]}/#{team['id']}", params
-        JSON.parse(result.body)
+        res = JSON.parse(result.body)
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
+        res
     end
 
     def delete_team(team)
         result = @conn.delete @@endpoint[:teams], {
             :delteamids => team['id'].to_s
         }
-        JSON.parse(result.body)
+        res = JSON.parse(result.body)
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
+        res
     end
 
     #
@@ -114,6 +120,7 @@ class PingdomClient
         if @users.nil?
             result = @conn.get @@endpoint[:users]
             res = JSON.parse(result.body)
+            raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
             @users = res['users']
         end
         @users
@@ -127,6 +134,7 @@ class PingdomClient
         defaults.update(params)
         result = @conn.post @@endpoint[:users], defaults
         res = JSON.parse(result.body)
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
         res['user']
     end
 
@@ -137,14 +145,18 @@ class PingdomClient
 
     def modify_user(user, params)
         result = @conn.put "#{@@endpoint[:users]}/#{user['id']}", params
-        JSON.parse(result.body)
+        res = JSON.parse(result.body)
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
+        res
     end
 
     def delete_user(user)
         result = @conn.delete @@endpoint[:users], {
             :deluserids => user['id'].to_s
         }
-        JSON.parse(result.body)
+        res = JSON.parse(result.body)
+        raise "#{__method__}: #{res['error']['errormessage']}" unless result.success?
+        res
     end
 end
 
