@@ -192,6 +192,6 @@ Puppet::Type.type(:pingdom).provide(:http) do
 
     def destroy
         check = client.find_check @resource[:name]
-        client.delete_check check
+        client.delete_check(check) unless check.nil?
     end
 end
