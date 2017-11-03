@@ -29,16 +29,28 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Check resolution [integer (1, 5, 15, 30, 60)]'
         newvalues(1, 5, 15, 30, 60)
         defaultto 5
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
     end
 
     newproperty(:sendnotificationwhendown) do
         desc 'Send notification when down n times [integer]'
         defaultto 2
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
     end
 
     newproperty(:notifyagainevery) do
         desc 'Notify again every n result. 0 means that no extra notifications will be sent [integer]'
         defaultto 0
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
     end
 
     newproperty(:notifywhenbackup) do
@@ -58,6 +70,10 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:responsetime_threshold) do
         desc 'Triggers a down alert if the response time exceeds threshold specified in ms [integer]'
         defaultto 30000
+
+        def insync?(is)
+            is.to_s == should.to_s
+        end
     end
 
     newproperty(:tags, :array_matching=>:all) do
@@ -68,8 +84,7 @@ Puppet::Type.newtype(:pingdom_check) do
             if is == :absent
                 return should.empty?
             end
-            isarr = is.split(',')
-            isarr.sort == should.sort
+            is.sort == should.sort
         end
     end
 
@@ -131,11 +146,11 @@ Puppet::Type.newtype(:pingdom_check) do
     # provider-specific properties
     #
     feature :http, "HTTP check API"
-    newproperty(:host, :required_features => :http) do
+    newproperty(:host, :required_features=>:http) do
         desc 'HTTP host to check [string]'
     end
 
-    newproperty(:url, :required_features => :http) do
+    newproperty(:url, :required_features=>:http) do
         desc 'URL to check [string]'
     end
 end

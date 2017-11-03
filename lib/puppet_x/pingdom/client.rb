@@ -25,7 +25,7 @@ class PuppetX::Pingdom::Client
     def checks
         # list of checks with simple memoization
         @checks ||= begin
-            response = @conn.get @@endpoint[:checks]
+            response = @conn.get @@endpoint[:checks], { :include_tags => true }
             body = JSON.parse(response.body)
             raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
             body['checks']

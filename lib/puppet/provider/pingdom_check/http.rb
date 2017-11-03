@@ -30,8 +30,20 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def create
+        update_or_create
+    end
+
+    def destroy
+        check = api.find_check @resource[:name]
+        api.delete_check(check) unless check.nil?
+    end
+
+    def flush
+        update_or_create
+    end
+
+    def update_or_create
         params = {
-            :type                     => 'http',
             :name                     => @resource[:name],
             :host                     => @resource[:host],
             :url                      => @resource[:url],
@@ -51,12 +63,14 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
         if check = api.find_check(@resource[:name])
             api.modify_check check, params
         else
+            params[:type] = 'http'
             api.create_check @resource[:name], params
         end
     end
 
-    def destroy
-        check = api.find_check @resource[:name]
-        api.delete_check(check) unless check.nil?
+    def tags
+        if check = api.find_check(@resource[:name])
+            check.fetch('tags', []).map { |tag| tag['name'] }
+        end
     end
 end
