@@ -11,8 +11,8 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
 
     mk_resource_methods
 
-    def client
-        @client ||= PuppetX::Pingdom::Client.new(
+    def api
+        @api ||= PuppetX::Pingdom::Client.new(
             @resource[:username],
             @resource[:password],
             @resource[:appkey]
@@ -20,7 +20,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def exists?
-        client.find_check @resource[:name]
+        api.find_check @resource[:name]
     end
 
     def create
@@ -42,15 +42,15 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
             :teamids                  => @resource[:teamids],
             :tags                     => @resource[:tags]
         }
-        if check = client.find_check(@resource[:name])
-            client.modify_check check, params
+        if check = api.find_check(@resource[:name])
+            api.modify_check check, params
         else
-            client.create_check @resource[:name], params
+            api.create_check @resource[:name], params
         end
     end
 
     def destroy
-        check = client.find_check @resource[:name]
-        client.delete_check(check) unless check.nil?
+        check = api.find_check @resource[:name]
+        api.delete_check(check) unless check.nil?
     end
 end
