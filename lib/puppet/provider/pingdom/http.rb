@@ -21,7 +21,7 @@ class PingdomClient
     #
     def checks
         # list of checks with simple memoization
-        if @checks.nil? then
+        if @checks.nil?
             result = @conn.get @@endpoint[:checks]
             res = JSON.parse(result.body)
             raise "checks: #{res['error']['errormessage']}" unless result.success?
@@ -70,7 +70,7 @@ class PingdomClient
     #
     def teams
         # list of teams with simple memoization
-        if @teams.nil? then
+        if @teams.nil?
             result = @conn.get @@endpoint[:teams]
             res = JSON.parse(result.body)
             @teams = res['teams']
@@ -111,7 +111,7 @@ class PingdomClient
     #
     def users
         # list of users with simple memoization
-        if @users.nil? then
+        if @users.nil?
             result = @conn.get @@endpoint[:users]
             res = JSON.parse(result.body)
             @users = res['users']
@@ -166,12 +166,16 @@ Puppet::Type.type(:pingdom).provide(:http) do
     end
 
     def create
-        client.create_check @resource[:name], {
-            :type => 'http',
-            :name => @resource[:name],
-            :host => @resource[:host],
-            :url  => @resource[:url]
-        }
+        if check = client.find_check(@resource[:name])
+            client.modify_check check, @resource
+        else
+            client.create_check @resource[:name], {
+                :type => 'http',
+                :name => @resource[:name],
+                :host => @resource[:host],
+                :url  => @resource[:url]
+            }
+        end
     end
 
     def destroy
