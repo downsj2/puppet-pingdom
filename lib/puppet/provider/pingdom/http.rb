@@ -153,22 +153,20 @@ Puppet::Type.type(:pingdom).provide(:http) do
 
     mk_resource_methods
 
-    def exists?
+    def client
         @client ||= PingdomClient.new(
             @resource[:username],
             @resource[:password],
             @resource[:appkey]
         )
-        @client.find_check @resource[:name]
+    end
+
+    def exists?
+        client.find_check @resource[:name]
     end
 
     def create
-        @client ||= PingdomClient.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
-        @client.create_check @resource[:name], {
+        client.create_check @resource[:name], {
             :type => 'http',
             :name => @resource[:name],
             :host => @resource[:host],
@@ -177,12 +175,7 @@ Puppet::Type.type(:pingdom).provide(:http) do
     end
 
     def destroy
-        @client ||= PingdomClient.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
-        check = @client.find_check @resource[:name]
-        @client.delete_check check
+        check = client.find_check @resource[:name]
+        client.delete_check check
     end
 end
