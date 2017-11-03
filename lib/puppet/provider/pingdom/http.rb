@@ -23,8 +23,8 @@ class PingdomClient
         # list of checks with simple memoization
         if @checks.nil? then
             result = @conn.get @@endpoint[:checks]
-            raise 'checks API error' unless result.status == 200
             res = JSON.parse(result.body)
+            raise "checks: #{res['error']['errormessage']}" unless result.success?
             @checks = res['checks']
         end
         @checks
