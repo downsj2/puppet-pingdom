@@ -10,11 +10,13 @@ pingdom { "http://#{$facts['hostname']}/check":
     username => '<your pingdom username>',
     password => '<your pingdom password>',
     appkey   => '<your pingdom appkey>',
-    paused   => true,
     
     # provider-specific properties
     provider => 'http',
     host     => $facts['hostname'],
-    url      => '/check'
+    url      => '/check',
+
+    # common properties
+    paused   => true
 }
 ```
