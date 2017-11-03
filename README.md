@@ -17,6 +17,7 @@ pingdom_check { "http://${facts['hostname']}/check":
     url      => '/check',
 
     # common properties
-    paused   => true
+    paused   => true,
+    tags     => [ 'web', 'sales' ]
 }
 ```
