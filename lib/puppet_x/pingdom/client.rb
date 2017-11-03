@@ -52,6 +52,7 @@ class PuppetX::Pingdom::Client
         body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
         @checks << body['check']
+        body['check']
     end
 
     def find_check(name)
@@ -62,9 +63,9 @@ class PuppetX::Pingdom::Client
 
     def modify_check(check, params)
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
-        body = JSON.parse(response.body)
+        # body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body
+        find_check check['name']
     end
 
     def delete_check(check)

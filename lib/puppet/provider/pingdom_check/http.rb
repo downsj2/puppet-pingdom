@@ -26,7 +26,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def exists?
-        api.find_check @resource[:name]
+        @check ||= api.find_check @resource[:name]
     end
 
     def create
@@ -43,7 +43,6 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def update_or_create
-        puts "integrationids: #{@resource[:integrationids]}"
         params = {
             :name                     => @resource[:name],
             :host                     => @resource[:host],
@@ -62,11 +61,11 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
         }
         if check = api.find_check(@resource[:name])
             puts "Modifying check..."
-            api.modify_check check, params
+            @check = api.modify_check check, params
         else
             puts "Creating check..."
             params[:type] = 'http'
-            api.create_check @resource[:name], params
+            @check = api.create_check @resource[:name], params
         end
     end
 
