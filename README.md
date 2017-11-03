@@ -26,11 +26,15 @@ pingdom_check { "http://${facts['hostname']}/check":
 
     # common properties
     paused   => true,
-    tags     => [ 'web', 'sales' ]
+    tags     => [ 'web', 'sales' ],
+    resolution               => 5,
+    ipv6                     => false,
+    sendnotificationwhendown => 2,
+    notifyagainevery         => 0,
+    notifywhenbackup         => false,
 }
 ```
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters.
-- Pingdom API doesn't return the following documented properties, which leads me to believe they are no longer valid
-  - sendnotificationwhendown
+- Pingdom API doesn't seem to respect setting `notifywhenbackup`.
   
