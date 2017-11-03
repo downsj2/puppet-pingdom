@@ -60,10 +60,8 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
             # :integrationids           => @resource[:integrationids].sort.join(',')
         }
         if check = api.find_check(@resource[:name])
-            puts "Modifying check..."
             @check = api.modify_check check, params
         else
-            puts "Creating check..."
             params[:type] = 'http'
             @check = api.create_check @resource[:name], params
         end
