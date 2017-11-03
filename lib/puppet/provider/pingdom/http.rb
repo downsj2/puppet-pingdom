@@ -36,11 +36,11 @@ Puppet::Type.type(:pingdom).provide(:http) do
             :ipv6                     => @resource[:ipv6],
             :notifyagainevery         => @resource[:notifyagainevery],
             :responsetime_threshold   => @resource[:responsetime_threshold],
-            # :userids                  => @resource[:userids],
-            # :probe_filters            => @resource[:probe_filters],
-            # :integrationids           => @resource[:integrationids],
-            # :teamids                  => @resource[:teamids],
-            # :tags                     => @resource[:tags]
+            :userids                  => @resource[:userids],
+            :probe_filters            => @resource[:probe_filters],
+            :integrationids           => @resource[:integrationids],
+            :teamids                  => @resource[:teamids],
+            :tags                     => @resource[:tags]
         }
         if check = client.find_check(@resource[:name])
             client.modify_check check, params
