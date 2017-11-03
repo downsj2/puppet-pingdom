@@ -43,6 +43,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def update_or_create
+        puts "integrationids: #{@resource[:integrationids]}"
         params = {
             :name                     => @resource[:name],
             :host                     => @resource[:host],
@@ -53,15 +54,17 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
             :sendnotificationwhendown => @resource[:sendnotificationwhendown],
             :notifyagainevery         => @resource[:notifyagainevery],
             :notifywhenbackup         => @resource[:notifywhenbackup],
-            :userids                  => @resource[:userids].sort.join(','),
+            :tags                     => @resource[:tags].sort.join(','),
             :probe_filters            => @resource[:probe_filters].sort.join(','),
-            :integrationids           => @resource[:integrationids].sort.join(','),
+            :userids                  => @resource[:userids].sort.join(','),
             :teamids                  => @resource[:teamids].sort.join(','),
-            :tags                     => @resource[:tags].sort.join(',')
+            # :integrationids           => @resource[:integrationids].sort.join(',')
         }
         if check = api.find_check(@resource[:name])
+            puts "Modifying check..."
             api.modify_check check, params
         else
+            puts "Creating check..."
             params[:type] = 'http'
             api.create_check @resource[:name], params
         end
@@ -73,6 +76,12 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     def host
         if check = api.find_check(@resource[:name])
             check.fetch('hostname', :absent)
+        end
+    end
+
+    def integrationids
+        if check = api.find_check(@resource[:name])
+            check.fetch('integrationids', :absent)
         end
     end
 
@@ -115,8 +124,6 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     def tags
         if check = api.find_check(@resource[:name])
             check.fetch('tags', []).map { |tag| tag['name'] }
-        else
-            :absent
         end
     end
 

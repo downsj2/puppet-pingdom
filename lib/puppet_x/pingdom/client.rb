@@ -51,7 +51,7 @@ class PuppetX::Pingdom::Client
         response = @conn.post @@endpoint[:checks], defaults
         body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['check']
+        @checks << body['check']
     end
 
     def find_check(name)
@@ -89,6 +89,15 @@ class PuppetX::Pingdom::Client
         end
     end
 
+    def get_team_details(team)
+        @team_details ||= begin
+            response = @conn.get "#{@@endpoint[:teams]}/#{team['id']}"
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['team']
+        end
+    end
+
     def create_team(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceTeam for params
         defaults = {
@@ -98,7 +107,7 @@ class PuppetX::Pingdom::Client
         response = @conn.post @@endpoint[:teams], defaults
         body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['team']
+        @teams << body['team']
     end
 
     def find_team(name)
@@ -135,6 +144,15 @@ class PuppetX::Pingdom::Client
         end
     end
 
+    def get_user_details(check)
+        @user_details ||= begin
+            response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['check']
+        end
+    end
+
     def create_user(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceUsers for params
         defaults = {
@@ -144,7 +162,7 @@ class PuppetX::Pingdom::Client
         response = @conn.post @@endpoint[:users], defaults
         body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['user']
+        @users << body['user']
     end
 
     def find_user(name)
