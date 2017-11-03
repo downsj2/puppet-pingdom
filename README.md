@@ -6,9 +6,9 @@ Puppet type and provider for Pingdom API
   - create works
   - delete works
   - update works partially
-      - tags attribute works
-      - paused attribute works
-      - other attributes TBD     
+      - scalar attributes work
+      - structured tags attribute works
+      - other structured attributes TBD
 - Team CRUD TBD
 - User CRUD TBD
 
