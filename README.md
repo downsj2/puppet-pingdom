@@ -1,8 +1,15 @@
-# puppet-pingdom
+## puppet-pingdom
 Puppet type and provider for Pingdom API
 
-Not done yet. Basic check functionality works (create/delete/update),
-but needs user/group stuff done. Also, needs better error-handling.
+### Status
+- Check CRUD
+  - create works
+  - delete works
+  - update works partially
+      - tags attribute works
+      - other attributes TBD     
+- Team CRUD TBD
+- User CRUD TBD
 
 ```puppet
 pingdom_check { "http://${facts['hostname']}/check":
