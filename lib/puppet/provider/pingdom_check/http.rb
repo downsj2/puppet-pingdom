@@ -2,13 +2,12 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :api) do
     has_features :host, :port, :url
     defaultfor :feature => :posix
 
-    def update_or_create
+    def do_apply
         attrs = update_attributes({
             :host => @resource[:host],
             :url  => @resource[:url],
         })
-
-        do_apply 'http', attrs
+        update_or_create 'http', attrs
     end
 
     #

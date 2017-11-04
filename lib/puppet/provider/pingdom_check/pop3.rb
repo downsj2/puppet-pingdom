@@ -1,13 +1,13 @@
 Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :api) do
     has_features :port, :stringtoexpect, :encryption
 
-    def update_or_create
+    def do_apply
         attrs = update_attributes({
             :port           => @resource[:port],
             :stringtoexpect => @resource[:stringtoexpect],
             :encryption     => @resource[:encryption],
         })
-        do_apply 'pop3', attrs
+        update_or_create 'pop3', attrs
     end
 
     #

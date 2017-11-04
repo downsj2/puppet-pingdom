@@ -1,11 +1,11 @@
 Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :api) do
     has_features :host
 
-    def update_or_create
+    def do_apply
         attrs = update_attributes({
             :host => @resource[:host],
         })
-        do_apply 'ping', attrs
+        update_or_create 'ping', attrs
     end
 
     #

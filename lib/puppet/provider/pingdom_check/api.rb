@@ -40,11 +40,7 @@ Puppet::Type.type(:pingdom_check).provide(:api) do
     end
 
     def flush
-        @check = update_or_create unless @resource[:ensure] == :absent
-    end
-
-    def update_or_create
-        raise NotImplementedError
+        @check = do_apply unless @resource[:ensure] == :absent
     end
 
     def update_attributes(provider_attrs)
@@ -65,13 +61,17 @@ Puppet::Type.type(:pingdom_check).provide(:api) do
         attrs.update(provider_attrs)
     end
 
-    def do_apply(type, attrs)
+    def update_or_create(type, attrs)
         if @check
             api.modify_check @check, attrs
         else
             params[:type] = type
             api.create_check @resource[:name], attrs
         end
+    end
+
+    def do_apply
+        raise NotImplementedError
     end
 
     #

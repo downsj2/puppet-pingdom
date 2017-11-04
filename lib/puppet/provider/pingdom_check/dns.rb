@@ -1,13 +1,13 @@
 Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :api) do
     has_features :hostname, :expectedip, :nameserver
 
-    def update_or_create
+    def do_apply
         attrs = update_attributes({
             :host       => @resource[:hostname],
             :expectedip => @resource[:expectedip],
             :nameserver => @resource[:nameserver],
         })
-        do_apply 'dns', attrs
+        update_or_create 'dns', attrs
     end
 
     #

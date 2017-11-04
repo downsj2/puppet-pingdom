@@ -1,13 +1,13 @@
 Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :api) do
     has_features :port, :stringtosend, :stringtoexpect
 
-    def update_or_create
+    def do_apply
         attrs = update_attributes({
             :port           => @resource[:port],
             :stringtosend   => @resource[:stringtosend],
             :stringtoexpect => @resource[:stringtoexpect],
         })
-        do_apply 'tcp', attrs
+        update_or_create 'tcp', attrs
     end
 
     #

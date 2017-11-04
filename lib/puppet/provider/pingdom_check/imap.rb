@@ -1,13 +1,13 @@
 Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :api) do
     has_features :port, :stringtoexpect, :encryption
 
-    def update_or_create
+    def do_apply
         attrs = update_attributes({
             :port           => @resource[:port],
             :stringtoexpect => @resource[:stringtoexpect],
             :encryption     => @resource[:encryption]
         })
-        do_apply 'imap', attrs
+        update_or_create 'imap', attrs
     end
 
     #
