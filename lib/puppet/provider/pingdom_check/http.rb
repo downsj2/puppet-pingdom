@@ -30,16 +30,21 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def create
-        update_or_create
+        @check = update_or_create
     end
 
     def destroy
         check = api.find_check @resource[:name]
         api.delete_check(check) unless check.nil?
+        @resource[:ensure] = :absent
+        @check = nil
     end
 
     def flush
-        update_or_create
+        if @resource[:ensure] == :absent
+            return
+        end
+        @check = update_or_create
     end
 
     def update_or_create
@@ -59,11 +64,11 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
             :teamids                  => @resource[:teamids].sort.join(','),
             # :integrationids           => @resource[:integrationids].sort.join(',')
         }
-        if check = api.find_check(@resource[:name])
-            @check = api.modify_check check, params
+        if @check
+            api.modify_check @check, params
         else
             params[:type] = 'http'
-            @check = api.create_check @resource[:name], params
+            api.create_check @resource[:name], params
         end
     end
 
@@ -71,64 +76,42 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     # getters
     #
     def host
-        if check = api.find_check(@resource[:name])
-            check.fetch('hostname', :absent)
-        end
+        @check.fetch('hostname', :absent)
     end
 
     def integrationids
-        if check = api.find_check(@resource[:name])
-            check.fetch('integrationids', :absent)
-        end
+        @check.fetch('integrationids', :absent)
     end
 
     def ipv6
-        if check = api.find_check(@resource[:name])
-            check.fetch('ipv6', :absent)
-        end
+        @check.fetch('ipv6', :absent)
     end
 
     def paused
-        if check = api.find_check(@resource[:name])
-            check.fetch('status', :absent) == 'paused'
-        end
+        @check.fetch('status', :absent) == 'paused'
     end
 
     def resolution
-        if check = api.find_check(@resource[:name])
-            check.fetch('resolution', :absent)
-        end
+        @check.fetch('resolution', :absent)
     end
 
     def sendnotificationwhendown
-        if check = api.find_check(@resource[:name])
-            check.fetch('sendnotificationwhendown', :absent)
-        end
+        @check.fetch('sendnotificationwhendown', :absent)
     end
 
     def notifyagainevery
-        if check = api.find_check(@resource[:name])
-            check.fetch('notifyagainevery', :absent)
-        end
+        @check.fetch('notifyagainevery', :absent)
     end
 
     def notifywhenbackup
-        if check = api.find_check(@resource[:name])
-            check.fetch('notifywhenbackup', :absent)
-        end
+        @check.fetch('notifywhenbackup', :absent)
     end
 
     def tags
-        if check = api.find_check(@resource[:name])
-            check.fetch('tags', []).map { |tag| tag['name'] }
-        end
+        @check.fetch('tags', []).map { |tag| tag['name'] }
     end
 
     def url
-        if check = api.find_check(@resource[:name])
-            check['type']['http']['url']
-        else
-            :absent
-        end
+        @check['type']['http']['url']
     end
 end
