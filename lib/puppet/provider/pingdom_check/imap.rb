@@ -50,7 +50,7 @@ Puppet::Type.type(:pingdom_check).provide(:imap) do
             :name                     => @resource[:name],
             :port                     => @resource[:port],
             :stringtoexpect           => @resource[:stringtoexpect],
-            :encryption               => @resource[:encryption]
+            :encryption               => @resource[:encryption],
             :paused                   => @resource[:paused],
             :resolution               => @resource[:resolution],
             :ipv6                     => @resource[:ipv6],

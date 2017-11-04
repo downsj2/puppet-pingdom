@@ -186,7 +186,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Colon-separated list of addidional URLs with hostname included [string]'
     end
 
-    newproperty(:port, :required_features => [:tcp, :udp, :httpcustom, :smtp: :pop3, :imap]) do
+    newproperty(:port, :required_features => [:tcp, :udp, :httpcustom, :smtp, :pop3, :imap]) do
         desc 'Target port [integer]'
     end
 
