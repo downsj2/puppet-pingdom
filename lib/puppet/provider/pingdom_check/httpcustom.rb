@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
-    has_feature :http, :httpcustom
+    has_features :additionalurls
 
     def update_or_create
         params = {

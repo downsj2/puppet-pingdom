@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :api) do
-    has_feature :imap
+    has_features :port, :stringtoexpect, :encryption
 
     def update_or_create
         params = {

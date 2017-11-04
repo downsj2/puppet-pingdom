@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :api) do
-    has_feature :dns
+    has_features :hostname, :expectedip, :nameserver
 
     def update_or_create
         params = {

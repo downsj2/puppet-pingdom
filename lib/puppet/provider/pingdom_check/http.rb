@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:http, :parent => :api) do
-    has_feature :http
+    has_features :host, :port, :url
     defaultfor :feature => :posix
 
     def update_or_create
@@ -32,6 +32,10 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :api) do
     #
     def host
         @check.fetch('hostname', :absent)
+    end
+
+    def port
+        @check.fetch('port', :absent)
     end
 
     def url
