@@ -170,6 +170,10 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'HTTP host to check [string]'
     end
 
+    newproperty(:hostname, :required_features => :dns) do
+        desc 'DNS hostname to check [string]'
+    end
+
     newproperty(:url, :required_features => :http) do
         desc 'URL to check [string]'
     end

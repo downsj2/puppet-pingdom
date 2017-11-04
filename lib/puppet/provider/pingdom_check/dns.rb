@@ -45,6 +45,7 @@ Puppet::Type.type(:pingdom_check).provide(:dns) do
     def update_or_create
         params = {
             :name                     => @resource[:name],
+            :host                     => @resource[:hostname],
             :expectedip               => @resource[:expectedip],
             :nameserver               => @resource[:nameserver],
             :paused                   => @resource[:paused],
@@ -70,6 +71,10 @@ Puppet::Type.type(:pingdom_check).provide(:dns) do
     #
     # getters
     #
+    def hostname
+        @check.fetch(__method__, :absent)
+    end
+
     def expectedip
         @check.fetch(__method__, :absent)
     end

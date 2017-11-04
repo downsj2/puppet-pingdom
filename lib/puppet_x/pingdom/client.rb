@@ -28,6 +28,7 @@ class PuppetX::Pingdom::Client
             response = @conn.get @@endpoint[:checks], { :include_tags => true }
             body = JSON.parse(response.body)
             raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            # puts body['checks']
             body['checks']
         end
     end
