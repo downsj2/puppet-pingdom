@@ -30,7 +30,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def create
-        @check = update_or_create
+        # Dummy method. Actual creation done by flush.
     end
 
     def destroy
