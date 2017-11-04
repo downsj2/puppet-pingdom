@@ -7,12 +7,7 @@ Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :api) do
             :stringtoexpect => @resource[:stringtoexpect],
             :encryption     => @resource[:encryption]
         })
-        if @check
-            api.modify_check @check, attrs
-        else
-            params[:type] = 'imap'
-            api.create_check @resource[:name], attrs
-        end
+        do_apply 'imap', attrs
     end
 
     #

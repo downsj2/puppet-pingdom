@@ -5,13 +5,7 @@ Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :api) do
         attrs = update_attributes({
             :host => @resource[:host],
         })
-        puts "Debug(#{__method__}): #{params}" if @resource[:debug]
-        if @check
-            api.modify_check @check, attrs
-        else
-            params[:type] = 'ping'
-            api.create_check @resource[:name], attrs
-        end
+        do_apply 'ping', attrs
     end
 
     #

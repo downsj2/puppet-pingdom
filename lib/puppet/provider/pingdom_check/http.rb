@@ -8,12 +8,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :api) do
             :url  => @resource[:url],
         })
 
-        if @check
-            api.modify_check @check, attrs
-        else
-            params[:type] = 'http'
-            api.create_check @resource[:name], attrs
-        end
+        do_apply 'http', attrs
     end
 
     #

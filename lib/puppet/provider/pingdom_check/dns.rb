@@ -7,12 +7,7 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :api) do
             :expectedip => @resource[:expectedip],
             :nameserver => @resource[:nameserver],
         })
-        if @check
-            api.modify_check @check, attrs
-        else
-            params[:type] = 'dns'
-            api.create_check @resource[:name], attrs
-        end
+        do_apply 'dns', attrs
     end
 
     #

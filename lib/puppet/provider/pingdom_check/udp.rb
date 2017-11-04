@@ -7,12 +7,7 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :api) do
             :stringtosend   => @resource[:stringtosend],
             :stringtoexpect => @resource[:stringtoexpect],
         })
-        if @check
-            api.modify_check @check, attrs
-        else
-            params[:type] = 'udp'
-            api.create_check @resource[:name], attrs
-        end
+        do_apply 'udp', attrs
     end
 
     #

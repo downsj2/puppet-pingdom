@@ -65,6 +65,15 @@ Puppet::Type.type(:pingdom_check).provide(:api) do
         attrs.update(provider_attrs)
     end
 
+    def do_apply(type, attrs)
+        if @check
+            api.modify_check @check, attrs
+        else
+            params[:type] = type
+            api.create_check @resource[:name], attrs
+        end
+    end
+
     #
     # common getters
     #

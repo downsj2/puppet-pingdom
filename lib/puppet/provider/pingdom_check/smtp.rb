@@ -8,12 +8,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :api) do
             :stringtoexpect => @resource[:stringtoexpect],
             :encryption     => @resource[:encryption]
         })
-        if @check
-            api.modify_check @check, attrs
-        else
-            params[:type] = 'smtp'
-            api.create_check @resource[:name], attrs
-        end
+        do_apply 'smtp', attrs
     end
 
     #
