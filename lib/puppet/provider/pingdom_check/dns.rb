@@ -74,7 +74,7 @@ Puppet::Type.type(:pingdom_check).provide(:dns) do
     # getters
     #
     def expectedip
-        @check.fetch('expectedip', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def nameserver
@@ -82,31 +82,31 @@ Puppet::Type.type(:pingdom_check).provide(:dns) do
     end
 
     def integrationids
-        @check.fetch('integrationids', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def ipv6
-        @check.fetch('ipv6', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def paused
-        @check.fetch('status', :absent) == 'paused'
+        @check.fetch('status', :absent) == __method__
     end
 
     def resolution
-        @check.fetch('resolution', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def sendnotificationwhendown
-        @check.fetch('sendnotificationwhendown', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def notifyagainevery
-        @check.fetch('notifyagainevery', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def notifywhenbackup
-        @check.fetch('notifywhenbackup', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def tags

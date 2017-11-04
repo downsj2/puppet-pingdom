@@ -86,47 +86,47 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom) do
     end
 
     def encryption
-        @check.fetch('encryption', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def port
-        @check.fetch('port', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def auth
-        @check.fetch('auth', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def additionalurls
-        @check.fetch('additionalurls', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def integrationids
-        @check.fetch('integrationids', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def ipv6
-        @check.fetch('ipv6', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def paused
-        @check.fetch('status', :absent) == 'paused'
+        @check.fetch('status', :absent) == __method__
     end
 
     def resolution
-        @check.fetch('resolution', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def sendnotificationwhendown
-        @check.fetch('sendnotificationwhendown', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def notifyagainevery
-        @check.fetch('notifyagainevery', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def notifywhenbackup
-        @check.fetch('notifywhenbackup', :absent)
+        @check.fetch(__method__, :absent)
     end
 
     def tags
