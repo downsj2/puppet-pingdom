@@ -1,4 +1,4 @@
-begin
+begin # load puppet_x/pingdom/client.rb
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
             File.dirname(__FILE__),
@@ -12,7 +12,6 @@ rescue LoadError
 end
 
 Puppet::Type.type(:pingdom_check).provide(:api) do
-    has_feature :api
     confine :true => has_pingdom_api
 
     mk_resource_methods
