@@ -20,8 +20,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newparam(:debug) do
-        desc 'Debug level for module [integer]'
-        defaultto 0
+        desc 'Debug level for module [boolean]'
+        newvalues(:true, :false)
+        defaultto false
     end
 
     newproperty(:paused) do

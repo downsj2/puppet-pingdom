@@ -17,7 +17,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :api) do
             :probe_filters            => @resource[:probe_filters].sort.join(','),
             :userids                  => @resource[:userids].sort.join(','),
             :teamids                  => @resource[:teamids].sort.join(','),
-            # :integrationids           => @resource[:integrationids].sort.join(',')
+            :integrationids           => @resource[:integrationids].sort.join(',')
         }
         if @check
             api.modify_check @check, params
