@@ -37,7 +37,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
 
 pingdom_check { 'ping://hq.company.com':
     ensure   => present,
-
+    username => '<your pingdom username>',
+    password => '<your pingdom password>',
+    appkey   => '<your pingdom appkey>',
+    
     # provider-specific properties
     provider   => 'dns',
     hostname   => 'hq.company.com',
