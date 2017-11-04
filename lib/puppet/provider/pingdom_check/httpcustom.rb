@@ -11,8 +11,8 @@ rescue LoadError
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_check).provide(:http) do
-    has_feature :http
+Puppet::Type.type(:pingdom_check).provide(:httpcustom) do
+    has_feature :http, :httpcustom
     confine :true => has_pingdom_api
 
     mk_resource_methods
@@ -50,6 +50,10 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
             :name                     => @resource[:name],
             :host                     => @resource[:host],
             :url                      => @resource[:url],
+            :encryption               => @resource[:encryption],
+            :port                     => @resource[:port],
+            :auth                     => @resource[:auth],
+            :additionalurls           => @resource[:additionalurls],
             :paused                   => @resource[:paused],
             :resolution               => @resource[:resolution],
             :ipv6                     => @resource[:ipv6],
@@ -65,7 +69,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
         if @check
             api.modify_check @check, params
         else
-            params[:type] = 'http'
+            params[:type] = 'httpcustom'
             api.create_check @resource[:name], params
         end
     end
@@ -79,6 +83,22 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
 
     def url
         @check['type']['http']['url']
+    end
+
+    def encryption
+        @check.fetch('encryption', :absent)
+    end
+
+    def port
+        @check.fetch('port', :absent)
+    end
+
+    def auth
+        @check.fetch('auth', :absent)
+    end
+
+    def additionalurls
+        @check.fetch('additionalurls', :absent)
     end
 
     def integrationids

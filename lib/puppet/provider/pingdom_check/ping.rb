@@ -11,8 +11,8 @@ rescue LoadError
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_check).provide(:http) do
-    has_feature :http
+Puppet::Type.type(:pingdom_check).provide(:ping) do
+    has_feature :ping
     confine :true => has_pingdom_api
 
     mk_resource_methods
@@ -48,8 +48,6 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     def update_or_create
         params = {
             :name                     => @resource[:name],
-            :host                     => @resource[:host],
-            :url                      => @resource[:url],
             :paused                   => @resource[:paused],
             :resolution               => @resource[:resolution],
             :ipv6                     => @resource[:ipv6],
@@ -65,7 +63,7 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
         if @check
             api.modify_check @check, params
         else
-            params[:type] = 'http'
+            params[:type] = 'ping'
             api.create_check @resource[:name], params
         end
     end
@@ -73,14 +71,6 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     #
     # getters
     #
-    def host
-        @check.fetch('hostname', :absent)
-    end
-
-    def url
-        @check['type']['http']['url']
-    end
-
     def integrationids
         @check.fetch('integrationids', :absent)
     end
