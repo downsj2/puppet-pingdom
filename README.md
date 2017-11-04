@@ -16,12 +16,15 @@ Still a work-in-progress, as most of the providers aside from HTTP and DNS haven
 - User API TBD
 
 ```puppet
+Pingdom_check {
+    username => $pingdom_username,
+    password => $pingdom_password,
+    appkey   => $pingdom_appkey
+}
+
 pingdom_check { "http://${facts['fqdn']}/check":
-    ensure   => present,
-    username => '<your pingdom username>',
-    password => '<your pingdom password>',
-    appkey   => '<your pingdom appkey>',
-    
+    ensure => present,
+
     # provider-specific properties
     provider => 'http',
     host     => $facts['fqdn'],
@@ -38,10 +41,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
 }
 
 pingdom_check { 'ping://hq.company.com':
-    ensure   => present,
-    username => '<your pingdom username>',
-    password => '<your pingdom password>',
-    appkey   => '<your pingdom appkey>',
+    ensure => present,
     
     # provider-specific properties
     provider   => 'dns',
