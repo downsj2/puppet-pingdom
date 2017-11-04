@@ -14,7 +14,6 @@ class PuppetX::Pingdom::Client
     }
 
     def initialize(username, password, appkey)
-        # puts "called #{__method__}"
         @conn = Faraday.new(:url => @@api_host)
         @conn.basic_auth(username, password)
         @conn.headers['App-Key'] = appkey
@@ -24,7 +23,6 @@ class PuppetX::Pingdom::Client
     # checks API
     #
     def checks
-        # puts "called #{__method__}"
         # list of checks
         @checks ||= begin
             response = @conn.get @@endpoint[:checks], { :include_tags => true }
@@ -35,7 +33,6 @@ class PuppetX::Pingdom::Client
     end
 
     def get_check_details(check)
-        # puts "called #{__method__}"
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
@@ -43,7 +40,6 @@ class PuppetX::Pingdom::Client
     end
 
     def create_check(name, params)
-        # puts "called #{__method__}"
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         defaults = {
             :type => 'http',
@@ -57,14 +53,12 @@ class PuppetX::Pingdom::Client
     end
 
     def find_check(name)
-        # puts "called #{__method__}"
         # returns check or nil
         check = checks.select { |check| check['name'] == name } [0]
         get_check_details(check) if check
     end
 
     def modify_check(check, params)
-        # puts "called #{__method__}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
@@ -72,7 +66,6 @@ class PuppetX::Pingdom::Client
     end
 
     def delete_check(check)
-        # puts "called #{__method__}"
         response = @conn.delete @@endpoint[:checks], {
             :delcheckids => check['id'].to_s
         }

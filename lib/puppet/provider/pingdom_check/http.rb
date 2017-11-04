@@ -34,10 +34,8 @@ Puppet::Type.type(:pingdom_check).provide(:http) do
     end
 
     def destroy
-        check = api.find_check @resource[:name]
-        api.delete_check(check) unless check.nil?
+        api.delete_check(@check)
         @resource[:ensure] = :absent
-        @check = nil
     end
 
     def flush
