@@ -14,7 +14,7 @@ Puppet type and provider for Pingdom API
 - User CRUD TBD
 
 ```puppet
-pingdom_check { "http://${facts['hostname']}/check":
+pingdom_check { "http://${facts['fqdn']}/check":
     ensure   => present,
     username => '<your pingdom username>',
     password => '<your pingdom password>',
@@ -22,7 +22,7 @@ pingdom_check { "http://${facts['hostname']}/check":
     
     # provider-specific properties
     provider => 'http',
-    host     => $facts['hostname'],
+    host     => $facts['fqdn'],
     url      => '/check',
 
     # common properties
