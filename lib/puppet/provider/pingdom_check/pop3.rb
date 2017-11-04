@@ -72,43 +72,43 @@ Puppet::Type.type(:pingdom_check).provide(:pop3) do
     # getters
     #
     def port
-        @check.fetch(__method__, :absent)
+        @check.fetch('port', :absent)
     end
 
     def stringtoexpect
-        @check.fetch(__method__, :absent)
+        @check.fetch('stringtoexpect', :absent)
     end
 
     def encryption
-        @check.fetch(__method__, :absent)
+        @check.fetch('encryption', :absent)
     end
 
     def integrationids
-        @check.fetch(__method__, :absent)
+        @check.fetch('integrationids', :absent)
     end
 
     def ipv6
-        @check.fetch(__method__, :absent)
+        @check.fetch('ipv6', :absent)
     end
 
     def paused
-        @check.fetch('status', :absent) == __method__
+        @check.fetch('status', :absent) == 'paused'
     end
 
     def resolution
-        @check.fetch(__method__, :absent)
+        @check.fetch('resolution', :absent)
     end
 
     def sendnotificationwhendown
-        @check.fetch(__method__, :absent)
+        @check.fetch('sendnotificationwhendown', :absent)
     end
 
     def notifyagainevery
-        @check.fetch(__method__, :absent)
+        @check.fetch('notifyagainevery', :absent)
     end
 
     def notifywhenbackup
-        @check.fetch(__method__, :absent)
+        @check.fetch('notifywhenbackup', :absent)
     end
 
     def tags
