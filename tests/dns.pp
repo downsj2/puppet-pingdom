@@ -1,16 +1,16 @@
-pingdom_check { 'cliff dns test':
+pingdom_check { "ping://puppet.aws.focusvision.com":
     ensure   => present,
-    username => '<your pingdom username>',
-    password => '<your pingdom password>',
-    appkey   => '<your pingdom appkey>',
+    username => $pingdom_username,
+    password => $pingdom_password,
+    appkey   => $pingdom_appkey,
 
     # provider-specific properties
     provider   => 'dns',
-    hostname   => 'puppet.aws.focusvision.com',
-    expectedip => '52.14.202.244',
+    hostname   => 'www.company.com',
+    expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
 
     # common properties
     paused => true,
-    tags   => ['sre', 'test', 'dns'],
+    tags   => ['test', 'dns'],
 }
