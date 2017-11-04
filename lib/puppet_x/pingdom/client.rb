@@ -78,10 +78,11 @@ class PuppetX::Pingdom::Client
     #
     def teams
         # list of teams
-        response = @conn.get @@endpoint[:teams]
-        body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['teams']
+        @teams ||= begin response = @conn.get @@endpoint[:teams]
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['teams']
+        end
     end
 
     def get_team_details(team)
@@ -128,11 +129,13 @@ class PuppetX::Pingdom::Client
     # users API (UNTESTED)
     #
     def users
-        # list of users
-        response = @conn.get @@endpoint[:users]
-        body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['users']
+        @users ||= begin
+            # list of users
+            response = @conn.get @@endpoint[:users]
+            body = JSON.parse(response.body)
+            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            body['users']
+        end
     end
 
     def get_user_details(check)
