@@ -33,7 +33,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     # common properties
     paused     => true,
     resolution => 5,
-    tags       => [ 'web', 'sales' ]
+    tags       => ['web', 'sales']
 }
 
 pingdom_check { 'ping://hq.company.com':
