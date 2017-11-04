@@ -24,7 +24,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     tags       => ['test', 'http']
 }
 
-pingdom_check { 'ping://hq.company.com':
+pingdom_check { 'dns://hq.company.com':
     ensure => present,
     
     # provider-specific properties
