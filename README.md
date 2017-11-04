@@ -47,7 +47,7 @@ pingdom_check { 'ping://hq.company.com':
 
     # common properties
     paused => true,
-    tags   => ['sre', 'test', 'dns']
+    tags   => ['test', 'dns']
 }
 ```
 ### Known issues
