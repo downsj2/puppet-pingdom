@@ -31,13 +31,9 @@ pingdom_check { "http://${facts['fqdn']}/check":
     url      => '/check',
 
     # common properties
-    paused                   => true,
-    tags                     => [ 'web', 'sales' ],
-    resolution               => 5,
-    ipv6                     => false,
-    sendnotificationwhendown => 2,
-    notifyagainevery         => 0,
-    notifywhenbackup         => false,
+    paused     => true,
+    resolution => 5,
+    tags       => [ 'web', 'sales' ]
 }
 
 pingdom_check { 'ping://hq.company.com':
@@ -51,7 +47,7 @@ pingdom_check { 'ping://hq.company.com':
 
     # common properties
     paused => true,
-    tags   => ['sre', 'test', 'dns'],
+    tags   => ['sre', 'test', 'dns']
 }
 ```
 ### Known issues
