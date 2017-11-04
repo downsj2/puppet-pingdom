@@ -13,6 +13,7 @@ end
 
 Puppet::Type.type(:pingdom_check).provide(:http) do
     has_feature :http
+    defaultfor :feature => :posix # basically everywhere but Windows
     confine :true => has_pingdom_api
 
     mk_resource_methods
