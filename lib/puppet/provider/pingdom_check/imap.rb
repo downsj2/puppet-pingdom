@@ -1,4 +1,4 @@
-Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :api) do
+Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :check) do
     has_features :port, :stringtoexpect, :encryption
 
     def do_apply

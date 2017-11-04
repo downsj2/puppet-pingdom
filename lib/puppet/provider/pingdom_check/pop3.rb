@@ -1,4 +1,4 @@
-Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :api) do
+Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check) do
     has_features :port, :stringtoexpect, :encryption
 
     def do_apply

@@ -11,7 +11,7 @@ rescue LoadError
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_check).provide(:api) do
+Puppet::Type.type(:pingdom_check).provide(:check) do
     confine :true => has_pingdom_api
 
     mk_resource_methods

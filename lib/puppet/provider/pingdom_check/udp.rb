@@ -1,4 +1,4 @@
-Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :api) do
+Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check) do
     has_features :port, :stringtosend, :stringtoexpect
 
     def do_apply
