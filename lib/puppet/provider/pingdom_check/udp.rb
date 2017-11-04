@@ -2,28 +2,16 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :api) do
     has_features :port, :stringtosend, :stringtoexpect
 
     def update_or_create
-        params = {
-            :name                     => @resource[:name],
-            :port                     => @resource[:port],
-            :stringtosend             => @resource[:stringtosend],
-            :stringtoexpect           => @resource[:stringtoexpect],
-            :paused                   => @resource[:paused],
-            :resolution               => @resource[:resolution],
-            :ipv6                     => @resource[:ipv6],
-            :sendnotificationwhendown => @resource[:sendnotificationwhendown],
-            :notifyagainevery         => @resource[:notifyagainevery],
-            :notifywhenbackup         => @resource[:notifywhenbackup],
-            :tags                     => @resource[:tags].sort.join(','),
-            :probe_filters            => @resource[:probe_filters].sort.join(','),
-            :userids                  => @resource[:userids].sort.join(','),
-            :teamids                  => @resource[:teamids].sort.join(','),
-            # :integrationids           => @resource[:integrationids].sort.join(',')
-        }
+        attrs = update_attributes({
+            :port           => @resource[:port],
+            :stringtosend   => @resource[:stringtosend],
+            :stringtoexpect => @resource[:stringtoexpect],
+        })
         if @check
-            api.modify_check @check, params
+            api.modify_check @check, attrs
         else
             params[:type] = 'udp'
-            api.create_check @resource[:name], params
+            api.create_check @resource[:name], attrs
         end
     end
 

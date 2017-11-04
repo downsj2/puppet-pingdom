@@ -47,6 +47,24 @@ Puppet::Type.type(:pingdom_check).provide(:api) do
         raise NotImplementedError
     end
 
+    def update_attributes(provider_attrs)
+        attrs = {
+            :name                     => @resource[:name],
+            :paused                   => @resource[:paused],
+            :resolution               => @resource[:resolution],
+            :ipv6                     => @resource[:ipv6],
+            :sendnotificationwhendown => @resource[:sendnotificationwhendown],
+            :notifyagainevery         => @resource[:notifyagainevery],
+            :notifywhenbackup         => @resource[:notifywhenbackup],
+            :tags                     => @resource[:tags].sort.join(','),
+            :probe_filters            => @resource[:probe_filters].sort.join(','),
+            :userids                  => @resource[:userids].sort.join(','),
+            :teamids                  => @resource[:teamids].sort.join(','),
+            :integrationids           => @resource[:integrationids].sort.join(',')
+        }
+        attrs.update(provider_attrs)
+    end
+
     #
     # common getters
     #
