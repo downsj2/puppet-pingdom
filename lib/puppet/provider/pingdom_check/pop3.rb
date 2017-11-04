@@ -39,10 +39,7 @@ Puppet::Type.type(:pingdom_check).provide(:pop3) do
     end
 
     def flush
-        if @resource[:ensure] == :absent
-            return
-        end
-        @check = update_or_create
+        @check = update_or_create unless @resource[:ensure] == :absent
     end
 
     def update_or_create
