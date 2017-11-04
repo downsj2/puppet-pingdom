@@ -1,8 +1,10 @@
 ## puppet-pingdom
-Puppet type and provider for Pingdom API
+Puppet type and provider for Pingdom API. 
+
+Still a work-in-progress, as most of the providers aside from HTTP and DNS haven't been tested at all, and even those don't support the entire API at this point.
 
 ### Status
-- Check CRUD
+- Check API
   - create works
   - delete works
   - update works 
@@ -10,8 +12,8 @@ Puppet type and provider for Pingdom API
       - scalar properties work
       - structured tags properties works
       - other structured properties TBD
-- Team CRUD TBD
-- User CRUD TBD
+- Team API TBD
+- User API TBD
 
 ```puppet
 pingdom_check { "http://${facts['fqdn']}/check":
