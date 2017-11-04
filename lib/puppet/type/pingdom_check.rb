@@ -183,7 +183,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Expected IP address [string]'
     end
 
-    newproperty(:host, :required_features => [:http, :ping]) do
+    newproperty(:host, :required_features => :http) do
         desc 'HTTP hostname or IP to check [string]'
     end
 

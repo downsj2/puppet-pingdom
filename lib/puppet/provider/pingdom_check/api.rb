@@ -13,7 +13,6 @@ end
 
 Puppet::Type.type(:pingdom_check).provide(:api) do
     has_feature :api
-    defaultfor :feature => :posix
     confine :true => has_pingdom_api
 
     mk_resource_methods

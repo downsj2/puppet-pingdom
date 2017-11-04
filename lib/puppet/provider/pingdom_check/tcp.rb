@@ -1,19 +1,5 @@
-begin
-    require File.expand_path( # yes, this is the recommended way :P
-        File.join(
-            File.dirname(__FILE__),
-            '..', '..', '..',
-            'puppet_x', 'pingdom', 'client.rb'
-        )
-    )
-    has_pingdom_api = true
-rescue LoadError
-    has_pingdom_api = false
-end
-
 Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :api) do
     has_feature :tcp
-    confine :true => has_pingdom_api
 
     def update_or_create
         params = {
