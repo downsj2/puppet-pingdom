@@ -1,18 +1,6 @@
 Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check) do
     has_features :port, :stringtosend, :stringtoexpect
 
-    def do_apply
-        attrs = update_attributes({
-            :port           => @resource[:port],
-            :stringtosend   => @resource[:stringtosend],
-            :stringtoexpect => @resource[:stringtoexpect],
-        })
-        update_or_create 'udp', attrs
-    end
-
-    #
-    # getters
-    #
     def port
         @check.fetch('port', :absent)
     end
@@ -23,5 +11,14 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check) do
 
     def stringtoexpect
         @check.fetch('stringtoexpect', :absent)
+    end
+
+    def do_apply
+        attrs = update_attributes({
+            :port           => @resource[:port],
+            :stringtosend   => @resource[:stringtosend],
+            :stringtoexpect => @resource[:stringtoexpect],
+        })
+        update_or_create 'udp', attrs
     end
 end

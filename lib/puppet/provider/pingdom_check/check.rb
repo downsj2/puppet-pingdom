@@ -1,3 +1,14 @@
+#
+# Base class for all check providers.
+# Provider must
+# - have `:parent => :check` in their declaration
+# - override the `do_apply` method and update any provider-specific properties
+# - provide getters/setter for provider-specific properties
+#
+# Author: Cliff Wells <cliff.wells@protonmail.com>
+# Homepage: https://github.com/cwells/puppet-pingdom
+#
+
 begin # load puppet_x/pingdom/client.rb
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
