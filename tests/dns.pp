@@ -1,4 +1,4 @@
-pingdom_check { "ping://puppet.aws.focusvision.com":
+pingdom_check { "ping://www.company.com":
     ensure   => present,
     username => $pingdom_username,
     password => $pingdom_password,
