@@ -24,4 +24,3 @@ pingdom_check { "http://${facts['fqdn']}/check":
     # integrationids => [],
     # teamids  => [],
 }
-
