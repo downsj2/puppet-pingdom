@@ -11,36 +11,9 @@ rescue LoadError
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_check).provide(:dns) do
+Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :api) do
     has_feature :dns
     confine :true => has_pingdom_api
-
-    mk_resource_methods
-
-    def api
-        @api ||= PuppetX::Pingdom::Client.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
-    end
-
-    def exists?
-        @check ||= api.find_check @resource[:name]
-    end
-
-    def create
-        # Dummy method. Actual creation done by flush.
-    end
-
-    def destroy
-        api.delete_check(@check)
-        @resource[:ensure] = :absent
-    end
-
-    def flush
-        @check = update_or_create unless @resource[:ensure] == :absent
-    end
 
     def update_or_create
         params = {
@@ -81,37 +54,5 @@ Puppet::Type.type(:pingdom_check).provide(:dns) do
 
     def nameserver
         @check['type']['dns']['nameserver']
-    end
-
-    def integrationids
-        @check.fetch('integrationids', :absent)
-    end
-
-    def ipv6
-        @check.fetch('ipv6', :absent)
-    end
-
-    def paused
-        @check.fetch('status', :absent) == 'paused'
-    end
-
-    def resolution
-        @check.fetch('resolution', :absent)
-    end
-
-    def sendnotificationwhendown
-        @check.fetch('sendnotificationwhendown', :absent)
-    end
-
-    def notifyagainevery
-        @check.fetch('notifyagainevery', :absent)
-    end
-
-    def notifywhenbackup
-        @check.fetch('notifywhenbackup', :absent)
-    end
-
-    def tags
-        @check.fetch('tags', []).map { |tag| tag['name'] }
     end
 end

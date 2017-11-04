@@ -13,10 +13,11 @@ class PuppetX::Pingdom::Client
         :users  => "#{@@api_base}/users"
     }
 
-    def initialize(username, password, appkey)
+    def initialize(username, password, appkey, debug=0)
         @conn = Faraday.new(:url => @@api_host)
         @conn.basic_auth(username, password)
         @conn.headers['App-Key'] = appkey
+        @debug = debug
     end
 
     #
@@ -27,7 +28,7 @@ class PuppetX::Pingdom::Client
         @checks ||= begin
             response = @conn.get @@endpoint[:checks], { :include_tags => true }
             body = JSON.parse(response.body)
-            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             # puts body['checks']
             body['checks']
         end
@@ -36,7 +37,8 @@ class PuppetX::Pingdom::Client
     def get_check_details(check)
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+        puts "Debug(#{__method__}): #{body}" if @debug
         body['check']
     end
 
@@ -49,7 +51,7 @@ class PuppetX::Pingdom::Client
         defaults.update(params)
         response = @conn.post @@endpoint[:checks], defaults
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['check']
     end
 
@@ -60,9 +62,10 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
+        puts "Debug(#{__method__}): #{params}" if @debug
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         find_check check['name']
     end
 
@@ -71,7 +74,7 @@ class PuppetX::Pingdom::Client
             :delcheckids => check['id'].to_s
         }
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
     #

@@ -19,6 +19,11 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string]'
     end
 
+    newparam(:debug) do
+        desc 'Debug level for module [integer]'
+        defaultto 0
+    end
+
     newproperty(:paused) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)
@@ -158,15 +163,19 @@ Puppet::Type.newtype(:pingdom_check) do
     feature :tcp,        'TCP check API'
     feature :udp,        'UDP check API'
 
+    # :additionalurls, :auth, :encryption, :expectedip, :host, :hostname,
+    # :nameserver, :port, :postdata, :requestheaders, :shouldcontain,
+    # :shouldnotcontain, :stringtoexpect, :stringtosend, :url
+
     newproperty(:additionalurls, :required_features => :httpcustom) do
         desc 'Colon-separated list of addidional URLs with hostname included [string]'
     end
 
-    newproperty(:auth, :required_features => [:httpcustom, :smtp]) do
+    newproperty(:auth, :required_features => [:http, :smtp]) do
         desc 'Credentials in the form "username:password" for target HTTP authentication [string]'
     end
 
-    newproperty(:encryption, :required_features => [:httpcustom, :smtp, :pop3, :imap]) do
+    newproperty(:encryption, :required_features => [:http, :smtp, :pop3, :imap]) do
         desc 'Connection encryption [boolean]'
     end
 
@@ -174,7 +183,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Expected IP address [string]'
     end
 
-    newproperty(:host, :required_features => :http) do
+    newproperty(:host, :required_features => [:http, :ping]) do
         desc 'HTTP hostname or IP to check [string]'
     end
 
@@ -186,8 +195,30 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Nameserver [string]'
     end
 
-    newproperty(:port, :required_features => [:tcp, :udp, :httpcustom, :smtp, :pop3, :imap]) do
+    newproperty(:port, :required_features => [:tcp, :udp, :http, :smtp, :pop3, :imap]) do
         desc 'Target port [integer]'
+    end
+
+    newproperty(:postdata, :required_features => :http) do
+        desc %w(Data that should be posted to the web page, for example
+                submission data for a sign-up or login form. The data
+                needs to be formatted in the same way as a web browser
+                would send it to the web server [string])
+    end
+
+    newproperty(:requestheaders, :required_features => :http, :array_matching=>:all) do
+        desc %w(Custom HTTP headers. [hash]
+                For example: { 'My-Header' => 'value', 'Other-Header' => '100' })
+        defaultto {}
+    end
+
+    newproperty(:shouldcontain, :required_features => :http) do
+        desc 'Target site should contain this string [string]'
+    end
+
+    newproperty(:shouldnotcontain, :required_features => :http) do
+        desc %w(Target site should NOT contain this string. If shouldcontain
+                is also set, this parameter is not allowed [string])
     end
 
     newproperty(:stringtoexpect, :required_features => [:tcp, :udp, :smtp, :pop3, :imap]) do
