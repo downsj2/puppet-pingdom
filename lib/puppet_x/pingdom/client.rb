@@ -85,13 +85,6 @@ class PuppetX::Pingdom::Client
         end
     end
 
-    def get_team_details(team)
-        response = @conn.get "#{@@endpoint[:teams]}/#{team['id']}"
-        body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['team']
-    end
-
     def create_team(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceTeam for params
         defaults = {
@@ -136,13 +129,6 @@ class PuppetX::Pingdom::Client
             raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
             body['users']
         end
-    end
-
-    def get_user_details(check)
-        response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
-        body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['check']
     end
 
     def create_user(name, params)
