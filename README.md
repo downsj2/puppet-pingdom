@@ -34,6 +34,23 @@ pingdom_check { "http://${facts['fqdn']}/check":
     notifyagainevery         => 0,
     notifywhenbackup         => false,
 }
+
+pingdom_check { 'ping://hq.company.com':
+    ensure   => present,
+    username => '<your pingdom username>',
+    password => '<your pingdom password>',
+    appkey   => '<your pingdom appkey>',
+    
+    # provider-specific properties
+    provider   => 'dns',
+    hostname   => 'hq.company.com',
+    expectedip => '1.2.3.4',
+    nameserver => '8.8.8.8',
+
+    # common properties
+    paused => true,
+    tags   => ['sre', 'test', 'dns'],
+}
 ```
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
