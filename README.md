@@ -51,10 +51,10 @@ pingdom_check { "ping://www.google.com":
   - update works 
   - properties work partially
       - scalar properties work
-      - structured tags properties works
+      - structured tags property works
       - other structured properties TBD
-- Team API TBD
-- User API TBD
+- Team API _TBD_. Currently blocked on #2
+- User API _TBD_. Currently blocked on #2
 
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
