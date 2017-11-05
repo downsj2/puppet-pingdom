@@ -10,7 +10,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
             :encryption     => @resource[:encryption],
             :port           => @resource[:port],
             :auth           => @resource[:auth],
-            :additionalurls => @resource[:additionalurls],
+            :additionalurls => @resource[:additionalurls]
         })
     end
 end

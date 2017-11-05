@@ -55,8 +55,8 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @check = do_apply unless @resource[:ensure] == :absent
     end
 
-    def apply_properties(provider_attrs)
-        attrs = {
+    def apply_properties(provider_props)
+        props = {
             :name                     => @resource[:name],
             :paused                   => @resource[:paused],
             :resolution               => @resource[:resolution],
@@ -70,15 +70,15 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             :teamids                  => @resource[:teamids].sort.join(','),
             :integrationids           => @resource[:integrationids].sort.join(',')
         }
-        attrs.update(provider_attrs)
+        props.update(provider_props)
     end
 
-    def update_or_create(type, attrs)
+    def update_or_create(type, props)
         if @check
-            api.modify_check @check, attrs
+            api.modify_check @check, props
         else
             params[:type] = type
-            api.create_check @resource[:name], attrs
+            api.create_check @resource[:name], props
         end
     end
 
@@ -89,91 +89,19 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     #
     # common getters/setters
     #
-    def integrationids
-        @check.fetch('integrationids', :absent)
-    end
-
-    def integrationids=(value)
-        @property_hash[:integrationids] = value
-    end
-
-    def ipv6
-        @check.fetch('ipv6', :absent)
-    end
-
-    def ipv6=(value)
-        @property_hash[:ipv6] = value
-    end
-
-    def notifyagainevery
-        @check.fetch('notifyagainevery', :absent)
-    end
-
-    def notifyagainevery=(value)
-        @property_hash[:notifyagainevery] = value
-    end
-
-    def notifywhenbackup
-        @check.fetch('notifywhenbackup', :absent)
-    end
-
-    def notifywhenbackup=(value)
-        @property_hash[:notifywhenbackup] = value
-    end
-
     def paused
         @check.fetch('status', :absent) == 'paused'
-    end
-
-    def paused=(value)
-        @property_hash[:paused] = value
-    end
-
-    def probe_filters
-        @check.fetch('probe_filters', :absent)
-    end
-
-    def probe_filters=(value)
-        @property_hash[:probe_filters] = value
-    end
-
-    def resolution
-        @check.fetch('resolution', :absent)
-    end
-
-    def resolution=(value)
-        @property_hash[:resolution] = value
-    end
-
-    def sendnotificationwhendown
-        @check.fetch('sendnotificationwhendown', :absent)
-    end
-
-    def sendnotificationwhendown=(value)
-        @property_hash[:sendnotificationwhendown] = value
     end
 
     def tags
         @check.fetch('tags', []).map { |tag| tag['name'] }
     end
 
-    def tags=(value)
-        @property_hash[:notifywhenbackup] = value
-    end
-
     def teamids
-        @check.fetch('teamids', :absent)
-    end
-
-    def teamids=(value)
-        @property_hash[:teamids] = value
+        @check.fetch('teamids', []).map { |team| team['id'] }
     end
 
     def userids
-        @check.fetch('userids', :absent)
-    end
-
-    def userids=(value)
-        @property_hash[:userids] = value
+        @check.fetch('userids', []).map { |user| user['id'] }
     end
 end

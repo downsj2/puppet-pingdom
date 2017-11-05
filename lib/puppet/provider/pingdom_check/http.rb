@@ -19,7 +19,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     def do_apply
         update_or_create 'http', apply_properties({
             :host => @resource[:host],
-            :url  => @resource[:url],
+            :url  => @resource[:url]
         })
     end
 end
