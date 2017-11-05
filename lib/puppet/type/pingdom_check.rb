@@ -98,7 +98,7 @@ Puppet::Type.newtype(:pingdom_check) do
             if is == :absent
                 return should.nil?
             end
-            should.nil? or is.sort == should.sort
+            should.nil? or is.sort == should.map { |v| 'region: ' + v }
         end
     end
 

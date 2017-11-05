@@ -11,8 +11,9 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
+API_VERSION = '2.0'
+
 begin # load puppet_x/pingdom/client.rb
-    API_VERSION = '2.0'
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
             File.dirname(__FILE__),
@@ -109,7 +110,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def tags=(value)
-        puts "TAGS: #{value}"
         newvalue = value.join(',') if value.respond_to? :join
         @property_hash[:tags] = newvalue
     end

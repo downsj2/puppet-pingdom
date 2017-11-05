@@ -34,9 +34,9 @@ class PuppetX::Pingdom::Client
     @@api_host = 'https://api.pingdom.com'
     @@api_base = '/api/2.0'
     @@endpoint = {
-        :checks  => "#{@@api_base}/checks",
-        :teams   => "#{@@api_base}/teams",
-        :users   => "#{@@api_base}/users"
+        :checks   => "#{@@api_base}/checks",
+        :contacts => "#{@@api_base}/contacts",
+        :users    => "#{@@api_base}/users"
     }
 
     def initialize(username, password, appkey)
@@ -62,7 +62,7 @@ class PuppetX::Pingdom::Client
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        puts "Debug(#{__method__}): #{body['check']}"
+        # puts "Debug(#{__method__}): #{body['check']}"
         body['check']
     end
 
@@ -70,7 +70,7 @@ class PuppetX::Pingdom::Client
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         params = filter_nils params
         detect_legacy_notifications params
-        puts "Debug(#{__method__}): #{params}"
+        # puts "Debug(#{__method__}): #{params}"
         response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -86,7 +86,7 @@ class PuppetX::Pingdom::Client
     def modify_check(check, params)
         params = filter_nils params
         detect_legacy_notifications params
-        puts "Debug(#{__method__}): #{params}"
+        # puts "Debug(#{__method__}): #{params}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
