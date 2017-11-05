@@ -27,6 +27,9 @@ rescue LoadError
 end
 
 Puppet::Type.type(:pingdom_check).provide(:check) do
+    has_features :paused, :tags, :ipv6, :notifyagainevery, :notifywhenbackup,
+                 :probe_filters, :resolution, :sendnotificationwhendown,
+                 :sendtoandroid, :sendtoemail, :sendtoiphone, :sendtosms, :sendtotwitter
     confine :true => has_pingdom_api
 
     def api
@@ -43,6 +46,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
 
     def create
         self.features.each do |prop|
+            # call setters to allow for restructuring of property data
             @property_hash[prop] = self.method("#{prop}=").call @resource[prop]
         end
     end
@@ -64,11 +68,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             :ipv6                     => @property_hash[:ipv6],
             :tags                     => @property_hash[:tags],
             :probe_filters            => @property_hash[:probe_filters],
-            :userids                  => @property_hash[:userids],
-            :teamids                  => @property_hash[:teamids],
-            :integrationids           => @property_hash[:integrationids],
-            # legacy notifications
-            :use_legacy_notifications => @resource[:use_legacy_notifications],
             :notifyagainevery         => @property_hash[:notifyagainevery],
             :notifywhenbackup         => @property_hash[:notifywhenbackup],
             :sendnotificationwhendown => @property_hash[:sendnotificationwhendown],
@@ -114,41 +113,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @property_hash[:tags] = newvalue
     end
 
-    def teamids
-        @check.fetch('teamids', []).map { |team| team['id'] }
-    end
-
-    def teamids=(value)
-        newvalue = value.join(',') if value.respond_to? :join
-        @property_hash[:teamids] = newvalue
-    end
-
-    def use_legacy_notifications
-        @check.fetch('use_legacy_notifications', :absent)
-    end
-
-    def use_legacy_notifications=(value)
-        @property_hash[:use_legacy_notifications] = value
-    end
-
-    def userids
-        @check.fetch('userids', []).map { |user| user['id'] }
-    end
-
-    def userids=(value)
-        newvalue = value.join(',') if value.respond_to? :join
-        @property_hash[:userids] = newvalue
-    end
-
-    def integrationids
-        @check.fetch('integrationids', []).map { |integration| integration['id'] }
-    end
-
-    def integrationids=(value)
-        newvalue = value.join(',') if value.respond_to? :join
-        @property_hash[:integrationids] = newvalue
-    end
-
     def ipv6
         @check.fetch('ipv6', :absent)
     end
@@ -190,9 +154,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @property_hash[:resolution] = value
     end
 
-    #
-    # legacy notification properties (use_legacy_notifications => true)
-    #
     def sendnotificationwhendown
         @check.fetch('sendnotificationwhendown', :absent)
     end

@@ -29,12 +29,6 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string]'
     end
 
-    newparam(:use_legacy_notifications) do
-        desc 'Use legacy Pingdom notifications (instead of BeepManager) [boolean]'
-        newvalues(:true, :false)
-        defaultto :true
-    end
-
     #
     # common properties
     #
@@ -112,8 +106,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendnotificationwhendown) do
-        desc %w(Send notification when down n times [integer].
-                Requires use_legacy_notifications => true.)
+        desc 'Send notification when down n times [integer].'
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -121,7 +114,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoandroid) do
-        desc %w(Requires use_legacy_notifications => true.)
+        desc 'Send notification to Android []'
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -129,7 +122,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoemail) do
-        desc %w(Requires use_legacy_notifications => true.)
+        desc ''
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -137,7 +130,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoiphone) do
-        desc %w(Requires use_legacy_notifications => true.)
+        desc ''
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -145,7 +138,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtosms) do
-        desc %w(Requires use_legacy_notifications => true.)
+        desc ''
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -153,7 +146,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtotwitter) do
-        desc %w(Requires use_legacy_notifications => true.)
+        desc ''
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
