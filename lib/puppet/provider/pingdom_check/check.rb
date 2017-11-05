@@ -75,7 +75,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         if @check
             api.modify_check @check, props
         else
-            props[:name] = @resource[:name]
             props[:type] = type
             api.create_check @resource[:name], props
         end
