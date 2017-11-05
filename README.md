@@ -9,7 +9,8 @@ Pingdom_check {
     username => $pingdom_username,
     password => $pingdom_password,
     appkey   => $pingdom_appkey
-}```
+}
+```
 #### HTTP check:
 ```
 pingdom_check { "http://${facts['fqdn']}/check":
@@ -22,7 +23,6 @@ pingdom_check { "http://${facts['fqdn']}/check":
     tags       => ['test', 'http']
 }
 ```
-
 #### DNS check:
 ```puppet
 pingdom_check { 'dns://hq.company.com':
