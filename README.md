@@ -12,7 +12,7 @@ Pingdom_check {
 }
 ```
 #### HTTP check:
-```
+```puppet
 pingdom_check { "http://${facts['fqdn']}/check":
     ensure     => present,
     provider   => 'http',
@@ -38,11 +38,12 @@ pingdom_check { 'dns://hq.company.com':
 #### Ping check:
 ```puppet
 pingdom_check { 'ping://www.google.com':
-    ensure   => present,
-    provider => 'ping',
-    host     => 'www.google.com',
-    paused   => true,
-    tags     => ['test', 'ping']
+    ensure        => present,
+    provider      => 'ping',
+    host          => 'www.google.com',
+    paused        => true,
+    probe_filters => ['NA', 'EU', 'APAC'],
+    tags          => ['test', 'ping']
 }
 ```
 ### Status
