@@ -2,7 +2,11 @@ Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
     has_features :host
 
     def host
-        @check.fetch('hostname', :absent)
+        begin
+            @check['type']['ping']['hostname']
+        rescue => exception
+            :absent
+        end
     end
 
     def host=(value)
