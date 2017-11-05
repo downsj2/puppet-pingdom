@@ -92,8 +92,7 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:probe_filters, :array_matching=>:all) do
         desc %w(
         Filters used for probe selections. Overwrites previous filters for check.
-        To remove all filters from a check, use an empty value.
-        ['region:NA', 'region:EU', 'region:APAC'])
+        To remove all filters from a check, use an empty value. Any of [ 'NA', 'EU', 'APAC'])
 
         def insync?(is)
             if is == :absent
