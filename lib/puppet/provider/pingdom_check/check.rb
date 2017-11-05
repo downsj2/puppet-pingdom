@@ -40,7 +40,9 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def create
-        # Dummy method. Actual creation done by flush.
+        self.features.each do |prop|
+            @property_hash[prop] = self.method("#{prop}=").call @resource[prop]
+        end
     end
 
     def destroy
@@ -49,7 +51,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def flush
-        # @property_hash is populated with properties
         @check = do_apply unless @resource[:ensure] == :absent
     end
 
@@ -59,14 +60,21 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             :paused                   => @property_hash[:paused],
             :resolution               => @property_hash[:resolution],
             :ipv6                     => @property_hash[:ipv6],
-            :sendnotificationwhendown => @property_hash[:sendnotificationwhendown],
+            :tags                     => @property_hash[:tags],
+            :probe_filters            => @property_hash[:probe_filters],
+            :userids                  => @property_hash[:userids],
+            :teamids                  => @property_hash[:teamids],
+            :integrationids           => @property_hash[:integrationids],
+            # legacy notifications
+            :use_legacy_notifications => @resource[:use_legacy_notifications],
             :notifyagainevery         => @property_hash[:notifyagainevery],
             :notifywhenbackup         => @property_hash[:notifywhenbackup],
-            :tags                     => @property_hash[:tags].sort.join(','),
-            #:probe_filters            => @property_hash[:probe_filters].sort.join(','),
-            #:userids                  => @property_hash[:userids].sort.join(','),
-            #:teamids                  => @property_hash[:teamids].sort.join(','),
-            #:integrationids           => @property_hash[:integrationids].sort.join(',')
+            :sendnotificationwhendown => @property_hash[:sendnotificationwhendown],
+            :sendtoandroid            => @property_hash[:sendtoandroid],
+            :sendtoemail              => @property_hash[:sendtoemail],
+            :sendtoiphone             => @property_hash[:sendtoiphone],
+            :sendtosms                => @property_hash[:sendtosms],
+            :sendtotwitter            => @property_hash[:sendtotwitter]
         }
         props.update(provider_props)
     end
@@ -100,7 +108,9 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def tags=(value)
-        @property_hash[:tags] = value
+        puts "TAGS: #{value}"
+        newvalue = value.join(',') if value.respond_to? :join
+        @property_hash[:tags] = newvalue
     end
 
     def teamids
@@ -108,7 +118,16 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def teamids=(value)
-        @property_hash[:teamids] = value
+        newvalue = value.join(',') if value.respond_to? :join
+        @property_hash[:teamids] = newvalue
+    end
+
+    def use_legacy_notifications
+        @check.fetch('use_legacy_notifications', :absent)
+    end
+
+    def use_legacy_notifications=(value)
+        @property_hash[:use_legacy_notifications] = value
     end
 
     def userids
@@ -116,7 +135,8 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def userids=(value)
-        @property_hash[:userids] = value
+        newvalue = value.join(',') if value.respond_to? :join
+        @property_hash[:userids] = newvalue
     end
 
     def integrationids
@@ -124,7 +144,8 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def integrationids=(value)
-        @property_hash[:integrationids] = value
+        newvalue = value.join(',') if value.respond_to? :join
+        @property_hash[:integrationids] = newvalue
     end
 
     def ipv6
@@ -156,7 +177,8 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def probe_filters=(value)
-        @property_hash[:probe_filters] = value
+        newvalue = value.sort.join(',') if value.respond_to? :sort
+        @property_hash[:probe_filters] = newvalue
     end
 
     def resolution
@@ -167,11 +189,54 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @property_hash[:resolution] = value
     end
 
+    #
+    # legacy notification properties (use_legacy_notifications => true)
+    #
     def sendnotificationwhendown
         @check.fetch('sendnotificationwhendown', :absent)
     end
 
     def sendnotificationwhendown=(value)
         @property_hash[:sendnotificationwhendown] = value
+    end
+
+    def sendtoandroid
+        @check.fetch('sendtoandroid', :absent)
+    end
+
+    def sendtoandroid=(value)
+        @property_hash[:sendtoandroid] = value
+    end
+
+    def sendtoemail
+        @check.fetch('sendtoemail', :absent)
+    end
+
+    def sendtoemail=(value)
+        @property_hash[:sendtoemail] = value
+    end
+
+    def sendtoiphone
+        @check.fetch('sendtoiphone', :absent)
+    end
+
+    def sendtoiphone=(value)
+        @property_hash[:sendtoiphone] = value
+    end
+
+    def sendtosms
+        @check.fetch('sendtosms', :absent)
+    end
+
+    def sendtosms=(value)
+        @property_hash[:sendtosms] = value
+    end
+
+    def sendtotwitter
+        @check.fetch('sendtotwitter', :absent)
+    end
+
+    def sendtotwitter=(value)
+        @property_hash[:sendtotwitter] = value
     end
 end

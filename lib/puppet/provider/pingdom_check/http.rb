@@ -2,6 +2,14 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     has_features :host, :port, :url, :auth, :encryption
     defaultfor :feature => :posix
 
+    def auth
+        @check.fetch('auth', :absent)
+    end
+
+    def auth=(value)
+        @property_hash[:auth] = value
+    end
+
     def encryption
         begin
             @check['type']['http']['encryption']

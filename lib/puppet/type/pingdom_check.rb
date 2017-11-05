@@ -29,6 +29,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string]'
     end
 
+    newparam(:use_legacy_notifications) do
+        desc 'Use legacy Pingdom notifications (instead of BeepManager) [boolean]'
+        newvalues(:true, :false)
+        defaultto :true
+    end
+
     #
     # common properties
     #
@@ -65,7 +71,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:notifyagainevery) do
-        desc 'Notify again every n result [integer]'
+        desc %w(Notify again every n result [integer].
+                Requires use_legacy_notifications => true.)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -73,7 +80,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:notifywhenbackup) do
-        desc 'Notify when back up again [boolean]'
+        desc %w(Notify when back up again [boolean].
+                Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
         def insync?(is)
@@ -105,7 +113,48 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendnotificationwhendown) do
-        desc 'Send notification when down n times [integer]'
+        desc %w(Send notification when down n times [integer].
+                Requires use_legacy_notifications => true.)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:sendtoandroid) do
+        desc %w(Requires use_legacy_notifications => true.)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:sendtoemail) do
+        desc %w(Requires use_legacy_notifications => true.)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:sendtoiphone) do
+        desc %w(Requires use_legacy_notifications => true.)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:sendtosms) do
+        desc %w(Requires use_legacy_notifications => true.)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
+    newproperty(:sendtotwitter) do
+        desc %w(Requires use_legacy_notifications => true.)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
