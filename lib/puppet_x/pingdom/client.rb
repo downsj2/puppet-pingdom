@@ -11,6 +11,10 @@ require 'faraday'
 module PuppetX; end
 module PuppetX::Pingdom; end
 
+def filter_nils(hash)
+    hash.select { |k, v| !v.nil? }
+end
+
 class PuppetX::Pingdom::Client
     @@api_host = 'https://api.pingdom.com'
     @@api_base = '/api/2.1'
@@ -48,8 +52,8 @@ class PuppetX::Pingdom::Client
     end
 
     def create_check(name, params)
-        puts "Debug(#{__method__}): #{params}"
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
+        puts "Debug(#{__method__}): #{params}"
         response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -63,7 +67,7 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        # puts "Debug(#{__method__}): #{params}"
+        puts "Debug(#{__method__}): #{params}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?

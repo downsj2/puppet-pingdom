@@ -24,6 +24,9 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string]'
     end
 
+    #
+    # common properties
+    #
     newproperty(:paused) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)
