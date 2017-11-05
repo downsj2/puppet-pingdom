@@ -1,7 +1,13 @@
 Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
     has_features :host
 
-    mk_resource_methods
+    def host
+        @check.fetch('hostname', :absent)
+    end
+
+    def host=(value)
+        @property_hash[:host] = value
+    end
 
     def do_apply
         update_or_create 'ping', apply_properties({

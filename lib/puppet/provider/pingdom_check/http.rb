@@ -4,7 +4,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
 
     def encryption
         begin
-            @check['type']['http']['encryption'] == 'true'
+            @check['type']['http']['encryption']
         rescue => exception
             :absent
         end
