@@ -3,6 +3,7 @@ Puppet type and provider for Pingdom API.
 
 Still a work-in-progress, as most of the providers aside from HTTP and DNS haven't been tested at all, and even those don't support the entire API at this point.
 
+HTTP check:
 ```puppet
 Pingdom_check {
     username => $pingdom_username,
@@ -23,7 +24,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
     resolution => 5,
     tags       => ['test', 'http']
 }
+```
 
+DNS check:
+```puppet
 pingdom_check { 'dns://hq.company.com':
     ensure => present,
     
@@ -36,6 +40,20 @@ pingdom_check { 'dns://hq.company.com':
     # common properties
     paused => true,
     tags   => ['test', 'dns']
+}
+```
+Ping check:
+```
+pingdom_check { "ping://www.google.com":
+    ensure => present,
+
+    # provider-specific properties
+    provider   => 'ping',
+    host       => 'www.google.com',
+
+    # common properties
+    paused => true,
+    tags   => ['test', 'ping']
 }
 ```
 ### Status
@@ -52,5 +70,4 @@ pingdom_check { 'dns://hq.company.com':
 
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
-- Pingdom API doesn't seem to respect setting `notifywhenbackup`.
   
