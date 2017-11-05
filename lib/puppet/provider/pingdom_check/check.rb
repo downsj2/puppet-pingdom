@@ -56,17 +56,17 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     def apply_properties(provider_props)
         props = {
             :name                     => @resource[:name],
-            :paused                   => @resource[:paused],
-            :resolution               => @resource[:resolution],
-            :ipv6                     => @resource[:ipv6],
-            :sendnotificationwhendown => @resource[:sendnotificationwhendown],
-            :notifyagainevery         => @resource[:notifyagainevery],
-            :notifywhenbackup         => @resource[:notifywhenbackup],
-            :tags                     => @resource[:tags].sort.join(','),
-            #:probe_filters            => @resource[:probe_filters].sort.join(','),
-            #:userids                  => @resource[:userids].sort.join(','),
-            #:teamids                  => @resource[:teamids].sort.join(','),
-            #:integrationids           => @resource[:integrationids].sort.join(',')
+            :paused                   => @property_hash.fetch(:paused, @resource[:paused]),
+            :resolution               => @property_hash.fetch(:resolution, @resource[:resolution]),
+            :ipv6                     => @property_hash.fetch(:ipv6, @resource[:ipv6]),
+            :sendnotificationwhendown => @property_hash.fetch(:sendnotificationwhendown, @resource[:sendnotificationwhendown]),
+            :notifyagainevery         => @property_hash.fetch(:notifyagainevery, @resource[:notifyagainevery]),
+            :notifywhenbackup         => @property_hash.fetch(:notifywhenbackup, @resource[:notifywhenbackup]),
+            :tags                     => @property_hash.fetch(:tags, @resource[:tags]).sort.join(','),
+            #:probe_filters            => @property_hash.fetch(:probe_filters, @resource[:probe_filters]).sort.join(','),
+            #:userids                  => @property_hash.fetch(:userids, @resource[:userids]).sort.join(','),
+            #:teamids                  => @property_hash.fetch(:teamids, @resource[:teamids]).sort.join(','),
+            #:integrationids           => @property_hash.fetch(:integrationids, @resource[:integrationids]).sort.join(',')
         }
         props.update(provider_props)
     end
