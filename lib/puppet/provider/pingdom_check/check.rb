@@ -4,7 +4,7 @@
 # Provider must
 # - have `:parent => :check` in their declaration
 # - override the `do_apply` method and update any
-#   provider-specific properties
+#   provider-specific properties using `apply_properties`
 # - call `mk_resource_methods` and create any setters/getters
 #   for properties that require special handling
 #
@@ -51,11 +51,11 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def flush
-        puts @property_hash
+        # @property_hash is populated with properties
         @check = do_apply unless @resource[:ensure] == :absent
     end
 
-    def update_attributes(provider_attrs)
+    def apply_properties(provider_attrs)
         attrs = {
             :name                     => @resource[:name],
             :paused                   => @resource[:paused],

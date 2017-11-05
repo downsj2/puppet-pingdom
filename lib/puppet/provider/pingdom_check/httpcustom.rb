@@ -4,7 +4,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
     mk_resource_methods
 
     def update_or_create
-        attrs = update_attributes({
+        update_or_create 'httpcustom', apply_properties({
             :host           => @resource[:host],
             :url            => @resource[:url],
             :encryption     => @resource[:encryption],
@@ -12,6 +12,5 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
             :auth           => @resource[:auth],
             :additionalurls => @resource[:additionalurls],
         })
-        update_or_create 'httpcustom', attrs
     end
 end

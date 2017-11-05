@@ -4,12 +4,11 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     mk_resource_methods
 
     def do_apply
-        attrs = update_attributes({
+        update_or_create 'smtp', apply_properties({
             :port           => @resource[:port],
             :auth           => @resource[:auth],
             :stringtoexpect => @resource[:stringtoexpect],
             :encryption     => @resource[:encryption]
         })
-        update_or_create 'smtp', attrs
     end
 end

@@ -4,11 +4,10 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check) do
     mk_resource_methods
 
     def do_apply
-        attrs = update_attributes({
+        update_or_create 'tcp', apply_properties({
             :port           => @resource[:port],
             :stringtosend   => @resource[:stringtosend],
             :stringtoexpect => @resource[:stringtoexpect],
         })
-        update_or_create 'tcp', attrs
     end
 end

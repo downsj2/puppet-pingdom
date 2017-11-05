@@ -17,10 +17,9 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     end
 
     def do_apply
-        attrs = update_attributes({
+        update_or_create 'http', apply_properties({
             :host => @resource[:host],
             :url  => @resource[:url],
         })
-        update_or_create 'http', attrs
     end
 end

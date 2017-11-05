@@ -4,9 +4,8 @@ Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
     mk_resource_methods
 
     def do_apply
-        attrs = update_attributes({
+        update_or_create 'ping', apply_properties({
             :host => @resource[:host],
         })
-        update_or_create 'ping', attrs
     end
 end
