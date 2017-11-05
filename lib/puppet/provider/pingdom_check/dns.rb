@@ -35,9 +35,9 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
 
     def do_apply
         update_or_create :dns, apply_properties({
-            :host       => @resource[:hostname],
-            :expectedip => @resource[:expectedip],
-            :nameserver => @resource[:nameserver]
+            :host       => @property_hash[:hostname],
+            :expectedip => @property_hash[:expectedip],
+            :nameserver => @property_hash[:nameserver]
         })
     end
 end

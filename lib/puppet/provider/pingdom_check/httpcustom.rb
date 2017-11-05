@@ -16,12 +16,12 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def do_apply
         update_or_create :httpcustom, apply_properties({
-            :host           => @resource[:host],
-            :url            => @resource[:url],
-            :encryption     => @resource[:encryption],
-            :port           => @resource[:port],
-            :auth           => @resource[:auth],
-            :additionalurls => @resource[:additionalurls]
+            :host           => @property_hash[:host],
+            :url            => @property_hash[:url],
+            :encryption     => @property_hash[:encryption],
+            :port           => @property_hash[:port],
+            :auth           => @property_hash[:auth],
+            :additionalurls => @property_hash[:additionalurls]
         })
     end
 end

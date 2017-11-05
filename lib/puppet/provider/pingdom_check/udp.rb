@@ -27,9 +27,9 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check) do
 
     def do_apply
         update_or_create :udp, apply_properties({
-            :port           => @resource[:port],
-            :stringtosend   => @resource[:stringtosend],
-            :stringtoexpect => @resource[:stringtoexpect]
+            :port           => @property_hash[:port],
+            :stringtosend   => @property_hash[:stringtosend],
+            :stringtoexpect => @property_hash[:stringtoexpect]
         })
     end
 end
