@@ -54,7 +54,7 @@ class PuppetX::Pingdom::Client
     def create_check(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         puts "Debug(#{__method__}): #{params}"
-        response = @conn.post @@endpoint[:checks], params
+        response = @conn.post @@endpoint[:checks], filter_nils(params)
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['check']
@@ -67,8 +67,8 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        puts "Debug(#{__method__}): #{params}"
-        response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
+        puts "Debug(#{__method__}): #{filter_nils params}"
+        response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", filter_nils(params)
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         find_check check['name']

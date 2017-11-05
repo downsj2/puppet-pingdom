@@ -31,7 +31,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     end
 
     def port=(value)
-        @property_hash[:port] = value.nil? 80 : value
+        @property_hash[:port] = value
     end
 
     def url
