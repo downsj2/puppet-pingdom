@@ -24,12 +24,6 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string]'
     end
 
-    newparam(:debug) do
-        desc 'Debug level for module [boolean]'
-        newvalues(:true, :false)
-        defaultto false
-    end
-
     newproperty(:paused) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)

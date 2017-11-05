@@ -5,8 +5,7 @@
 # - have `:parent => :check` in their declaration
 # - override the `do_apply` method and update any
 #   provider-specific properties using `apply_properties`
-# - call `mk_resource_methods` and create any setters/getters
-#   for properties that require special handling
+# - create any setters/getters for additional properties
 #
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom
@@ -32,8 +31,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @api ||= PuppetX::Pingdom::Client.new(
             @resource[:username],
             @resource[:password],
-            @resource[:appkey],
-            @resource[:debug]
+            @resource[:appkey]
         )
     end
 
