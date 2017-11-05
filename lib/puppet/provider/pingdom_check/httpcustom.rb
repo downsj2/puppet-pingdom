@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
-    has_features :additionalurls
+    has_features :host, :port, :url, :auth, :encryption, :additionalurls
 
     mk_resource_methods
 

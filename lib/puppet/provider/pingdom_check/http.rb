@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
-    has_features :host, :port, :url
+    has_features :host, :port, :url, :auth, :encryption
     defaultfor :feature => :posix
 
     mk_resource_methods
@@ -18,9 +18,11 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
 
     def do_apply
         update_or_create 'http', apply_properties({
-            :host => @resource[:host],
-            :port => @resource[:port],
-            :url  => @resource[:url]
+            :host       => @resource[:host],
+            :port       => @resource[:port],
+            :url        => @resource[:url],
+            :auth       => @resource[:auth],
+            :encryption => @resource[:encryption]
         })
     end
 end

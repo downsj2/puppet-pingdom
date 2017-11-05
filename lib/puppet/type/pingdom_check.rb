@@ -185,6 +185,8 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:encryption, :required_features => :encryption) do
         desc 'Connection encryption [boolean]'
+        newvalues(:true, :false)
+        defaultto :false
     end
 
     newproperty(:expectedip, :required_features => :expectedip) do
