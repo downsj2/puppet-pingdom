@@ -15,7 +15,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
     end
 
     def update_or_create
-        update_or_create 'httpcustom', apply_properties({
+        update_or_create :httpcustom, apply_properties({
             :host           => @resource[:host],
             :url            => @resource[:url],
             :encryption     => @resource[:encryption],

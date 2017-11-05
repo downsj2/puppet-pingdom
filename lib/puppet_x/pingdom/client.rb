@@ -41,6 +41,7 @@ class PuppetX::Pingdom::Client
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']
         end
+        # puts users # 403 Forbidden?
     end
 
     def get_check_details(check)
@@ -131,11 +132,11 @@ class PuppetX::Pingdom::Client
     # users API (UNTESTED)
     #
     def users
+        # list of users
         @users ||= begin
-            # list of users
             response = @conn.get @@endpoint[:users]
             body = JSON.parse(response.body)
-            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            raise "Error(#{__method__}): #{body['error']}" unless response.success?
             body['users']
         end
     end
