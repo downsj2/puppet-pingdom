@@ -1,7 +1,7 @@
 # puppet-pingdom
 Puppet type and provider for Pingdom API. 
 
-Still a work-in-progress, as most of the providers aside from HTTP and DNS haven't been tested at all, and even those don't support the entire API at this point.
+Still a work-in-progress.
 
 #### HTTP check:
 ```puppet
