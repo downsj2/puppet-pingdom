@@ -12,14 +12,10 @@ Pingdom_check {
 }
 
 pingdom_check { "http://${facts['fqdn']}/check":
-    ensure => present,
-
-    # provider-specific properties
-    provider => 'http',
-    host     => $facts['fqdn'],
-    url      => '/check',
-
-    # common properties
+    ensure     => present,
+    provider   => 'http',
+    host       => $facts['fqdn'],
+    url        => '/check',
     paused     => true,
     resolution => 5,
     tags       => ['test', 'http']
