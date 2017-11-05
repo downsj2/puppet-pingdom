@@ -177,7 +177,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def probe_filters=(value)
-        newvalue = value.sort.join(',') if value.respond_to? :sort
+        newvalue = value.join(',') if value.respond_to? :join
         @property_hash[:probe_filters] = newvalue
     end
 
