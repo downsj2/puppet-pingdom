@@ -1,5 +1,8 @@
 # puppet-pingdom
-Puppet type and provider for Pingdom API. 
+Puppet type and provider for Pingdom API 
+
+## Status
+Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature. 
 
 Still a work-in-progress.
 
@@ -46,18 +49,8 @@ pingdom_check { 'ping://www.google.com':
     tags          => ['test', 'ping']
 }
 ```
-### Status
-- Check API
-  - create works
-  - delete works
-  - update works 
-  - properties work partially
-      - scalar properties work
-      - structured tags property works
-      - other structured properties TBD
-- User API _TBD_. Currently blocked on [this issue](https://github.com/cwells/puppet-pingdom/issues/2)
-- Team API _TBD_. Currently blocked on [the same thing](https://github.com/cwells/puppet-pingdom/issues/2)
 
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
+- BeepManager API isn't available. That's an API 2.1 feature and 2.1 isn't publicly available yet. This means only legacy notifications are supported.
   
