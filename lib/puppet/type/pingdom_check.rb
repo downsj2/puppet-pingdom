@@ -176,7 +176,7 @@ Puppet::Type.newtype(:pingdom_check) do
     feature :url,              'HTTP URL [string]'
 
     newproperty(:additionalurls, :required_features => :additionalurls) do
-        desc 'Colon-separated list of addidional URLs with hostname included [string]'
+        desc 'Colon-separated list of additional URLs with hostname included [string]'
     end
 
     newproperty(:auth, :required_features => :auth) do
@@ -202,7 +202,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:nameserver, :required_features => :nameserver) do
-        desc 'Nameserver [string]'
+        desc 'DNS nameserver [string]'
     end
 
     newproperty(:port, :required_features => :port) do

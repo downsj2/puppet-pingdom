@@ -93,15 +93,87 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @check.fetch('status', :absent) == 'paused'
     end
 
+    def paused=(value)
+        @property_hash[:paused] = value
+    end
+
     def tags
         @check.fetch('tags', []).map { |tag| tag['name'] }
+    end
+
+    def tags=(value)
+        @property_hash[:tags] = value
     end
 
     def teamids
         @check.fetch('teamids', []).map { |team| team['id'] }
     end
 
+    def teamids=(value)
+        @property_hash[:teamids] = value
+    end
+
     def userids
         @check.fetch('userids', []).map { |user| user['id'] }
+    end
+
+    def userids=(value)
+        @property_hash[:userids] = value
+    end
+
+    def integrationids
+        @check.fetch('integrationids', []).map { |integration| integration['id'] }
+    end
+
+    def integrationids=(value)
+        @property_hash[:integrationids] = value
+    end
+
+    def ipv6
+        @check.fetch('ipv6', :absent)
+    end
+
+    def ipv6=(value)
+        @property_hash[:ipv6] = value
+    end
+
+    def notifyagainevery
+        @check.fetch('notifyagainevery', :absent)
+    end
+
+    def notifyagainevery=(value)
+        @property_hash[:notifyagainevery] = value
+    end
+
+    def notifywhenbackup
+        @check.fetch('notifywhenbackup', :absent)
+    end
+
+    def notifywhenbackup=(value)
+        @property_hash[:notifywhenbackup] = value
+    end
+
+    def probe_filters
+        @check.fetch('probe_filters', :absent)
+    end
+
+    def probe_filters=(value)
+        @property_hash[:probe_filters] = value
+    end
+
+    def resolution
+        @check.fetch('resolution', :absent)
+    end
+
+    def resolution=(value)
+        @property_hash[:resolution] = value
+    end
+
+    def sendnotificationwhendown
+        @check.fetch('sendnotificationwhendown', :absent)
+    end
+
+    def sendnotificationwhendown=(value)
+        @property_hash[:sendnotificationwhendown] = value
     end
 end
