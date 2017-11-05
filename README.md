@@ -1,9 +1,9 @@
-## puppet-pingdom
+# puppet-pingdom
 Puppet type and provider for Pingdom API. 
 
 Still a work-in-progress, as most of the providers aside from HTTP and DNS haven't been tested at all, and even those don't support the entire API at this point.
 
-### HTTP check:
+#### HTTP check:
 ```puppet
 Pingdom_check {
     username => $pingdom_username,
@@ -26,7 +26,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
 }
 ```
 
-### DNS check:
+#### DNS check:
 ```puppet
 pingdom_check { 'dns://hq.company.com':
     ensure     => present,
@@ -38,7 +38,7 @@ pingdom_check { 'dns://hq.company.com':
     tags       => ['test', 'dns']
 }
 ```
-### Ping check:
+#### Ping check:
 ```puppet
 pingdom_check { "ping://www.google.com":
     ensure   => present,
