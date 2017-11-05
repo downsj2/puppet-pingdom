@@ -63,10 +63,10 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             :notifyagainevery         => @resource[:notifyagainevery],
             :notifywhenbackup         => @resource[:notifywhenbackup],
             :tags                     => @resource[:tags].sort.join(','),
-            :probe_filters            => @resource[:probe_filters].sort.join(','),
-            :userids                  => @resource[:userids].sort.join(','),
-            :teamids                  => @resource[:teamids].sort.join(','),
-            :integrationids           => @resource[:integrationids].sort.join(',')
+            #:probe_filters            => @resource[:probe_filters].sort.join(','),
+            #:userids                  => @resource[:userids].sort.join(','),
+            #:teamids                  => @resource[:teamids].sort.join(','),
+            #:integrationids           => @resource[:integrationids].sort.join(',')
         }
         props.update(provider_props)
     end

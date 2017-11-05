@@ -48,6 +48,7 @@ class PuppetX::Pingdom::Client
     end
 
     def create_check(name, params)
+        puts "Debug(#{__method__}): #{params}"
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
