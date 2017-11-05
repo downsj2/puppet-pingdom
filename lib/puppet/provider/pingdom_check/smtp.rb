@@ -35,10 +35,10 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
 
     def do_apply
         update_or_create :smtp, apply_properties({
-            :port           => @property_hash.fetch(:port, @resource[:port]),
-            :auth           => @property_hash.fetch(:port, @resource[:auth]),
-            :stringtoexpect => @property_hash.fetch(:port, @resource[:stringtoexpect]),
-            :encryption     => @property_hash.fetch(:port, @resource[:encryption])
+            :port           => fetch(:port),
+            :auth           => fetch(:auth),
+            :stringtoexpect => fetch(:stringtoexpect),
+            :encryption     => fetch(:encryption)
         })
     end
 end
