@@ -43,18 +43,13 @@ class PuppetX::Pingdom::Client
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        # puts "Debug(#{__method__}): #{body['check']}"
+        puts "Debug(#{__method__}): #{body['check']}"
         body['check']
     end
 
     def create_check(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
-        defaults = {
-            :type => 'http',
-            :name => name
-        }
-        defaults.update(params)
-        response = @conn.post @@endpoint[:checks], defaults
+        response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['check']
