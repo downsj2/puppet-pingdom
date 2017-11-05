@@ -62,7 +62,7 @@ class PuppetX::Pingdom::Client
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        # puts "Debug(#{__method__}): #{body['check']}"
+        puts "Debug(#{__method__}): #{body['check']}"
         body['check']
     end
 
@@ -70,7 +70,7 @@ class PuppetX::Pingdom::Client
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         params = filter_nils params
         detect_legacy_notifications params
-        # puts "Debug(#{__method__}): #{params}"
+        puts "Debug(#{__method__}): #{params}"
         response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -86,7 +86,7 @@ class PuppetX::Pingdom::Client
     def modify_check(check, params)
         params = filter_nils params
         detect_legacy_notifications params
-        # puts "Debug(#{__method__}): #{params}"
+        puts "Debug(#{__method__}): #{params}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?

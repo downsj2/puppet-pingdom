@@ -1,12 +1,12 @@
 Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
-    has_features :hostname, :expectedip, :nameserver
+    has_features :host, :expectedip, :nameserver
 
-    def hostname
+    def host
         @check.fetch('hostname', :absent)
     end
 
-    def hostname=(value)
-        @property_hash[:hostname] = value
+    def host=(value)
+        @property_hash[:host] = value
     end
 
     def expectedip
