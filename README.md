@@ -3,14 +3,15 @@ Puppet type and provider for Pingdom API.
 
 Still a work-in-progress.
 
-#### HTTP check:
+#### Credentials:
 ```puppet
 Pingdom_check {
     username => $pingdom_username,
     password => $pingdom_password,
     appkey   => $pingdom_appkey
-}
-
+}```
+#### HTTP check:
+```
 pingdom_check { "http://${facts['fqdn']}/check":
     ensure     => present,
     provider   => 'http',
