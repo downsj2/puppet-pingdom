@@ -53,8 +53,8 @@ pingdom_check { "ping://www.google.com":
       - scalar properties work
       - structured tags property works
       - other structured properties TBD
-- Team API _TBD_. Currently blocked on [this issue](https://github.com/cwells/puppet-pingdom/issues/2)
-- User API _TBD_. Currently blocked on [the same thing](https://github.com/cwells/puppet-pingdom/issues/2)
+- User API _TBD_. Currently blocked on [this issue](https://github.com/cwells/puppet-pingdom/issues/2)
+- Team API _TBD_. Currently blocked on [the same thing](https://github.com/cwells/puppet-pingdom/issues/2)
 
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
