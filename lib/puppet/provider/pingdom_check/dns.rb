@@ -1,7 +1,21 @@
 Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
     has_features :hostname, :expectedip, :nameserver
 
-    mk_resource_methods
+    def hostname
+        @check.fetch('hostname', :absent)
+    end
+
+    def hostname=(value)
+        @property_hash[:hostname] = value
+    end
+
+    def expectedip
+        @check.fetch('expectedip', :absent)
+    end
+
+    def expectedip=(value)
+        @property_hash[:expectedip] = value
+    end
 
     def nameserver
         begin
@@ -9,6 +23,10 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
         rescue => exception
             :absent
         end
+    end
+
+    def nameserver=(value)
+        @property_hash[:nameserver] = value
     end
 
     def do_apply
