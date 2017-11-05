@@ -1,21 +1,7 @@
 Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     has_features :port, :auth, :stringtoexpect, :encryption
 
-    def port
-        @check.fetch('port', :absent)
-    end
-
-    def auth
-        @check.fetch('auth', :absent)
-    end
-
-    def stringtoexpect
-        @check.fetch('stringtoexpect', :absent)
-    end
-
-    def encryption
-        @check.fetch('encryption', :absent)
-    end
+    mk_resource_methods
 
     def do_apply
         attrs = update_attributes({

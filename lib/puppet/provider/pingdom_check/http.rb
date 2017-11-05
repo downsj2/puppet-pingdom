@@ -2,16 +2,18 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     has_features :host, :port, :url
     defaultfor :feature => :posix
 
+    mk_resource_methods
+
     def host
         @check.fetch('hostname', :absent)
     end
 
-    def port
-        @check.fetch('port', :absent)
-    end
-
     def url
-        @check['type']['http']['url']
+        begin
+            @check['type']['http']['url']
+        rescue => exception
+            :absent
+        end
     end
 
     def do_apply

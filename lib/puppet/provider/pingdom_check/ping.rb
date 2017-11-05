@@ -1,9 +1,7 @@
 Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
     has_features :host
 
-    def host
-        @check.fetch('host', :absent)
-    end
+    mk_resource_methods
 
     def do_apply
         attrs = update_attributes({

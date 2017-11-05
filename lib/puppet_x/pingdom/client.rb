@@ -1,3 +1,10 @@
+#
+# Thin wrapper around Pingdom API.
+#
+# Author: Cliff Wells <cliff.wells@protonmail.com>
+# Homepage: https://github.com/cwells/puppet-pingdom
+#
+
 require 'json'
 require 'faraday'
 
