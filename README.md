@@ -36,7 +36,7 @@ pingdom_check { 'dns://hq.company.com':
 ```
 #### Ping check:
 ```puppet
-pingdom_check { "ping://www.google.com":
+pingdom_check { 'ping://www.google.com':
     ensure   => present,
     provider => 'ping',
     host     => 'www.google.com',
