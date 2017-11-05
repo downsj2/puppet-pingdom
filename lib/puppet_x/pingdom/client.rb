@@ -43,7 +43,7 @@ class PuppetX::Pingdom::Client
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        # puts "Debug(#{__method__}): #{body}"
+        # puts "Debug(#{__method__}): #{body['check']}"
         body['check']
     end
 

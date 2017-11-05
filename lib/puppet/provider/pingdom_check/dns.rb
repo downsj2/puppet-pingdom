@@ -10,7 +10,11 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
     end
 
     def expectedip
-        @check.fetch('expectedip', :absent)
+        begin
+            @check['type']['dns']['expectedip']
+        rescue => exception
+            :absent
+        end
     end
 
     def expectedip=(value)
