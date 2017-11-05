@@ -19,9 +19,9 @@ class PuppetX::Pingdom::Client
     @@api_host = 'https://api.pingdom.com'
     @@api_base = '/api/2.1'
     @@endpoint = {
-        :checks => "#{@@api_base}/checks",
-        :teams  => "#{@@api_base}/teams",
-        :users  => "#{@@api_base}/users"
+        :checks  => "#{@@api_base}/checks",
+        :teams   => "#{@@api_base}/teams",
+        :users   => "#{@@api_base}/users"
     }
 
     def initialize(username, password, appkey)
@@ -41,20 +41,19 @@ class PuppetX::Pingdom::Client
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']
         end
-        # puts users # 403 Forbidden?
     end
 
     def get_check_details(check)
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        puts "Debug(#{__method__}): #{body['check']}"
+        # puts "Debug(#{__method__}): #{body['check']}"
         body['check']
     end
 
     def create_check(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
-        puts "Debug(#{__method__}): #{params}"
+        # puts "Debug(#{__method__}): #{params}"
         response = @conn.post @@endpoint[:checks], filter_nils(params)
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -68,7 +67,7 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        puts "Debug(#{__method__}): #{filter_nils params}"
+        # puts "Debug(#{__method__}): #{filter_nils params}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", filter_nils(params)
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?

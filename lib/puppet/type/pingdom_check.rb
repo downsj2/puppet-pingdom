@@ -1,4 +1,9 @@
 #
+# The reason the default value for properties is nil is that
+# this indicates that the user is not managing that property.
+# Either the property has a sane default on the server side or
+# the request will fail.
+#
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
@@ -30,23 +35,21 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:paused) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)
-        defaultto :false
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
     newproperty(:integrationids, :array_matching=>:all) do
         desc 'Integration identifiers [list of integers]'
-        defaultto []
 
         def insync?(is)
             if is == :absent
-                return should.empty?
+                return should.nil?
             end
             isarr = is.split(',')
-            isarr.sort == should.sort
+            should.nil? or isarr.sort == should.sort
         end
     end
 
@@ -55,29 +58,26 @@ Puppet::Type.newtype(:pingdom_check) do
         Use ipv6 instead of ipv4, if an IP address is provided as host this
         will be overrided by the IP address version [boolean])
         newvalues(:true, :false)
-        defaultto :false
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
     newproperty(:notifyagainevery) do
         desc 'Notify again every n result [integer]'
-        defaultto 0
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
     newproperty(:notifywhenbackup) do
         desc 'Notify when back up again [boolean]'
         newvalues(:true, :false)
-        defaultto :false
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
@@ -85,71 +85,65 @@ Puppet::Type.newtype(:pingdom_check) do
         desc %w(
         Filters used for probe selections. Overwrites previous filters for check.
         To remove all filters from a check, use an empty value [hash])
-        defaultto []
 
         def insync?(is)
             if is == :absent
-                return should.empty?
+                return should.nil?
             end
             isarr = is.split(',')
-            isarr.sort == should.sort
+            should.nil? or isarr.sort == should.sort
         end
     end
 
     newproperty(:resolution) do
         desc 'Check resolution [integer (1, 5, 15, 30, 60)]'
         newvalues(1, 5, 15, 30, 60)
-        defaultto 5
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
     newproperty(:sendnotificationwhendown) do
         desc 'Send notification when down n times [integer]'
-        defaultto 2
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
     newproperty(:tags, :array_matching=>:all) do
         desc 'Check tags [list of strings]'
-        defaultto []
 
         def insync?(is)
             if is == :absent
-                return should.empty?
+                return should.nil?
             end
-            is.sort == should.sort
+            should.nil? or is.sort == should.sort
         end
     end
 
     newproperty(:teamids, :array_matching=>:all) do
         desc 'Teams to alert [list of integers]'
-        defaultto []
 
         def insync?(is)
             if is == :absent
-                return should.empty?
+                return should.nil?
             end
             isarr = is.split(',')
-            isarr.sort == should.sort
+            should.nil? or isarr.sort == should.sort
         end
     end
 
     newproperty(:userids, :array_matching=>:all) do
         desc 'User identifiers [list of integers]'
-        defaultto []
 
         def insync?(is)
             if is == :absent
-                return should.empty?
+                return should.nil?
             end
             isarr = is.split(',')
-            isarr.sort == should.sort
+            should.nil? or isarr.sort == should.sort
         end
     end
 
@@ -183,10 +177,9 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:encryption, :required_features => :encryption) do
         desc 'Connection encryption [boolean]'
         newvalues(:true, :false)
-        defaultto :false
 
         def insync?(is)
-            is.to_s == should.to_s
+            should.nil? or is.to_s == should.to_s
         end
     end
 
@@ -220,7 +213,6 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:requestheaders, :required_features => :requestheaders, :array_matching=>:all) do
         desc %w(Custom HTTP headers. [hash]
                 For example: { 'My-Header' => 'value', 'Other-Header' => '100' })
-        defaultto {}
     end
 
     newproperty(:shouldcontain, :required_features => :shouldcontain) do
