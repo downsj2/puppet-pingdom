@@ -54,7 +54,6 @@ class PuppetX::Pingdom::Client
     def create_check(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
         params = filter_nils params
-        params[:use_legacy_notifications] = 'true'
         # puts "Debug(#{__method__}): #{params}"
         response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
@@ -70,7 +69,6 @@ class PuppetX::Pingdom::Client
 
     def modify_check(check, params)
         params = filter_nils params
-        params[:use_legacy_notifications] = 'true'
         # puts "Debug(#{__method__}): #{params}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)

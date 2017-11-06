@@ -29,6 +29,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string]'
     end
 
+    newparam(:use_legacy_notifications) do
+        desc 'Whether to use legacy notifications [boolean]'
+        newvalues(:true, :false)
+        defaultto :true
+    end
+
     #
     # common properties
     #

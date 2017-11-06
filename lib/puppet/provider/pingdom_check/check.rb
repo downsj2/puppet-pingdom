@@ -45,9 +45,9 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def create
-        self.features.each do |prop|
+        @resource.eachproperty do |prop|
             # call setters to allow for restructuring of property data
-            @property_hash[prop] = self.method("#{prop}=").call @resource[prop]
+            @property_hash[prop] = self.method("#{prop}=").call(@resource[prop.to_s])
         end
     end
 
@@ -63,6 +63,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     def apply_properties(provider_props)
         props = {
             :name                     => @resource[:name],
+            :use_legacy_notifications => @resource[:use_legacy_notifications],
             :paused                   => @property_hash[:paused],
             :resolution               => @property_hash[:resolution],
             :ipv6                     => @property_hash[:ipv6],
@@ -96,6 +97,14 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     #
     # common getters/setters
     #
+    def ensure
+        @check.fetch('ensure', :absent)
+    end
+
+    def ensure=(value)
+        @property_hash[:ensure] = value
+    end
+
     def paused
         @check.fetch('status', :absent) == 'paused'
     end
