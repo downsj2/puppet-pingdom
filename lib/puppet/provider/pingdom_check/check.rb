@@ -103,20 +103,20 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     def self.update_resource_methods
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
         [resource_type.validproperties, resource_type.parameters].flatten.each do |attr|
-            attr = attr.to_s
-            next if attr == 'name'
+            attr = attr.to_sym
+            next if attr == :name
 
             getter = attr
             if !method_defined?(getter)
                 define_method(getter) do
-                    @check.fetch(attr, :absent)
+                    @check.fetch(attr.to_s, :absent)
                 end
             end
 
             setter = "#{attr}="
             if !method_defined?(setter)
                 define_method(setter) do |value|
-                    @property_hash[attr.to_sym] = value
+                    @property_hash[attr] = value
                 end
             end
         end
