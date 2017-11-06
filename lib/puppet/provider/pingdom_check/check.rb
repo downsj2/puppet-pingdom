@@ -8,6 +8,7 @@
 # - call `update_resource_methods` at the end to create
 #   any setters/getters not already defined.
 # - profit.
+#
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
@@ -96,9 +97,11 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @property_hash[:tags] = newvalue
     end
 
+    #
     # utility methods
+    #
     def self.update_resource_methods
-        # similar to mk_resource_methods, but doesn't clobber existing methods
+        # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
         [resource_type.validproperties, resource_type.parameters].flatten.each do |attr|
             attr = attr.to_s
             next if attr == 'name'
@@ -113,7 +116,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             setter = "#{attr}="
             if !method_defined?(setter)
                 define_method(setter) do |value|
-                    @property_hash[attr] = value
+                    @property_hash[attr.to_sym] = value
                 end
             end
         end
