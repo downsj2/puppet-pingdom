@@ -61,7 +61,8 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         }
         @resource.eachproperty do |prop|
             prop = prop.to_s
-            props[prop] = self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
+            value = self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
+            props[prop] = value unless value.nil?
         end
 
         if @check
