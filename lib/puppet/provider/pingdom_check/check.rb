@@ -58,7 +58,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def apply_properties(provider_props)
-        props = {
+        {
             :name                     => @resource[:name],
             :use_legacy_notifications => @resource[:use_legacy_notifications],
             :paused                   => @property_hash[:paused],
@@ -74,8 +74,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             :sendtoiphone             => @property_hash[:sendtoiphone],
             :sendtosms                => @property_hash[:sendtosms],
             :sendtotwitter            => @property_hash[:sendtotwitter]
-        }
-        props.update(provider_props)
+        }.update(provider_props)
     end
 
     def update_or_create(type, props)
