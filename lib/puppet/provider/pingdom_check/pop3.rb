@@ -24,8 +24,4 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check) do
     def stringtoexpect=(value)
         @property_hash[:stringtoexpect] = value
     end
-
-    def do_apply
-        update_or_create :pop3
-    end
 end

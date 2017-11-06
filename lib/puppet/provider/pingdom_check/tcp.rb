@@ -24,8 +24,4 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check) do
     def stringtosend=(value)
         @property_hash[:stringtosend] = value
     end
-
-    def do_apply
-        update_or_create :tcp
-    end
 end

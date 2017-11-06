@@ -32,8 +32,4 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
     def nameserver=(value)
         @property_hash[:nameserver] = value
     end
-
-    def do_apply
-        update_or_create :dns
-    end
 end

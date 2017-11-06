@@ -13,8 +13,4 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
     def additionalurls=(value)
         @property_hash[:additionalurls] = value
     end
-
-    def do_apply
-        update_or_create :httpcustom
-    end
 end

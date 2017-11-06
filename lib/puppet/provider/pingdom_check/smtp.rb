@@ -32,8 +32,4 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     def stringtoexpect=(value)
         @property_hash[:stringtoexpect] = value
     end
-
-    def do_apply
-        update_or_create :smtp
-    end
 end

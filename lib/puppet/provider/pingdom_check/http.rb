@@ -53,8 +53,4 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     def url=(value)
         @property_hash[:url] = value
     end
-
-    def do_apply
-        update_or_create :http
-    end
 end

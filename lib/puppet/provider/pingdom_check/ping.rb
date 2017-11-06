@@ -8,8 +8,4 @@ Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
     def host=(value)
         @property_hash[:host] = value
     end
-
-    def do_apply
-        update_or_create :ping
-    end
 end
