@@ -1,8 +1,8 @@
 #
-# Base class for all check providers.
+# Base class for all contact providers.
 #
 # Provider must
-# - have `:parent => :check` in their declaration.
+# - have `:parent => :contact` in their declaration.
 # - create setters/getters for provider-specific
 #   properties that require special handling.
 # - call `update_resource_methods` at the end to create
@@ -28,7 +28,7 @@ rescue LoadError
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_check).provide(:check) do
+Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
     confine :true => has_pingdom_api
 
     def api
@@ -41,7 +41,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def exists?
-        @check ||= api.find_check @resource[:name]
+        @contact ||= api.find_contact @resource[:name]
     end
 
     def create
@@ -49,18 +49,17 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def destroy
-        api.delete_check(@check)
+        api.delete_contact(@contact)
         @resource[:ensure] = :absent
     end
 
     def flush
-        @check = update_or_create unless @resource[:ensure] == :absent
+        @contact = update_or_create unless @resource[:ensure] == :absent
     end
 
     def update_or_create
         props = {
-            :name                     => @resource[:name],
-            :use_legacy_notifications => @resource[:use_legacy_notifications]
+            :name => @resource[:name],
         }
         @resource.eachproperty do |prop|
             prop = prop.to_s
@@ -68,11 +67,11 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             props[prop] = value unless value.nil?
         end
 
-        if @check
-            api.modify_check @check, props
+        if @contact
+            api.modify_contact @contact, props
         else
             props[:type] = @resource[:provider]
-            api.create_check @resource[:name], props
+            api.create_contact @resource[:name], props
         end
     end
 
@@ -80,21 +79,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     # custom getters/setters
     #
     def paused
-        @check.fetch('status', :absent) == 'paused'
-    end
-
-    def probe_filters=(value)
-        newvalue = value.map { |v| 'region: ' + v }.join(',') if value.respond_to? :map
-        @property_hash[:probe_filters] = newvalue
-    end
-
-    def tags
-        @check.fetch('tags', []).map { |tag| tag['name'] }
-    end
-
-    def tags=(value)
-        newvalue = value.join(',') if value.respond_to? :join
-        @property_hash[:tags] = newvalue
+        @contact.fetch('status', :absent) == 'paused'
     end
 
     #
@@ -109,7 +94,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             getter = attr
             if !method_defined?(getter)
                 define_method(getter) do
-                    @check.fetch(attr.to_s, :absent)
+                    @contact.fetch(attr.to_s, :absent)
                 end
             end
 

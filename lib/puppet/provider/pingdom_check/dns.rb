@@ -1,4 +1,4 @@
-Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
+Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check_base) do
     has_features :host, :expectedip, :nameserver
 
     def host

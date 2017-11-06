@@ -1,4 +1,4 @@
-Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
+Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check_base) do
     has_features :host
 
     def host

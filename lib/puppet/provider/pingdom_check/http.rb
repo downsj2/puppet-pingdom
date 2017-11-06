@@ -1,4 +1,4 @@
-Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
+Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
     has_features :host, :port, :url, :auth, :encryption
     defaultfor :feature => :posix
 
