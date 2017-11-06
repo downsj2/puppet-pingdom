@@ -27,9 +27,6 @@ rescue LoadError
 end
 
 Puppet::Type.type(:pingdom_check).provide(:check) do
-    has_features :paused, :tags, :ipv6, :notifyagainevery, :notifywhenbackup,
-                 :probe_filters, :resolution, :sendnotificationwhendown,
-                 :sendtoandroid, :sendtoemail, :sendtoiphone, :sendtosms, :sendtotwitter
     confine :true => has_pingdom_api
 
     def api
