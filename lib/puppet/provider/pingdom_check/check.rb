@@ -46,8 +46,9 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
 
     def create
         @resource.eachproperty do |prop|
+            prop = prop.to_s
             # call setters to allow for restructuring of property data
-            @property_hash[prop] = self.method("#{prop}=").call(@resource[prop.to_s])
+            @property_hash[prop] = self.method("#{prop}=").call(@resource[prop])
         end
     end
 
