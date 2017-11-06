@@ -5,7 +5,5 @@ Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
         @check.fetch('hostname', :absent)
     end
 
-    def host=(value)
-        @property_hash[:host] = value
-    end
+    update_resource_methods
 end

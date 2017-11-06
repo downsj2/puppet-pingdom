@@ -2,10 +2,12 @@
 # Base class for all check providers.
 #
 # Provider must
-# - have `:parent => :check` in their declaration
+# - have `:parent => :check` in their declaration.
 # - create setters/getters for provider-specific
-#   properties
-# - profit
+#   properties that require special handling.
+# - call `update_resource_methods` at the end to create
+#   any setters/getters not already defined.
+# - profit.
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
@@ -74,14 +76,15 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     #
-    # common getters/setters
+    # custom getters/setters
     #
     def paused
         @check.fetch('status', :absent) == 'paused'
     end
 
-    def paused=(value)
-        @property_hash[:paused] = value
+    def probe_filters=(value)
+        newvalue = value.map { |v| 'region: ' + v }.join(',') if value.respond_to? :map
+        @property_hash[:probe_filters] = newvalue
     end
 
     def tags
@@ -93,92 +96,28 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @property_hash[:tags] = newvalue
     end
 
-    def ipv6
-        @check.fetch('ipv6', :absent)
+    # utility methods
+    def self.update_resource_methods
+        # similar to mk_resource_methods, but doesn't clobber existing methods
+        [resource_type.validproperties, resource_type.parameters].flatten.each do |attr|
+            attr = attr.to_s
+            next if attr == 'name'
+
+            getter = attr
+            if !method_defined?(getter)
+                define_method(getter) do
+                    @check.fetch(attr, :absent)
+                end
+            end
+
+            setter = "#{attr}="
+            if !method_defined?(setter)
+                define_method(setter) do |value|
+                    @property_hash[attr] = value
+                end
+            end
+        end
     end
 
-    def ipv6=(value)
-        @property_hash[:ipv6] = value
-    end
-
-    def notifyagainevery
-        @check.fetch('notifyagainevery', :absent)
-    end
-
-    def notifyagainevery=(value)
-        @property_hash[:notifyagainevery] = value
-    end
-
-    def notifywhenbackup
-        @check.fetch('notifywhenbackup', :absent)
-    end
-
-    def notifywhenbackup=(value)
-        @property_hash[:notifywhenbackup] = value
-    end
-
-    def probe_filters
-        @check.fetch('probe_filters', :absent)
-    end
-
-    def probe_filters=(value)
-        newvalue = value.map { |v| 'region: ' + v }.join(',') if value.respond_to? :map
-        @property_hash[:probe_filters] = newvalue
-    end
-
-    def resolution
-        @check.fetch('resolution', :absent)
-    end
-
-    def resolution=(value)
-        @property_hash[:resolution] = value
-    end
-
-    def sendnotificationwhendown
-        @check.fetch('sendnotificationwhendown', :absent)
-    end
-
-    def sendnotificationwhendown=(value)
-        @property_hash[:sendnotificationwhendown] = value
-    end
-
-    def sendtoandroid
-        @check.fetch('sendtoandroid', :absent)
-    end
-
-    def sendtoandroid=(value)
-        @property_hash[:sendtoandroid] = value
-    end
-
-    def sendtoemail
-        @check.fetch('sendtoemail', :absent)
-    end
-
-    def sendtoemail=(value)
-        @property_hash[:sendtoemail] = value
-    end
-
-    def sendtoiphone
-        @check.fetch('sendtoiphone', :absent)
-    end
-
-    def sendtoiphone=(value)
-        @property_hash[:sendtoiphone] = value
-    end
-
-    def sendtosms
-        @check.fetch('sendtosms', :absent)
-    end
-
-    def sendtosms=(value)
-        @property_hash[:sendtosms] = value
-    end
-
-    def sendtotwitter
-        @check.fetch('sendtotwitter', :absent)
-    end
-
-    def sendtotwitter=(value)
-        @property_hash[:sendtotwitter] = value
-    end
+    update_resource_methods
 end

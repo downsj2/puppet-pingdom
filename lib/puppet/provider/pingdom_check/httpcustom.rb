@@ -10,7 +10,5 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
         @check.fetch('additionalurls', :absent)
     end
 
-    def additionalurls=(value)
-        @property_hash[:additionalurls] = value
-    end
+    update_resource_methods
 end
