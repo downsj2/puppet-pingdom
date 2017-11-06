@@ -42,10 +42,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def create
-        @resource.eachproperty do |prop|
-            # call setters to allow for restructuring of property data
-            self.method("#{prop}=").call @resource[prop.to_s]
-        end
+        # Dummy method. Real work is done in update_or_create
     end
 
     def destroy
@@ -57,27 +54,17 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @check = do_apply unless @resource[:ensure] == :absent
     end
 
-    def apply_properties(provider_props)
-        {
+    def update_or_create(type, provider_props)
+        props = {
             :name                     => @resource[:name],
-            :use_legacy_notifications => @resource[:use_legacy_notifications],
-            :paused                   => @property_hash[:paused],
-            :resolution               => @property_hash[:resolution],
-            :ipv6                     => @property_hash[:ipv6],
-            :tags                     => @property_hash[:tags],
-            :probe_filters            => @property_hash[:probe_filters],
-            :notifyagainevery         => @property_hash[:notifyagainevery],
-            :notifywhenbackup         => @property_hash[:notifywhenbackup],
-            :sendnotificationwhendown => @property_hash[:sendnotificationwhendown],
-            :sendtoandroid            => @property_hash[:sendtoandroid],
-            :sendtoemail              => @property_hash[:sendtoemail],
-            :sendtoiphone             => @property_hash[:sendtoiphone],
-            :sendtosms                => @property_hash[:sendtosms],
-            :sendtotwitter            => @property_hash[:sendtotwitter]
-        }.update(provider_props)
-    end
+            :use_legacy_notifications => @resource[:use_legacy_notifications]
+        }
+        @resource.eachproperty do |prop|
+            prop = prop.to_s
+            props[prop] = self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
+        end
+        props.update(provider_props)
 
-    def update_or_create(type, props)
         if @check
             api.modify_check @check, props
         else
@@ -94,14 +81,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     #
     # common getters/setters
     #
-    def ensure
-        @check.fetch('ensure', :absent)
-    end
-
-    def ensure=(value)
-        @property_hash[:ensure] = value
-    end
-
     def paused
         @check.fetch('status', :absent) == 'paused'
     end
