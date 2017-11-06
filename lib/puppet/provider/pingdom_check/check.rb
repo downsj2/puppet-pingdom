@@ -89,6 +89,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
 
     def do_apply
         # override in provider
+        raise NotImplementedError
     end
 
     #
