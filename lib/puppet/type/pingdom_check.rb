@@ -38,13 +38,20 @@ Puppet::Type.newtype(:pingdom_check) do
     #
     # common properties
     #
-    newproperty(:paused) do
-        desc 'Paused [boolean]'
-        newvalues(:true, :false)
+    newproperty(:contactids, :array_matching=>:all) do
+        desc 'Contact identifiers [list of integers]'
 
         def insync?(is)
-            should.nil? or is.to_s == should.to_s
+            if is == :absent
+                return should.nil?
+            end
+            isarr = is.split(',')
+            should.nil? or isarr.sort == should.sort
         end
+    end
+
+    newproperty(:hostname, :required_features => :hostname) do
+        desc 'Hostname to check [string]'
     end
 
     newproperty(:integrationids, :array_matching=>:all) do
@@ -89,6 +96,15 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
+    newproperty(:paused) do
+        desc 'Paused [boolean]'
+        newvalues(:true, :false)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
     newproperty(:probe_filters, :array_matching=>:all) do
         desc %w(
         Filters used for probe selections. Overwrites previous filters for check.
@@ -109,6 +125,10 @@ Puppet::Type.newtype(:pingdom_check) do
         def insync?(is)
             should.nil? or is.to_s == should.to_s
         end
+    end
+
+    newproperty(:responsetime_threshold) do
+        desc 'Triggers a down alert if the response time exceeds threshold specified in ms [integer]'
     end
 
     newproperty(:sendnotificationwhendown) do
@@ -170,30 +190,6 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
-    newproperty(:teamids, :array_matching=>:all) do
-        desc 'Teams to alert [list of integers]'
-
-        def insync?(is)
-            if is == :absent
-                return should.nil?
-            end
-            isarr = is.split(',')
-            should.nil? or isarr.sort == should.sort
-        end
-    end
-
-    newproperty(:userids, :array_matching=>:all) do
-        desc 'User identifiers [list of integers]'
-
-        def insync?(is)
-            if is == :absent
-                return should.nil?
-            end
-            isarr = is.split(',')
-            should.nil? or isarr.sort == should.sort
-        end
-    end
-
     #
     # provider-specific properties
     #
@@ -202,7 +198,6 @@ Puppet::Type.newtype(:pingdom_check) do
     feature :encryption,       'Encryption enabled [boolean]'
     feature :expectedip,       'Expected IP address [string]'
     feature :host,             'Hostname or IP address [string]'
-    feature :hostname,         'DNS hostname [string]'
     feature :nameserver,       'DNS nameserver to query [string]'
     feature :port,             'Port [integer]'
     feature :postdata,         'HTTP POST data [urlencoded string]'
@@ -236,10 +231,6 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:host, :required_features => :host) do
         desc 'HTTP hostname or IP to check [string]'
-    end
-
-    newproperty(:hostname, :required_features => :hostname) do
-        desc 'DNS hostname to check [string]'
     end
 
     newproperty(:nameserver, :required_features => :nameserver) do

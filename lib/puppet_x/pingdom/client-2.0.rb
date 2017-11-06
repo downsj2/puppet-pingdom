@@ -27,7 +27,7 @@ class PuppetX::Pingdom::Client
     end
 
     #
-    # checks API
+    # Checks API
     #
     def checks
         # list of checks
@@ -76,5 +76,18 @@ class PuppetX::Pingdom::Client
         }
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+    end
+
+    #
+    # Contacts API
+    #
+    def contacts
+        # list of contacts
+        @contacts ||= begin
+            response = @conn.get @@endpoint[:contacts], { :include_tags => true }
+            body = JSON.parse(response.body)
+            raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+            body['contacts']
+        end
     end
 end
