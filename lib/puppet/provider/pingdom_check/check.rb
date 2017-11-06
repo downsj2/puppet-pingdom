@@ -45,7 +45,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @resource.eachproperty do |prop|
             prop = prop.to_s
             # call setters to allow for restructuring of property data
-            self.method("#{prop}=").call(@resource[prop])
+            self.method("#{prop}=").call @resource[prop]
         end
     end
 
