@@ -10,8 +10,6 @@ Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
     end
 
     def do_apply
-        update_or_create :ping, {
-            :host => @property_hash[:host]
-        }
+        update_or_create :ping
     end
 end

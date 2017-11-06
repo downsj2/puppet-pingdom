@@ -26,10 +26,6 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check) do
     end
 
     def do_apply
-        update_or_create :tcp, {
-            :port           => @property_hash[:port],
-            :stringtosend   => @property_hash[:stringtosend],
-            :stringtoexpect => @property_hash[:stringtoexpect]
-        }
+        update_or_create :tcp
     end
 end

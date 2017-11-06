@@ -4,7 +4,7 @@ Pingdom_check {
     appkey   => $pingdom_appkey
 }
 
-pingdom_check { "httpts['fqdn']}/check":
+pingdom_check { "http://${facts['fqdn']}/check":
     ensure           => present,
     provider         => 'http',
     host             => $facts['fqdn'],
@@ -13,25 +13,25 @@ pingdom_check { "httpts['fqdn']}/check":
     resolution       => 5,
     ipv6             => false,
     notifyagainevery => 0,
-    notifywhenbackup => false
+    notifywhenbackup => false,
     tags             => ['test', 'web']
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
     ensure           => present,
     provider         => 'dns',
-    hostname         => "ping://${facts['fqdn']}",
+    host             => $facts['fqdn'],
     expectedip       => '1.2.3.4',
     nameserver       => '8.8.8.8',
     paused           => true,
-    notifywhenbackup => false
+    notifywhenbackup => false,
     tags             => ['test', 'dns']
 }
 
 pingdom_check { "ping://${facts['fqdn']}":
     ensure           => present,
     provider         => 'ping',
-    host             => ${facts['fqdn']},
+    host             => $facts['fqdn'],
     paused           => true,
     notifywhenbackup => false,
     tags             => ['test', 'ping']

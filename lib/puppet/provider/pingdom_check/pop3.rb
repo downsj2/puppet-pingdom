@@ -26,10 +26,6 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check) do
     end
 
     def do_apply
-        update_or_create :pop3, {
-            :port           => @property_hash[:port],
-            :stringtoexpect => @property_hash[:stringtoexpect],
-            :encryption     => @property_hash[:encryption]
-        }
+        update_or_create :pop3
     end
 end

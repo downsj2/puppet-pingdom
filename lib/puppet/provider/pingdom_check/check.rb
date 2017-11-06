@@ -30,6 +30,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     confine :true => has_pingdom_api
 
     def api
+        raise "Missing API credentials." if [@resource[:username], @resource[:password], @resource[:appkey]].include? nil
         @api ||= PuppetX::Pingdom::Client.new(
             @resource[:username],
             @resource[:password],
@@ -42,7 +43,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
     end
 
     def create
-        # Dummy method. Real work is done in update_or_create
+        # Dummy method. Real work is done in update_or_create.
     end
 
     def destroy
@@ -54,7 +55,7 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
         @check = do_apply unless @resource[:ensure] == :absent
     end
 
-    def update_or_create(type, provider_props)
+    def update_or_create(type)
         props = {
             :name                     => @resource[:name],
             :use_legacy_notifications => @resource[:use_legacy_notifications]
@@ -63,7 +64,6 @@ Puppet::Type.type(:pingdom_check).provide(:check) do
             prop = prop.to_s
             props[prop] = self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
         end
-        props.update(provider_props)
 
         if @check
             api.modify_check @check, props

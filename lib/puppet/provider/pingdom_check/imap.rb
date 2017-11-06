@@ -26,10 +26,6 @@ Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :check) do
     end
 
     def do_apply
-        update_or_create :imap, {
-            :port           => @property_hash[:port],
-            :stringtoexpect => @property_hash[:stringtoexpect],
-            :encryption     => @property_hash[:encryption]
-        }
+        update_or_create :imap
     end
 end
