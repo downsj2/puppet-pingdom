@@ -23,8 +23,10 @@ class PuppetX::Pingdom::Client
     def initialize(username, password, appkey, logging=:ERROR)
         logger = Logger.new $stderr
         logger.level = Logger.const_get(logging)
+        @conn = Faraday.new(:url => @@api_host)
         @conn = Faraday.new(:url => @@api_host) do |faraday|
             faraday.response :logger, logger, { :bodies => true }
+            faraday.request  :url_encoded
             faraday.adapter Faraday.default_adapter
         end
         @conn.basic_auth(username, password)
