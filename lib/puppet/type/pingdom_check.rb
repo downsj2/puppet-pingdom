@@ -65,9 +65,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:ipv6) do
-        desc %q(
-        Use ipv6 instead of ipv4, if an IP address is provided as host this
-        will be overrided by the IP address version [boolean])
+        desc %q(Use ipv6 instead of ipv4, if an IP address is provided as host this
+                will be overrided by the IP address version [boolean])
         newvalues(:true, :false)
 
         def insync?(is)
@@ -104,9 +103,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:probe_filters, :array_matching=>:all) do
-        desc %q(
-        Filters used for probe selections. Overwrites previous filters for check.
-        To remove all filters from a check, use an empty value. Any of [ 'NA', 'EU', 'APAC'])
+        desc %q(Filters used for probe selections. Overwrites previous filters for check.
+                To remove all filters from a check, use an empty value.
+                Any string of [ 'NA', 'EU', 'APAC'])
 
         def insync?(is)
             if is == :absent
@@ -130,7 +129,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendnotificationwhendown) do
-        desc 'Send notification when down n times [integer].'
+        desc %q(Send notification when down n times [integer].'
+                Requires use_legacy_notifications => true.)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -138,7 +138,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoandroid) do
-        desc 'Send notification to Android []'
+        desc %q(Send notification to Android [boolean]
+                Requires use_legacy_notifications => true.)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -146,7 +147,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoemail) do
-        desc ''
+        desc %q(Send alerts as email [boolean]
+                Requires use_legacy_notifications => true.)
+        newvalues(:true, :false)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -154,7 +157,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoiphone) do
-        desc ''
+        desc %q(Send alerts to iPhone [boolean]
+                Requires use_legacy_notifications => true.)
+        newvalues(:true, :false)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -162,7 +167,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtosms) do
-        desc ''
+        desc %q(Send alerts to SMS [boolean]
+                Requires use_legacy_notifications => true.)
+        newvalues(:true, :false)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -170,7 +177,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtotwitter) do
-        desc ''
+        desc %q(Send alerts to Twitter [boolean]
+                Requires use_legacy_notifications => true.)
+        newvalues(:true, :false)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
