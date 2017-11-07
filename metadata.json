@@ -10,11 +10,11 @@
   "issues_url": "https://github.com/cwells/puppet-pingdom/issues",
 
   "dependencies": [
-    { "name": "ruby-faraday", "version_requirement": ">=0.13.1 <1.0" }
+    { "name": "ruby-faraday", "version_requirement": ">= 0.13.1 <= 0.14.0" }
   ],
 
   "requirements": [
-    { "name": "puppet", "version_requirement": ">=4.0.0 <=5.0.0" }
+    { "name": "puppet", "version_requirement": ">= 4.0.0 <= 5.0.0" }
   ],
 
   "tags": [ "pingdom", "monitoring" ]
