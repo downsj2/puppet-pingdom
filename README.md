@@ -31,7 +31,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
 pingdom_check { "dns://${facts['fqdn']}":
     ensure     => present,
     provider   => 'dns',
-    hostname   => $facts['fqdn'],
+    host       => $facts['fqdn'],
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
     paused     => true,
