@@ -15,7 +15,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     notifyagainevery => 0,
     notifywhenbackup => false,
     tags             => ['test', 'web'],
-    contacts         => ['cliff.wells@notarealaddress.net']
+    contacts         => ['devops@company.com', 'devops_pager@company.com']
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
