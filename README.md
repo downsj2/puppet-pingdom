@@ -33,7 +33,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     paused     => true,
     resolution => 5,
     contacts   => ['devops@company.com', 'devops-pager@company.com'],
-    tags       => ['http', $facts['fqdn'], 'puppet-managed']
+    tags       => ['http', 'puppet-managed']
 }
 ```
 ###### DNS check:
@@ -45,7 +45,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
     paused     => true,
-    tags       => ['dns', $facts['fqdn'], 'puppet-managed']
+    tags       => ['dns', 'puppet-managed']
 }
 ```
 ###### Ping check:
@@ -56,7 +56,7 @@ pingdom_check { "ping://${facts['fqdn']}":
     host          => $facts['fqdn'],
     paused        => true,
     probe_filters => ['NA', 'EU', 'APAC'],
-    tags          => ['ping', $facts['fqdn'], 'puppet-managed']
+    tags          => ['ping', 'puppet-managed']
 }
 ```
 #### Installation
