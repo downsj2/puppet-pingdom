@@ -6,6 +6,11 @@ Currently supports API 2.0 with legacy notifications. This means no BeepManager 
 
 Still a work-in-progress (property coverage is probably not 100% at the moment), but the basics are fully functional.
 
+#### Providers: 
+http, ping, dns, httpcustom<sup>1</sup>, imap<sup>1</sup>, pop3<sup>1</sup>, smtp<sup>1</sup>, tcp<sup>1</sup>, udp<sup>1</sup>
+
+[1] untested, but should work.
+
 ###### Credentials:
 ```puppet
 Pingdom_check {
