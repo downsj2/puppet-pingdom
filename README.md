@@ -13,6 +13,8 @@ Still a work-in-progress (property coverage is probably not 100% at the moment),
 <sup>[2]</sup> _Untested, but will probably work._
 <sup>[3]</sup> _Untested, and probably incomplete._
 
+Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki) for provider properties.
+
 ###### Credentials:
 ```puppet
 Pingdom_check {
