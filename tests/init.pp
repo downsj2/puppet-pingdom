@@ -15,7 +15,8 @@ pingdom_check { "http://${facts['fqdn']}/check":
     notifyagainevery => 0,
     notifywhenbackup => false,
     tags             => ['http', 'puppet-managed'],
-    contacts         => ['devops@company.com', 'devops-pager@company.com']
+    contacts         => ['devops@company.com', 'devops-pager@company.com'],
+    logging          => 'INFO'
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
@@ -26,6 +27,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     nameserver       => '8.8.8.8',
     paused           => true,
     notifywhenbackup => false,
+    contacts         => ['operations@company.com'],
     tags             => ['dns', 'puppet-managed']
 }
 
@@ -36,4 +38,63 @@ pingdom_check { "ping://${facts['fqdn']}":
     paused           => true,
     notifywhenbackup => false,
     tags             => ['ping', 'puppet-managed']
+}
+
+pingdom_check { "imap://${facts['fqdn']}":
+    ensure         => present,
+    provider       => 'imap',
+    host           => $facts['fqdn'],
+    port           => 993,
+    stringtoexpect => 'Courier IMAP',
+    encryption     => true,
+    paused         => true,
+    tags           => ['imap', 'puppet-managed']
+}
+
+pingdom_check { "pop3://${facts['fqdn']}":
+    ensure         => present,
+    provider       => 'pop3',
+    host           => $facts['fqdn'],
+    port           => 995,
+    stringtoexpect => 'Courier POP3',
+    encryption     => true,
+    paused         => true,
+    tags           => ['pop3', 'puppet-managed']
+}
+
+pingdom_check { "smtp://${facts['fqdn']}":
+    ensure         => present,
+    provider       => 'smtp',
+    host           => $facts['fqdn'],
+    port           => 995,
+    stringtoexpect => 'Postfix',
+    encryption     => true,
+    paused         => true,
+    tags           => ['smtp', 'puppet-managed']
+}
+
+pingdom_check { "tcp://${facts['fqdn']}":
+    ensure         => present,
+    provider       => 'tcp',
+    host           => $facts['fqdn'],
+    port           => 1234,
+    stringtosend   => 'ping',
+    stringtoexpect => 'pong',
+    encryption     => true,
+    paused         => true,
+    tags           => ['tcp', 'puppet-managed'],
+    logging        => 'INFO'
+}
+
+pingdom_check { "udp://${facts['fqdn']}":
+    ensure         => present,
+    provider       => 'udp',
+    host           => $facts['fqdn'],
+    port           => 1234,
+    stringtosend   => 'ping',
+    stringtoexpect => 'pong',
+    encryption     => true,
+    paused         => true,
+    tags           => ['udp', 'puppet-managed'],
+    logging        => 'INFO'
 }
