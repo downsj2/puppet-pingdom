@@ -51,7 +51,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def create
-        # Dummy method. Real work is done in flush. Providers generally call
+        # Dummy method. Real work is done in `flush`. Providers generally call
         # `create` followed by `flush`. This results in excessive calls to
         # external resources, in this case an internet API that could invoke
         # throttling or simply be slow.
