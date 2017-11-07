@@ -1,12 +1,14 @@
 #
-# Base class for all check providers.
+# Base class for all Check providers.
 #
-# Provider must
+# Provider must:
 # - have `:parent => :check` in their declaration.
-# - create setters/getters for provider-specific
-#   properties that require special handling.
-# - call `update_resource_methods` at the end to create
-#   any setters/getters not already defined.
+# - declare any new properties as features using `has_features`.
+# - create setters/getters for provider-specific properties
+#   that require special handling.
+# - call `update_resource_methods` at the end to create any
+#   setters/getters not already defined (relies on `has_features`
+#   to specify which accessors are to be created).
 # - profit.
 #
 # Author: Cliff Wells <cliff.wells@protonmail.com>
@@ -120,7 +122,12 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     #
     def self.update_resource_methods
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
-        [resource_type.validproperties, resource_type.parameters].flatten.each do |prop|
+        # This allows us to have special cases explicitly defined, while still benefiting
+        # from accessor auto-creation (which this class method provides).
+        # Should be called at the end of every provider definition (unless you explicitly
+        # define every single getter/setter).
+
+        [ resource_type.validproperties, resource_type.parameters ].flatten.each do |prop|
             prop = prop.to_sym
             next if prop == :name
 
