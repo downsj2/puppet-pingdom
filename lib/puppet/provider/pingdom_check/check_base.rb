@@ -31,17 +31,19 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     confine :true => has_pingdom_api
 
     def api
-        raise 'Missing API credentials' if [
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        ].include? nil
+        @api ||= begin
+            raise 'Missing API credentials' if [
+                @resource[:username],
+                @resource[:password],
+                @resource[:appkey]
+            ].include? nil
 
-        @api ||= PuppetX::Pingdom::Client.new(
-            @resource[:username],
-            @resource[:password],
-            @resource[:appkey]
-        )
+            PuppetX::Pingdom::Client.new(
+                @resource[:username],
+                @resource[:password],
+                @resource[:appkey]
+            )
+        end
     end
 
     def exists?
