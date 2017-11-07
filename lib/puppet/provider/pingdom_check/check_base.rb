@@ -58,29 +58,46 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def update_or_create
-        props = {
+        @property_hash.update({
             :name                     => @resource[:name],
             :use_legacy_notifications => @resource[:use_legacy_notifications]
-        }
+        })
+
         @resource.eachproperty do |prop|
             prop = prop.to_s
-            value = self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
-            props[prop] = value unless value.nil?
+            self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
         end
 
         if @check
-            api.modify_check @check, props
+            api.modify_check @check, @property_hash
         else
-            props[:type] = @resource[:provider]
-            api.create_check @resource[:name], props
+            @property_hash[:type] = @resource[:provider]
+            api.create_check @resource[:name], @property_hash
         end
     end
 
     #
     # custom getters/setters
     #
+    def contacts
+        # returns list of email addresses
+        ids = @check.fetch('contactids', '')
+        contact = api.select_contacts(ids, search='id')
+        if contact.respond_to? :map
+            contact.map { |contact| contact['email'] }
+        end
+    end
+
+    def contacts=(value)
+        # accepts list of email addresses, converts to ids
+        contacts = api.select_contacts(value, search='email')
+        ids = contacts.map { |contact| contact['id'] }
+        newvalue = ids.join(',') if ids.respond_to? :join
+        @property_hash[:contactids] = newvalue
+    end
+
     def paused
-        @check.fetch('status', :absent) == 'paused'
+         @check.fetch('status', :absent) == 'paused'
     end
 
     def probe_filters=(value)
@@ -102,21 +119,20 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     #
     def self.update_resource_methods
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
-        [resource_type.validproperties, resource_type.parameters].flatten.each do |attr|
-            attr = attr.to_sym
-            next if attr == :name
+        [resource_type.validproperties, resource_type.parameters].flatten.each do |prop|
+            prop = prop.to_sym
+            next if prop == :name
 
-            getter = attr
-            if !method_defined?(getter)
-                define_method(getter) do
-                    @check.fetch(attr.to_s, :absent)
+            if !method_defined?(prop)
+                define_method(prop) do
+                    @check.fetch(prop.to_s, :absent)
                 end
             end
 
-            setter = "#{attr}="
+            setter = "#{prop}=".to_sym
             if !method_defined?(setter)
                 define_method(setter) do |value|
-                    @property_hash[attr] = value
+                    @property_hash[prop] = value
                 end
             end
         end

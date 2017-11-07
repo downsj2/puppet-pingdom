@@ -38,19 +38,11 @@ Puppet::Type.newtype(:pingdom_check) do
     #
     # common properties
     #
-    newproperty(:contactids, :array_matching=>:all) do
-        desc 'Contact identifiers [list of integers]'
-
-        def insync?(is)
-            if is == :absent
-                return should.nil?
-            end
-            isarr = is.split(',')
-            should.nil? or isarr.sort == should.sort
-        end
+    newproperty(:contacts, :array_matching=>:all) do
+        desc 'Contact emails [list of strings]'
     end
 
-    newproperty(:hostname, :required_features => :hostname) do
+    newproperty(:hostname) do
         desc 'Hostname to check [string]'
     end
 

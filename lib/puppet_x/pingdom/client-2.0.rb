@@ -16,8 +16,7 @@ class PuppetX::Pingdom::Client
     @@api_base = '/api/2.0'
     @@endpoint = {
         :checks   => "#{@@api_base}/checks",
-        :contacts => "#{@@api_base}/contacts",
-        :users    => "#{@@api_base}/users"
+        :contacts => "#{@@api_base}/contacts"
     }
 
     def initialize(username, password, appkey)
@@ -78,9 +77,6 @@ class PuppetX::Pingdom::Client
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
-    #
-    # Contacts API
-    #
     def contacts
         # list of contacts
         @contacts ||= begin
@@ -89,5 +85,10 @@ class PuppetX::Pingdom::Client
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['contacts']
         end
+    end
+
+    def select_contacts(values, search='id')
+        # returns list of contacts or nil
+        contacts.select { |contact| values.include? contact[search] }
     end
 end
