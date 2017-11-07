@@ -20,7 +20,7 @@ class PuppetX::Pingdom::Client
         :contacts => "#{@@api_base}/contacts"
     }
 
-    def initialize(username, password, appkey, logging)
+    def initialize(username, password, appkey, logging=:ERROR)
         logger = Logger.new $stderr
         logger.level = Logger.const_get(logging)
         @conn = Faraday.new(:url => @@api_host) do |faraday|

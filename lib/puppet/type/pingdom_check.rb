@@ -31,8 +31,8 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newparam(:logging) do
         desc 'Logging level for API requests [String (ERROR, WARN, INFO, DEBUG)]'
-        newvalues('ERROR', 'WARN', 'INFO', 'DEBUG')
-        defaultto 'ERROR'
+        newvalues(:ERROR, :WARN, :INFO, :DEBUG)
+        defaultto :ERROR
     end
 
     newparam(:use_legacy_notifications) do
