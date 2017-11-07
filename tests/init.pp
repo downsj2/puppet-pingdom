@@ -9,12 +9,13 @@ pingdom_check { "http://${facts['fqdn']}/check":
     provider         => 'http',
     host             => $facts['fqdn'],
     url              => '/check',
-    paused           => true,
     resolution       => 5,
+    paused           => true,
     ipv6             => false,
     notifyagainevery => 0,
     notifywhenbackup => false,
-    tags             => ['test', 'web']
+    tags             => ['test', 'web'],
+    contacts         => ['cliff.wells@notarealaddress.net']
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
