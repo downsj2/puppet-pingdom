@@ -1,5 +1,6 @@
 Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
-    has_features :host, :port, :url, :auth, :encryption
+    has_features :host, :port, :url, :auth, :encryption, :shouldcontain,
+                 :shouldnotcontain, :postdata, :requestheaders
     defaultfor :feature => :posix
 
     def encryption
@@ -20,6 +21,19 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
         rescue => exception
             :absent
         end
+    end
+
+    def requestheaders
+        begin
+            headers = @check['type']['http']['requestheaders']
+            headers.split(',')
+        rescue => exception
+            :absent
+        end
+    end
+
+    def requestheaders=(value)
+        @property_hash[:requestheaders] = value.join(',') if value.respond_to? :join
     end
 
     def url
