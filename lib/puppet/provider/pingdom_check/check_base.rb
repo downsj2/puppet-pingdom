@@ -131,7 +131,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         # Provides automatic creation of missing getters/setters (accessors).
         #
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
-        # This allows us to have special cases explicitly defined, while still benefiting
+        # This allows us to have special cases explicitly defined, while still benefitting
         # from accessor auto-creation (which this class method provides).
         # Should be called at the end of every provider definition (unless you explicitly
         # define every single getter/setter).
@@ -139,7 +139,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         [ resource_type.validproperties, resource_type.parameters ].flatten.each do |prop|
             # It should be noted that this loops over all properties for all check providers.
             # This is unfortunate, but we are protected against invalid properties by the
-            # features defined on each provider.
+            # `required_features` defined on each property in the type declarations.
             prop = prop.to_sym
             next if prop == :name
 
