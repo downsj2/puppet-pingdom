@@ -55,7 +55,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def destroy
-        api.delete_check(@check)
+        api.delete_check @check
         @resource[:ensure] = :absent
     end
 
