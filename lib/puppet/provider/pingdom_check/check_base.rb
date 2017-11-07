@@ -19,8 +19,7 @@ API_VERSION = '2.0'
 begin # load puppet_x/pingdom/client.rb
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
-            File.dirname(__FILE__),
-            '..', '..', '..',
+            File.dirname(__FILE__), '..', '..', '..',
             'puppet_x', 'pingdom', "client-#{API_VERSION}.rb"
         )
     )
