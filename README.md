@@ -56,4 +56,5 @@ See [instructions on PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - BeepManager API isn't currently manageable. That's an API 2.1 feature and 2.1 isn't publicly available yet. This means only legacy notifications are supported. Sucks, but the silver lining is that you don't _have_ to manage notifications with Puppet. Unless otherwise specified, BeepManager is the default, so you can simply skip controlling this aspect with Puppet and let the defaults handle the situation.
+- There's no published API endpoints for managing contacts. This means that contacts specified in the check must pre-exist in Pingdom, otherwise the resource will fail.
 
