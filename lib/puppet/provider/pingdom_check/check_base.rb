@@ -5,7 +5,7 @@
 # - have `:parent => :check` in their declaration.
 # - declare any new properties as features using `has_features`.
 # - create setters/getters for provider-specific properties
-#   that require special handling.
+#   that require special handling (optional).
 # - call `accessorize` at the end to create any setters/getters
 #   not already defined (relies on `has_features` to specify which
 #   accessors are to be created).
