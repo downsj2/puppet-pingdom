@@ -2,7 +2,7 @@
 # Base class for all Check providers.
 #
 # Provider must:
-# - have `:parent => :check` in their declaration.
+# - have `:parent => :check_base` in their declaration.
 # - declare any new properties as features using `has_features`.
 # - create setters/getters for provider-specific properties
 #   that require special handling (optional).
