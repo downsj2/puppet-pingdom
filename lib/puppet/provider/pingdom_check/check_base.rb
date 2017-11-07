@@ -6,10 +6,9 @@
 # - declare any new properties as features using `has_features`.
 # - create setters/getters for provider-specific properties
 #   that require special handling.
-# - call `update_resource_methods` at the end to create any
-#   setters/getters not already defined (relies on `has_features`
-#   to specify which accessors are to be created).
-# - profit.
+# - call `accessorize` at the end to create any setters/getters
+#   not already defined (relies on `has_features` to specify which
+#   accessors are to be created).
 #
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom
