@@ -49,6 +49,8 @@ pingdom_check { 'ping://www.google.com':
     tags          => ['test', 'ping']
 }
 ```
+### Installation
+See [instructions on PuppetForge](https://forge.puppet.com/cwells/pingdom/readme)
 
 ### Known issues
 - `puppet resource pingdom_check` command will likely never work, as it's not possible to collect authenticated resources inside of `self.instances`, since it's a class method and doesn't have access to instantiation-time parameters such as credentials.
