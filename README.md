@@ -4,7 +4,7 @@ Puppet type and provider for Pingdom API
 ## Status
 Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature. 
 
-Still a work-in-progress.
+Still a work-in-progress (property coverage is probably not 100% at the moment), but the basics are fully functional.
 
 #### Credentials:
 ```puppet
