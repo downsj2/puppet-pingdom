@@ -15,7 +15,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     notifyagainevery => 0,
     notifywhenbackup => false,
     tags             => ['http', 'puppet-managed'],
-    contacts         => ['cwells@focusvision.com']
+    contacts         => ['devops@company.com', 'devops-pager@company.com']
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
