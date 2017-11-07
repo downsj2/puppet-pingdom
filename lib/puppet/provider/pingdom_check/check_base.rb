@@ -137,6 +137,9 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         # define every single getter/setter).
 
         [ resource_type.validproperties, resource_type.parameters ].flatten.each do |prop|
+            # It should be noted that this loops over all properties for all check providers.
+            # This is unfortunate, but we are protected against invalid properties by the
+            # features defined on each provider.
             prop = prop.to_sym
             next if prop == :name
 
