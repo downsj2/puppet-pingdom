@@ -65,7 +65,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:ipv6) do
-        desc %w(
+        desc %q(
         Use ipv6 instead of ipv4, if an IP address is provided as host this
         will be overrided by the IP address version [boolean])
         newvalues(:true, :false)
@@ -76,7 +76,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:notifyagainevery) do
-        desc %w(Notify again every n result [integer].
+        desc %q(Notify again every n result [integer].
                 Requires use_legacy_notifications => true.)
 
         def insync?(is)
@@ -85,7 +85,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:notifywhenbackup) do
-        desc %w(Notify when back up again [boolean].
+        desc %q(Notify when back up again [boolean].
                 Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
@@ -104,7 +104,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:probe_filters, :array_matching=>:all) do
-        desc %w(
+        desc %q(
         Filters used for probe selections. Overwrites previous filters for check.
         To remove all filters from a check, use an empty value. Any of [ 'NA', 'EU', 'APAC'])
 
@@ -240,14 +240,14 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:postdata, :required_features => :postdata) do
-        desc %w(Data that should be posted to the web page, for example
+        desc %q(Data that should be posted to the web page, for example
                 submission data for a sign-up or login form. The data
                 needs to be formatted in the same way as a web browser
                 would send it to the web server [string])
     end
 
     newproperty(:requestheaders, :required_features => :requestheaders, :array_matching=>:all) do
-        desc %w(Custom HTTP headers. [hash]
+        desc %q(Custom HTTP headers. [hash]
                 For example: { 'My-Header' => 'value', 'Other-Header' => '100' })
     end
 
@@ -256,7 +256,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:shouldnotcontain, :required_features => :shouldnotcontain) do
-        desc %w(Target site should NOT contain this string. If shouldcontain
+        desc %q(Target site should NOT contain this string. If shouldcontain
                 is also set, this parameter is not allowed [string])
     end
 
