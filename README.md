@@ -23,30 +23,30 @@ pingdom_check { "http://${facts['fqdn']}/check":
     url        => '/check',
     paused     => true,
     resolution => 5,
-    tags       => ['test', 'http']
+    tags       => ['http', $facts['fqdn'], 'puppet-managed']
 }
 ```
 #### DNS check:
 ```puppet
-pingdom_check { 'dns://hq.company.com':
+pingdom_check { "dns://${facts['fqdn']}":
     ensure     => present,
     provider   => 'dns',
-    hostname   => 'hq.company.com',
+    hostname   => $facts['fqdn'],
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
     paused     => true,
-    tags       => ['test', 'dns']
+    tags       => ['dns', $facts['fqdn'], 'puppet-managed']
 }
 ```
 #### Ping check:
 ```puppet
-pingdom_check { 'ping://www.google.com':
+pingdom_check { "ping://${facts['fqdn']}":
     ensure        => present,
     provider      => 'ping',
-    host          => 'www.google.com',
+    host          => $facts['fqdn'],
     paused        => true,
     probe_filters => ['NA', 'EU', 'APAC'],
-    tags          => ['test', 'ping']
+    tags          => ['ping', $facts['fqdn'], 'puppet-managed']
 }
 ```
 ### Installation
