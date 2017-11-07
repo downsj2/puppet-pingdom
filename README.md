@@ -60,7 +60,7 @@ pingdom_check { "ping://${facts['fqdn']}":
 }
 ```
 #### Installation
-See [instructions on PuppetForge](https://forge.puppet.com/cwells/pingdom/readme)
+See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme).
 
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
