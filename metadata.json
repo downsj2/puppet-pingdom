@@ -1,25 +1,23 @@
 {
   "name": "cwells-pingdom",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Cliff Wells <cliff.wells@protonmail.com>",
   "license": "Apache-2.0",
-  "summary": "Puppet Pingdom module",
+  "summary": "Puppet Pingdom module.",
   "source": "https://github.com/cwells/puppet-pingdom",
+  "project_page": "https://github.com/cwells/puppet-pingdom",
+  "issues_url": "https://github.com/cwells/puppet-pingdom/issues",
+
   "dependencies": [
       "faraday"
   ],
-  "operatingsystem_support": [
+
+  "requirements": [
     {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "7"
-      ]
+      "name": "puppet",
+      "version_requirement": ">= 4.0.0"
     }
-  ]
+  ],
+
+  "tags": [ "pingdom", "monitoring" ]
 }
