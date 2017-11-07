@@ -82,8 +82,7 @@ pingdom_check { "tcp://${facts['fqdn']}":
     stringtoexpect => 'pong',
     encryption     => true,
     paused         => true,
-    tags           => ['tcp', 'puppet-managed'],
-    logging        => 'INFO'
+    tags           => ['tcp', 'puppet-managed']
 }
 
 pingdom_check { "udp://${facts['fqdn']}":
@@ -95,6 +94,5 @@ pingdom_check { "udp://${facts['fqdn']}":
     stringtoexpect => 'pong',
     encryption     => true,
     paused         => true,
-    tags           => ['udp', 'puppet-managed'],
-    logging        => 'INFO'
+    tags           => ['udp', 'puppet-managed']
 }
