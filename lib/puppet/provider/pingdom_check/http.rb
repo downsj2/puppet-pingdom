@@ -30,5 +30,5 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
         end
     end
 
-    update_resource_methods
+    accessorize
 end

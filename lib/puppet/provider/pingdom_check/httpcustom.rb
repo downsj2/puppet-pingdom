@@ -10,5 +10,5 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
         @check.fetch('additionalurls', :absent)
     end
 
-    update_resource_methods
+    accessorize
 end

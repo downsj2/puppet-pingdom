@@ -94,6 +94,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     def contacts=(value)
         # accepts list of email addresses, converts to ids
         contacts = api.select_contacts(value, search='email')
+        raise 'Unknown contact in list' unless contacts.size == value.size
         ids = contacts.map { |contact| contact['id'] }
         newvalue = ids.join(',') if ids.respond_to? :join
         @property_hash[:contactids] = newvalue
@@ -120,7 +121,9 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     #
     # utility methods
     #
-    def self.update_resource_methods
+    def self.accessorize
+        # Provides automatic creation of missing getters/setters (accessors).
+        #
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
         # This allows us to have special cases explicitly defined, while still benefiting
         # from accessor auto-creation (which this class method provides).
@@ -146,5 +149,5 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         end
     end
 
-    update_resource_methods
+    accessorize
 end

@@ -21,5 +21,5 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check_base) do
         end
     end
 
-    update_resource_methods
+    accessorize
 end
