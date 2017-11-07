@@ -15,24 +15,20 @@
 
 API_VERSION = '2.0'
 
-Puppet::Type.type(:pingdom_check).provide(:check_base) do
-    def self.requirex(module_name, extension_name)
-        # require PuppetX module
-        begin # yes, this is the recommended way :P
-            require File.expand_path(
-                File.join(
-                    File.dirname(__FILE__),
-                    '..', '..', '..',
-                    'puppet_x', module_name.to_s, "#{extension_name}.rb"
-                )
-            )
-            true
-        rescue LoadError
-            false
-        end
-    end
+# require PuppetX module
+begin
+    require File.expand_path( # yes, this is the recommended way :P
+        File.join(
+            File.dirname(__FILE__), '..', '..', '..',
+            'puppet_x', 'pingdom', "client-#{API_VERSION}.rb"
+        )
+    )
+    has_pingdom_api = true
+rescue LoadError
+    has_pingdom_api = false
+end
 
-    has_pingdom_api = requirex :pingdom, "client-#{API_VERSION}"
+Puppet::Type.type(:pingdom_check).provide(:check_base) do
     confine :true => has_pingdom_api
 
     def api
