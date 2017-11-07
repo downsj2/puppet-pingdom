@@ -14,7 +14,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     ipv6             => false,
     notifyagainevery => 0,
     notifywhenbackup => false,
-    tags             => ['test', 'web'],
+    tags             => ['test', 'web', 'puppet-managed'],
     contacts         => ['devops@company.com', 'devops_pager@company.com']
 }
 
@@ -26,7 +26,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     nameserver       => '8.8.8.8',
     paused           => true,
     notifywhenbackup => false,
-    tags             => ['test', 'dns']
+    tags             => ['test', 'dns', 'puppet-managed']
 }
 
 pingdom_check { "ping://${facts['fqdn']}":
@@ -35,5 +35,5 @@ pingdom_check { "ping://${facts['fqdn']}":
     host             => $facts['fqdn'],
     paused           => true,
     notifywhenbackup => false,
-    tags             => ['test', 'ping']
+    tags             => ['test', 'ping', 'puppet-managed']
 }
