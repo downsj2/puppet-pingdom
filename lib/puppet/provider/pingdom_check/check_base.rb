@@ -42,7 +42,8 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
             PuppetX::Pingdom::Client.new(
                 @resource[:username],
                 @resource[:password],
-                @resource[:appkey]
+                @resource[:appkey],
+                @resource[:loglevel]
             )
         end
     end

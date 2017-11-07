@@ -5,6 +5,7 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
+require 'logger'
 require 'json'
 require 'faraday'
 
@@ -19,8 +20,13 @@ class PuppetX::Pingdom::Client
         :contacts => "#{@@api_base}/contacts"
     }
 
-    def initialize(username, password, appkey)
-        @conn = Faraday.new(:url => @@api_host)
+    def initialize(username, password, appkey, loglevel=:ERROR)
+        logger = Logger.new $stderr
+        logger.level = Logger.const_get(loglevel)
+        @conn = Faraday.new(:url => @@api_host) do |faraday|
+            faraday.response :logger, logger, { :bodies => true }
+            faraday.adapter Faraday.default_adapter
+        end
         @conn.basic_auth(username, password)
         @conn.headers['App-Key'] = appkey
     end
@@ -42,13 +48,11 @@ class PuppetX::Pingdom::Client
         response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        # puts "Debug(#{__method__}): #{body['check']}"
         body['check']
     end
 
     def create_check(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
-        # puts "Debug(#{__method__}): #{params}"
         response = @conn.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -62,11 +66,9 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        # puts "Debug(#{__method__}): #{params}"
         response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        find_check check['name']
     end
 
     def delete_check(check)

@@ -29,6 +29,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string].'
     end
 
+    newparam(:loglevel) do
+        desc 'Logging level for API requests [String (ERROR, WARN, INFO, DEBUG)]'
+        newvalues(:ERROR, :WARN, :INFO, :DEBUG)
+        defaultto :ERROR
+    end
+
     newparam(:use_legacy_notifications) do
         desc 'Whether to use legacy notifications [boolean].'
         newvalues(:true, :false)
