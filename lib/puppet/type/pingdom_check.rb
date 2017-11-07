@@ -217,7 +217,11 @@ Puppet::Type.newtype(:pingdom_check) do
     feature :url,              'HTTP URL [string]'
 
     newproperty(:additionalurls, :required_features => :additionalurls) do
-        desc 'Colon-separated list of additional URLs with hostname included [string]'
+        desc 'List of additional URLs with hostname included [string]'
+
+        def insync?(is)
+            should.nil? or is.sort == should.sort
+        end
     end
 
     newproperty(:auth, :required_features => :auth) do

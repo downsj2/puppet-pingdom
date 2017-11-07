@@ -3,11 +3,15 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def additionalurls
         begin
-            @check['type']['httpcustom']['additionalurls']
+            urls = @check['type']['httpcustom']['additionalurls']
+            urls.split(';')
         rescue => exception
             :absent
         end
-        @check.fetch('additionalurls', :absent)
+    end
+
+    def additionalurls=(value)
+        @property_hash[:additionalurls] = value.join(';') if value.respond_to? :join
     end
 
     accessorize
