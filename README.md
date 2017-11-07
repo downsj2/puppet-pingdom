@@ -1,6 +1,7 @@
+<div color="#fff200" width="100%">
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
 Puppet type and provider for Pingdom API.
-
+</div>
 #### Status
 Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature.
  
