@@ -43,7 +43,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
                 @resource[:username],
                 @resource[:password],
                 @resource[:appkey],
-                @resource[:loglevel]
+                @resource[:logging]
             )
         end
     end
@@ -83,8 +83,9 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def destroy
-        api.delete_check @check
+        api.delete_check @check if @check
         @resource[:ensure] = :absent
+        @check = nil
     end
 
     #

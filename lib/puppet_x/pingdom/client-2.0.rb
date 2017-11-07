@@ -20,9 +20,9 @@ class PuppetX::Pingdom::Client
         :contacts => "#{@@api_base}/contacts"
     }
 
-    def initialize(username, password, appkey, loglevel=:ERROR)
+    def initialize(username, password, appkey, logging)
         logger = Logger.new $stderr
-        logger.level = Logger.const_get(loglevel)
+        logger.level = Logger.const_get(logging)
         @conn = Faraday.new(:url => @@api_host) do |faraday|
             faraday.response :logger, logger, { :bodies => true }
             faraday.adapter Faraday.default_adapter
@@ -82,7 +82,7 @@ class PuppetX::Pingdom::Client
     def contacts
         # list of contacts
         @contacts ||= begin
-            response = @conn.get @@endpoint[:contacts], { :include_tags => true }
+            response = @conn.get @@endpoint[:contacts]
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['contacts']
