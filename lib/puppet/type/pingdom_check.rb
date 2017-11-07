@@ -40,6 +40,13 @@ Puppet::Type.newtype(:pingdom_check) do
     #
     newproperty(:contacts, :array_matching=>:all) do
         desc 'Contact emails [list of strings]'
+
+        def insync?(is)
+            if is == :absent
+                return should.nil?
+            end
+            should.nil? or is.sort == should.sort
+        end
     end
 
     newproperty(:hostname) do
@@ -53,8 +60,7 @@ Puppet::Type.newtype(:pingdom_check) do
             if is == :absent
                 return should.nil?
             end
-            isarr = is.split(',')
-            should.nil? or isarr.sort == should.sort
+            should.nil? or is.sort == should.sort
         end
     end
 

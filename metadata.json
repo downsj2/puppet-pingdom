@@ -1,0 +1,25 @@
+{
+  "name": "cwells-pingdom",
+  "version": "0.0.1",
+  "author": "Cliff Wells <cliff.wells@protonmail.com>",
+  "license": "Apache-2.0",
+  "summary": "Puppet Pingdom module",
+  "source": "https://github.com/cwells/puppet-pingdom",
+  "dependencies": [
+      "faraday"
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ]
+}
