@@ -50,7 +50,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def create
-        # Dummy method. Real work is done in update_or_create.
+        # Dummy method. Real work is done in flush.
     end
 
     def destroy
@@ -59,21 +59,17 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def flush
-        @check = update_or_create unless @resource[:ensure] == :absent
-    end
-
-    def update_or_create
-        @property_hash.update({
-            :name                     => @resource[:name],
-            :use_legacy_notifications => @resource[:use_legacy_notifications]
-        })
-
         @resource.eachproperty do |prop|
             prop = prop.to_s
             self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
         end
 
-        if @check
+        @property_hash.update({
+            :name                     => @resource[:name],
+            :use_legacy_notifications => @resource[:use_legacy_notifications]
+        })
+
+        @check = if @check
             api.modify_check @check, @property_hash
         else
             @property_hash[:type] = @resource[:provider]
