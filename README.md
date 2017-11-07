@@ -7,11 +7,11 @@ Currently supports API 2.0 with legacy notifications. This means no BeepManager 
 Still a work-in-progress (property coverage is probably not 100% at the moment), but the basics are fully functional. Please provide [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
 
 #### Providers
-http<sup>1</sup>, ping<sup>1</sup>, dns<sup>1</sup>, imap<sup>2</sup>, pop3<sup>2</sup>, smtp<sup>2</sup>, tcp<sup>2</sup>, udp<sup>2</sup>, httpcustom<sup>3</sup>
+http <sup>[1]</sup>, ping <sup>[1]</sup>, dns <sup>[1]</sup>, imap <sup>[2]</sup>, pop3 <sup>[2]</sup>, smtp <sup>[2]</sup>, tcp <sup>[2]</sup>, udp <sup>[2]</sup>, httpcustom <sup>[2]</sup>
 
-<sup>1</sup> tested, considered fully functional.
-<sup>2</sup> untested, but _should_ work.
-<sup>3</sup> untested, and probably incomplete.
+<sup>[1]</sup> tested, considered fully functional.
+<sup>[2]</sup> untested, but _should_ work.
+<sup>[3]</sup> untested, and probably incomplete.
 
 ###### Credentials:
 ```puppet
