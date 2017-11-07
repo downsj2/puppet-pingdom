@@ -18,19 +18,19 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newparam(:username) do
-        desc 'API username [string]'
+        desc 'API username [string].'
     end
 
     newparam(:password) do
-        desc 'API password [string]'
+        desc 'API password [string].'
     end
 
     newparam(:appkey) do
-        desc 'API app key [string]'
+        desc 'API app key [string].'
     end
 
     newparam(:use_legacy_notifications) do
-        desc 'Whether to use legacy notifications [boolean]'
+        desc 'Whether to use legacy notifications [boolean].'
         newvalues(:true, :false)
         defaultto :true
     end
@@ -39,7 +39,7 @@ Puppet::Type.newtype(:pingdom_check) do
     # common properties
     #
     newproperty(:contacts, :array_matching=>:all) do
-        desc 'Contact emails [list of strings]'
+        desc 'Contact emails [list of strings].'
 
         def insync?(is)
             if is == :absent
@@ -50,11 +50,11 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:hostname) do
-        desc 'Hostname to check [string]'
+        desc 'Hostname to check [string].'
     end
 
     newproperty(:integrationids, :array_matching=>:all) do
-        desc 'Integration identifiers [list of integers]'
+        desc 'Integration identifiers [list of integers].'
 
         def insync?(is)
             if is == :absent
@@ -65,8 +65,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:ipv6) do
-        desc %q(Use ipv6 instead of ipv4, if an IP address is provided as host this
-                will be overrided by the IP address version [boolean])
+        desc %q(Use ipv6 instead of ipv4. If an IP address is provided as `host` this
+                will be overridden by the IP address type [boolean].)
         newvalues(:true, :false)
 
         def insync?(is)
@@ -105,7 +105,7 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:probe_filters, :array_matching=>:all) do
         desc %q(Filters used for probe selections. Overwrites previous filters for check.
                 To remove all filters from a check, use an empty value.
-                Any string of [ 'NA', 'EU', 'APAC'])
+                Any string of [ 'NA', 'EU', 'APAC'].)
 
         def insync?(is)
             if is == :absent
@@ -116,7 +116,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:resolution) do
-        desc 'Check resolution [integer (1, 5, 15, 30, 60)]'
+        desc 'Check resolution [integer (1, 5, 15, 30, 60)].'
         newvalues(1, 5, 15, 30, 60)
 
         def insync?(is)
@@ -125,7 +125,8 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:responsetime_threshold) do
-        desc 'Triggers a down alert if the response time exceeds threshold specified in ms [integer]'
+        desc %q(Triggers a down alert if the response time exceeds
+                threshold specified in ms [integer].)
     end
 
     newproperty(:sendnotificationwhendown) do
@@ -138,7 +139,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoandroid) do
-        desc %q(Send notification to Android [boolean]
+        desc %q(Send notification to Android [boolean].
                 Requires use_legacy_notifications => true.)
 
         def insync?(is)
@@ -147,7 +148,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoemail) do
-        desc %q(Send alerts as email [boolean]
+        desc %q(Send alerts as email [boolean].
                 Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
@@ -157,7 +158,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtoiphone) do
-        desc %q(Send alerts to iPhone [boolean]
+        desc %q(Send alerts to iPhone [boolean].
                 Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
@@ -167,7 +168,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtosms) do
-        desc %q(Send alerts to SMS [boolean]
+        desc %q(Send alerts to SMS [boolean].
                 Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
@@ -177,7 +178,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:sendtotwitter) do
-        desc %q(Send alerts to Twitter [boolean]
+        desc %q(Send alerts to Twitter [boolean].
                 Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
@@ -187,7 +188,7 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newproperty(:tags, :array_matching=>:all) do
-        desc 'Check tags [list of strings]'
+        desc 'Check tags [list of strings].'
 
         def insync?(is)
             if is == :absent
