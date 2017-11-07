@@ -62,8 +62,8 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
 
     def flush
         @resource.eachproperty do |prop|
-            prop = prop.to_s
-            self.method("#{prop}=").call @resource[prop] if prop != 'ensure'
+            prop = prop.to_s.to_sym
+            self.method("#{prop}=").call @resource[prop] if prop != :ensure
         end
 
         @property_hash.update({
