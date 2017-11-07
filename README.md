@@ -2,7 +2,7 @@
 Puppet type and provider for Pingdom API.
 
 #### Status
-Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature. 
+Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature.
 
 Still a work-in-progress (property coverage is probably not 100% at the moment), but the basics are fully functional.
 
@@ -23,6 +23,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     url        => '/check',
     paused     => true,
     resolution => 5,
+    contacts   => ['devops@company.com', 'devops-pager@company.com'],
     tags       => ['http', $facts['fqdn'], 'puppet-managed']
 }
 ```
@@ -55,4 +56,4 @@ See [instructions on PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - BeepManager API isn't currently manageable. That's an API 2.1 feature and 2.1 isn't publicly available yet. This means only legacy notifications are supported. Sucks, but the silver lining is that you don't _have_ to manage notifications with Puppet. Unless otherwise specified, BeepManager is the default, so you can simply skip controlling this aspect with Puppet and let the defaults handle the situation.
-  
+
