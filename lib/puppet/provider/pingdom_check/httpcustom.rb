@@ -44,7 +44,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def postdata
         begin
-            URI.decode_www_form(@check['type']['http']['postdata']).to_h
+            URI.decode_www_form(@check['type']['httpcustom']['postdata']).to_h
         rescue => exception
             :absent
         end
