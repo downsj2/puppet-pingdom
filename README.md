@@ -59,8 +59,8 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_user' => 'automation'
     },
     contacts => [
-        'devops@company.com',
-        'devops-pager@company.com'
+        'DevOps Account',
+        'DevOps Pager Account'
     ],
     require => [
         Pingdom_contact['DevOps Account'],
