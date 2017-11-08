@@ -22,14 +22,18 @@ Pingdom_check {
 ###### HTTP check:
 ```puppet
 pingdom_check { "http://${facts['fqdn']}/check":
-    ensure     => present,
-    provider   => 'http',
-    host       => $facts['fqdn'],
-    url        => '/check',
-    paused     => true,
-    resolution => 5,
-    contacts   => ['devops@company.com', 'devops-pager@company.com'],
-    tags       => ['http', 'puppet-managed']
+    ensure         => present,
+    provider       => 'http',
+    host           => $facts['fqdn'],
+    url            => '/check',
+    auth           => "admin:p@ssw0rd",
+    requestheaders => {
+        'Content-Type' => 'x-application/json'
+    },
+    paused         => true,
+    resolution     => 5,
+    contacts       => ['devops@company.com', 'devops-pager@company.com'],
+    tags           => ['http', 'puppet-managed']
 }
 ```
 ###### DNS check:
