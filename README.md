@@ -62,10 +62,6 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'DevOps Account',
         'DevOps Pager Account'
     ],
-    require => [
-        Pingdom_contact['DevOps Account'],
-        Pingdom_contact['DevOps Pager Account']
-    ]
     paused         => true,
     resolution     => 5,
     tags           => ['http', 'puppet-managed']
