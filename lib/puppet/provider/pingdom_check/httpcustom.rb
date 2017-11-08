@@ -6,7 +6,9 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def auth
         begin
-            @check['type']['httpcustom']['auth']
+            username = @check['type']['httpcustom']['username']
+            password = @check['type']['httpcustom']['password']
+            "#{username}:#{password}"
         rescue => exception
             :absent
         end
