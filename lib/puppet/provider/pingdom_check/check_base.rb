@@ -92,10 +92,12 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     #
     def contacts
         # returns list of email addresses
-        ids = @check.fetch('contactids', '')
-        contact = api.select_contacts(ids, search='id')
+        ids = @check.fetch('contactids', nil)
+        contact = api.select_contacts(ids, search='id') if !ids.nil?
         if contact.respond_to? :map
             contact.map { |contact| contact['email'] }
+        else
+            :absent
         end
     end
 

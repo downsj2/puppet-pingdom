@@ -47,8 +47,11 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Contact emails [list of strings].'
 
         def insync?(is)
-            def insync?(is)
-                is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
             end
         end
     end
@@ -61,8 +64,11 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Integration identifiers [list of integers].'
 
         def insync?(is)
-            def insync?(is)
-                is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
             end
         end
     end
@@ -194,7 +200,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Check tags [list of strings].'
 
         def insync?(is)
-            is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
+            end
         end
     end
 
@@ -219,8 +230,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'List of additional URLs with hostname included [string]'
 
         def insync?(is)
-            puts "additionalurls is: #{is}"
-            is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
+            end
         end
     end
 
@@ -283,5 +298,14 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:url, :required_features => :url) do
         desc 'URL to check [string]'
+    end
+
+    #
+    # autorequires
+    #
+    autorequire(:pingdom_contact) do
+        # This only adds the `requires`. You still need to create the resources.
+        # FIXME: doesn't appear to actually work.
+        self[:contacts]
     end
 end
