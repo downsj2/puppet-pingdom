@@ -5,7 +5,6 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
-require 'logger'
 require 'json'
 require 'faraday'
 
@@ -20,13 +19,19 @@ class PuppetX::Pingdom::Client
         :contacts => "#{@@api_base}/notification_contacts"
     }
 
-    def initialize(username, password, appkey, logging=:ERROR)
-        logger = Logger.new $stderr
-        logger.level = Logger.const_get(logging)
-        @api = Faraday.new(:url => @@api_host) do |faraday|
-            faraday.response :logger, logger, { :bodies => true }
-            faraday.request  :url_encoded
-            faraday.adapter Faraday.default_adapter
+    def initialize(username, password, appkey, logging=nil)
+        @api = if !logging.nil?
+            require 'logger'
+            logger = Logger.new $stderr
+            logger.level = Logger.const_get(logging)
+
+            Faraday.new(:url => @@api_host) do |faraday|
+                faraday.response :logger, logger, { :bodies => true }
+                faraday.request  :url_encoded
+                faraday.adapter Faraday.default_adapter
+            end
+        else
+            Faraday.new(:url => @@api_host)
         end
         @api.basic_auth(username, password)
         @api.headers['App-Key'] = appkey

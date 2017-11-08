@@ -32,7 +32,6 @@ Puppet::Type.newtype(:pingdom_check) do
     newparam(:logging) do
         desc 'Logging level for API requests [String (ERROR, WARN, INFO, DEBUG)]'
         newvalues(:ERROR, :WARN, :INFO, :DEBUG)
-        defaultto :ERROR
     end
 
     newparam(:use_legacy_notifications) do
@@ -220,6 +219,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'List of additional URLs with hostname included [string]'
 
         def insync?(is)
+            puts "additionalurls is: #{is}"
             is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
         end
     end

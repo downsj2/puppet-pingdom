@@ -14,8 +14,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def additionalurls
         begin
-            urls = @check['type']['httpcustom']['additionalurls']
-            urls.split(';')
+            @check['type']['httpcustom']['additionalurls']
         rescue => exception
             :absent
         end
