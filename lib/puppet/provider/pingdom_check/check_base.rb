@@ -74,7 +74,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
             :use_legacy_notifications => @resource[:use_legacy_notifications]
         })
 
-        @check = if @check
+        if @check
             api.modify_check @check, @property_hash
         else
             @property_hash[:type] = @resource[:provider]
