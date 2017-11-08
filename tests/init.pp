@@ -9,14 +9,29 @@ pingdom_check { "http://${facts['fqdn']}/check":
     provider         => 'http',
     host             => $facts['fqdn'],
     url              => '/check',
+    shouldcontain    => 'healthy',
     resolution       => 5,
     paused           => true,
     ipv6             => false,
     notifyagainevery => 0,
     notifywhenbackup => false,
     tags             => ['http', 'puppet-managed'],
-    contacts         => ['devops@company.com', 'devops-pager@company.com'],
-    logging          => 'INFO'
+    contacts         => [
+        'devops@company.com',
+        'devops-pager@company.com'
+    ]
+    logging => 'DEBUG'
+}
+
+pingdom_check { "http://${facts['fqdn']}/status":
+    ensure           => present,
+    provider         => 'httpcustom',
+    host             => $facts['fqdn'],
+    url              => '/status/pingdom.xml',
+    auth             => 'super:secret',
+    paused           => true,
+    tags             => ['http', 'puppet-managed'],
+    logging          => 'DEBUG'
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
