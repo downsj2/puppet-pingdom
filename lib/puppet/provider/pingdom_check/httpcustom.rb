@@ -58,7 +58,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def shouldcontain
         begin
-            s = @check['type']['httpcustom']['shouldcontain']
+            @check['type']['httpcustom']['shouldcontain']
         rescue => exception
             :absent
         end
@@ -66,8 +66,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def shouldnotcontain
         begin
-            s = @check['type']['httpcustom']['shouldnotcontain']
-            s.split(',')
+            @check['type']['httpcustom']['shouldnotcontain']
         rescue => exception
             :absent
         end

@@ -50,8 +50,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def shouldcontain
         begin
-            headers = @check['type']['http']['shouldcontain']
-            headers.split(',')
+            @check['type']['http']['shouldcontain']
         rescue => exception
             :absent
         end
@@ -59,8 +58,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def shouldnotcontain
         begin
-            headers = @check['type']['http']['shouldnotcontain']
-            headers.split(',')
+            @check['type']['http']['shouldnotcontain']
         rescue => exception
             :absent
         end
