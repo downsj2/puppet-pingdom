@@ -17,7 +17,11 @@ Pingdom_check {
     username      => $pingdom_username,
     password      => $pingdom_password,
     appkey        => $pingdom_appkey,
-    probe_filters => ['NA']
+    probe_filters => ['NA'],
+    contacts => [
+        'DevOps Account',
+        'DevOps Pager Account'
+    ]
 }
 
 Pingdom_contact {
@@ -59,10 +63,6 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_key'  => 'abcdef1234567890abcdef1234567890',
         'api_user' => 'automation'
     },
-    contacts => [
-        'DevOps Account',
-        'DevOps Pager Account'
-    ],
     paused         => true,
     resolution     => 5,
     tags           => ['http', 'puppet-managed']
