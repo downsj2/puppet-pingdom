@@ -43,10 +43,20 @@ Puppet::Type.newtype(:pingdom_contact) do
 
     newproperty(:cellphone) do
         desc 'Contact cellphone [String].'
+
+        def insync?(is)
+            if is == :absent
+                return should.nil?
+            end
+
+            # for some reason Pingdom prepends the country code, remove it
+            should.nil? or is.split('-')[1..-1].join('-') == should
+        end
     end
 
     newproperty(:countrycode) do
         desc %q(Cellphone country code (Requires cellphone and countryiso)[String])
+        # Pingdom doesn't return this value, instead they prepend it to cellphone.
     end
 
     newproperty(:countryiso) do
@@ -62,6 +72,11 @@ Puppet::Type.newtype(:pingdom_contact) do
 
     newproperty(:directtwitter) do
         desc %q(Send tweets as direct messages [Boolean])
+        newvalues(:true, :false)
+    end
+
+    newproperty(:paused) do
+        desc %q(Don't send alerts to this contact [Boolean])
         newvalues(:true, :false)
     end
 
