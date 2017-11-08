@@ -1,6 +1,6 @@
-pingdom_username = ''
-pingdom_password = ''
-pingdom_appkey   = ''
+$pingdom_username = ''
+$pingdom_password = ''
+$pingdom_appkey   = ''
 
 Pingdom_check {
     username => $pingdom_username,
