@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'uri'
 
 Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
     has_features :port, :url, :auth, :encryption, :shouldcontain,
