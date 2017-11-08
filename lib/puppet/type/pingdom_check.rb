@@ -305,7 +305,6 @@ Puppet::Type.newtype(:pingdom_check) do
     # autorequires
     #
     autorequire(:pingdom_contact) do
-        # This only adds the `requires`. You still need to create the resources.
         self[:contacts]
     end
 end
