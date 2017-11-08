@@ -23,14 +23,13 @@ class PuppetX::Pingdom::Client
     def initialize(username, password, appkey, logging=:ERROR)
         logger = Logger.new $stderr
         logger.level = Logger.const_get(logging)
-        @conn = Faraday.new(:url => @@api_host)
-        @conn = Faraday.new(:url => @@api_host) do |faraday|
+        @api = Faraday.new(:url => @@api_host) do |faraday|
             faraday.response :logger, logger, { :bodies => true }
             faraday.request  :url_encoded
             faraday.adapter Faraday.default_adapter
         end
-        @conn.basic_auth(username, password)
-        @conn.headers['App-Key'] = appkey
+        @api.basic_auth(username, password)
+        @api.headers['App-Key'] = appkey
     end
 
     #
@@ -39,7 +38,7 @@ class PuppetX::Pingdom::Client
     def checks
         # list of checks
         @checks ||= begin
-            response = @conn.get @@endpoint[:checks], { :include_tags => true }
+            response = @api.get @@endpoint[:checks], { :include_tags => true }
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']
@@ -47,7 +46,7 @@ class PuppetX::Pingdom::Client
     end
 
     def get_check_details(check)
-        response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
+        response = @api.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['check']
@@ -55,7 +54,7 @@ class PuppetX::Pingdom::Client
 
     def create_check(name, params)
         # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
-        response = @conn.post @@endpoint[:checks], params
+        response = @api.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['check']
@@ -68,13 +67,13 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
+        response = @api.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
     def delete_check(check)
-        response = @conn.delete @@endpoint[:checks], {
+        response = @api.delete @@endpoint[:checks], {
             :delcheckids => check['id'].to_s
         }
         body = JSON.parse(response.body)
@@ -84,7 +83,7 @@ class PuppetX::Pingdom::Client
     def contacts
         # list of contacts
         @contacts ||= begin
-            response = @conn.get @@endpoint[:contacts]
+            response = @api.get @@endpoint[:contacts]
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['contacts']
