@@ -9,6 +9,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
     provider         => 'http',
     host             => $facts['fqdn'],
     url              => '/check',
+    postdata         => {
+        username => 'admin',
+        password => 'p@ssw0rd'
+    },
     shouldcontain    => 'healthy',
     resolution       => 5,
     paused           => true,
