@@ -59,10 +59,6 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'HTTP hostname or IP to check [string]'
     end
 
-    # newproperty(:hostname) do
-    #     desc 'Hostname to check [string].'
-    # end
-
     newproperty(:integrationids, :array_matching=>:all) do
         desc 'Integration identifiers [list of integers].'
 
