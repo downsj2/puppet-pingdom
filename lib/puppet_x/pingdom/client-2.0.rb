@@ -17,7 +17,7 @@ class PuppetX::Pingdom::Client
     @@api_base = '/api/2.0'
     @@endpoint = {
         :checks   => "#{@@api_base}/checks",
-        :contacts => "#{@@api_base}/contacts"
+        :contacts => "#{@@api_base}/notification_contacts"
     }
 
     def initialize(username, password, appkey, logging=:ERROR)
