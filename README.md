@@ -31,8 +31,8 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'Content-Type' => 'x-application/json'
     },
     postdata       => {
-        'username' => 'admin',
-        'password' => 'seecret123',
+        'api_key'  => 'abcdef1234567890abcdef1234567890',
+        'api_user' => 'automation'
     },
     paused         => true,
     resolution     => 5,
