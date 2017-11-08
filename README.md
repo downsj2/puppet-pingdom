@@ -9,7 +9,7 @@ Still a work-in-progress (property coverage is probably not 100% at the moment),
 #### Providers
 **http**, **ping**, **dns**, **imap**, **pop3**, **smtp**, **tcp**, **udp**, **httpcustom**
 
-Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki) for provider properties and links to other resources.
+Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki/Provider-properties) for provider properties and links to other resources.
 
 ###### Credentials:
 ```puppet
