@@ -20,7 +20,6 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'devops@company.com',
         'devops-pager@company.com'
     ]
-    logging => 'DEBUG'
 }
 
 pingdom_check { "http://${facts['fqdn']}/status":
