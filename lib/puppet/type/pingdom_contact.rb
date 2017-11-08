@@ -9,7 +9,7 @@
 #
 
 Puppet::Type.newtype(:pingdom_contact) do
-    @doc = 'Pingdom API'
+    @doc = 'Pingdom Contacts API'
 
     ensurable
 
