@@ -11,6 +11,7 @@ Still a work-in-progress (property coverage is probably not 100% at the moment),
 
 Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki) for provider properties and links to other resources.
 
+#### Example usage
 ###### Defaults:
 ```puppet
 Pingdom_check {
