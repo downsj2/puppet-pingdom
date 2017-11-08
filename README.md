@@ -52,7 +52,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     url            => '/check',
     auth           => "admin:p@ssw0rd",
     requestheaders => {
-        'Content-Type' => 'x-application/json'
+        'Accept' => 'x-application/json'
     },
     postdata => {
         'api_key'  => 'abcdef1234567890abcdef1234567890',
