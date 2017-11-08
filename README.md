@@ -3,22 +3,46 @@ Puppet type and provider for the Pingdom API.
 
 #### Status
 Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature.
- 
+
 Still a work-in-progress (property coverage is probably not 100% at the moment), but the basics are fully functional. Please provide [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
- 
+
 #### Providers
 **http**, **ping**, **dns**, **imap**, **pop3**, **smtp**, **tcp**, **udp**, **httpcustom**
 
 Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki/Provider-properties) for provider properties and links to other resources.
 
-###### Credentials:
+###### Defaults:
 ```puppet
 Pingdom_check {
     username => $pingdom_username,
     password => $pingdom_password,
     appkey   => $pingdom_appkey
 }
+
+Pingdom_contact {
+    username    => $pingdom_username,
+    password    => $pingdom_password,
+    appkey      => $pingdom_appkey,
+    countrycode => '+1',
+    countryiso  => 'US'
+}
 ```
+
+###### Contacts:
+```puppet
+pingdom_contact { 'DevOps Account':
+    ensure    => present,
+    email     => 'devops@company.com',
+    cellphone => '555-222-4444'
+}
+
+pingdom_contact { 'DevOps Pager Account':
+    ensure    => present,
+    email     => 'devops-pager@company.com',
+    cellphone => '555-222-3333'
+}
+```
+
 ###### HTTP check:
 ```puppet
 pingdom_check { "http://${facts['fqdn']}/check":
@@ -30,13 +54,20 @@ pingdom_check { "http://${facts['fqdn']}/check":
     requestheaders => {
         'Content-Type' => 'x-application/json'
     },
-    postdata       => {
+    postdata => {
         'api_key'  => 'abcdef1234567890abcdef1234567890',
         'api_user' => 'automation'
     },
+    contacts => [
+        'devops@company.com',
+        'devops-pager@company.com'
+    ],
+    require => [
+        Pingdom_contact['DevOps Account'],
+        Pingdom_contact['DevOps Pager Account']
+    ]
     paused         => true,
     resolution     => 5,
-    contacts       => ['devops@company.com', 'devops-pager@company.com'],
     tags           => ['http', 'puppet-managed']
 }
 ```
