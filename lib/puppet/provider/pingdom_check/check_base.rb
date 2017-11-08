@@ -13,13 +13,11 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
-API_VERSION = '2.0'
-
 begin # require PuppetX module
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
             File.dirname(__FILE__), '..', '..', '..',
-            'puppet_x', 'pingdom', "client-#{API_VERSION}.rb"
+            'puppet_x', 'pingdom', "client-2.0.rb"
         )
     )
     has_pingdom_api = true
