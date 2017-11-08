@@ -58,7 +58,7 @@ class PuppetX::Pingdom::Client
     end
 
     def create_check(name, params)
-        # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
+        # see https://www.pingdom.com/resources/api/2.0#ResourceChecks for params
         response = @api.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -98,5 +98,32 @@ class PuppetX::Pingdom::Client
     def select_contacts(values, search='id')
         # returns list of contacts or nil
         contacts.select { |contact| values.include? contact[search] }
+    end
+
+    def create_contact(name, params)
+        # see https://www.pingdom.com/resources/api/2.0#ResourceContacts for params
+        response = @api.post @@endpoint[:contacts], params
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+        body['contact']
+    end
+
+    def find_contact(name)
+        # returns contact or nil
+        contacts.select { |contact| contact['name'] == name } [0]
+    end
+
+    def modify_contact(contact, params)
+        response = @api.put "#{@@endpoint[:contacts]}/#{contact['id']}", params
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+    end
+
+    def delete_contact(contact)
+        response = @api.delete @@endpoint[:contacts], {
+            :delcontactids => contact['id'].to_s
+        }
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 end

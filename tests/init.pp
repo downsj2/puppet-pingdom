@@ -4,6 +4,26 @@ Pingdom_check {
     appkey   => $pingdom_appkey
 }
 
+Pingdom_contact {
+    username    => $pingdom_username,
+    password    => $pingdom_password,
+    appkey      => $pingdom_appkey,
+    countrycode => '+1',
+    countryiso  => 'US'
+}
+
+pingdom_contact { 'DevOps Account':
+    ensure    => present,
+    email     => 'devops@company.com',
+    cellphone => '555-222-4444'
+}
+
+pingdom_contact { 'DevOps Pager Account':
+    ensure    => present,
+    email     => 'devops-pager@company.com',
+    cellphone => '555-222-3333'
+}
+
 pingdom_check { "http://${facts['fqdn']}/check":
     ensure           => present,
     provider         => 'http',
@@ -27,6 +47,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
     contacts         => [
         'devops@company.com',
         'devops-pager@company.com'
+    ],
+    require => [
+        Pingdom_contact['DevOps Account'],
+        Pingdom_contact['DevOps Pager Account']
     ]
 }
 
@@ -53,7 +77,6 @@ pingdom_check { "dns://${facts['fqdn']}":
     nameserver       => '8.8.8.8',
     paused           => true,
     notifywhenbackup => false,
-    contacts         => ['operations@company.com'],
     tags             => ['dns', 'puppet-managed']
 }
 
