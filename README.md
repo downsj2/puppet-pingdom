@@ -19,8 +19,8 @@ Pingdom_check {
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
     contacts => [
-        'DevOps Account',
-        'DevOps Pager Account'
+        'DevOps',
+        'DevOps Pager'
     ],
     paused        => true
 }
@@ -36,13 +36,13 @@ Pingdom_contact {
 
 ###### Contacts:
 ```puppet
-pingdom_contact { 'DevOps Account':
+pingdom_contact { 'DevOps':
     ensure    => present,
     email     => 'devops@company.com',
     cellphone => '555-222-4444'
 }
 
-pingdom_contact { 'DevOps Pager Account':
+pingdom_contact { 'DevOps Pager':
     ensure    => present,
     email     => 'devops-pager@company.com',
     cellphone => '555-222-3333'
