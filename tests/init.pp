@@ -8,7 +8,7 @@ Pingdom_contact {
     username    => $pingdom_username,
     password    => $pingdom_password,
     appkey      => $pingdom_appkey,
-    countrycode => '+1',
+    countrycode => '1',
     countryiso  => 'US'
 }
 
@@ -45,12 +45,8 @@ pingdom_check { "http://${facts['fqdn']}/check":
     notifywhenbackup => false,
     tags             => ['http', 'puppet-managed'],
     contacts         => [
-        'devops@company.com',
-        'devops-pager@company.com'
-    ],
-    require => [
-        Pingdom_contact['DevOps Account'],
-        Pingdom_contact['DevOps Pager Account']
+        'DevOps Account',
+        'DevOps Pager Account'
     ]
 }
 
@@ -65,8 +61,7 @@ pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
         'http://www.domain2.com'
     ],
     paused           => true,
-    tags             => ['http', 'puppet-managed'],
-    logging          => 'INFO'
+    tags             => ['http', 'puppet-managed']
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
