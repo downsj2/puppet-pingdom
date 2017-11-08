@@ -14,9 +14,10 @@ Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki/Provider-pro
 ###### Defaults:
 ```puppet
 Pingdom_check {
-    username => $pingdom_username,
-    password => $pingdom_password,
-    appkey   => $pingdom_appkey
+    username      => $pingdom_username,
+    password      => $pingdom_password,
+    appkey        => $pingdom_appkey,
+    probe_filters => ['NA']
 }
 
 Pingdom_contact {
@@ -67,6 +68,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     tags           => ['http', 'puppet-managed']
 }
 ```
+
 ###### DNS check:
 ```puppet
 pingdom_check { "dns://${facts['fqdn']}":
@@ -79,17 +81,18 @@ pingdom_check { "dns://${facts['fqdn']}":
     tags       => ['dns', 'puppet-managed']
 }
 ```
+
 ###### Ping check:
 ```puppet
 pingdom_check { "ping://${facts['fqdn']}":
-    ensure        => present,
-    provider      => 'ping',
-    host          => $facts['fqdn'],
-    paused        => true,
-    probe_filters => ['NA', 'EU', 'APAC'],
-    tags          => ['ping', 'puppet-managed']
+    ensure   => present,
+    provider => 'ping',
+    host     => $facts['fqdn'],
+    paused   => true,
+    tags     => ['ping', 'puppet-managed']
 }
 ```
+
 #### Installation
 See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme).
 
