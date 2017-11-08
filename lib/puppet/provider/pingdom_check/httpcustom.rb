@@ -2,6 +2,14 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
     has_features :port, :url, :auth, :encryption, :shouldcontain,
                  :shouldnotcontain, :additionalurls, :postdata, :requestheaders
 
+    def auth
+        begin
+            @check['type']['httpcustom']['auth']
+        rescue => exception
+            :absent
+        end
+    end
+
     def additionalurls
         begin
             urls = @check['type']['httpcustom']['additionalurls']
@@ -15,6 +23,14 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
         @property_hash[:additionalurls] = value.join(';') if value.respond_to? :join
     end
 
+    def encryption
+        begin
+            @check['type']['httpcustom']['encryption']
+        rescue => exception
+            :absent
+        end
+    end
+
     def port
         begin
             @check['type']['httpcustom']['port']
@@ -23,10 +39,35 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
         end
     end
 
+    def postdata
+        begin
+            @check['type']['httpcustom']['postdata']
+        rescue => exception
+            :absent
+        end
+    end
+
     def requestheaders
         begin
-            headers = @check['type']['httpcustom']['requestheaders']
-            headers.split(',')
+            s = @check['type']['httpcustom']['requestheaders']
+            s.split(',')
+        rescue => exception
+            :absent
+        end
+    end
+
+    def shouldcontain
+        begin
+            s = @check['type']['httpcustom']['shouldcontain']
+        rescue => exception
+            :absent
+        end
+    end
+
+    def shouldnotcontain
+        begin
+            s = @check['type']['httpcustom']['shouldnotcontain']
+            s.split(',')
         rescue => exception
             :absent
         end

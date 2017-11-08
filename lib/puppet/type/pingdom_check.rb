@@ -48,10 +48,9 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Contact emails [list of strings].'
 
         def insync?(is)
-            if is == :absent
-                return should.nil?
+            def insync?(is)
+                is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
             end
-            should.nil? or is.sort == should.sort
         end
     end
 
@@ -63,10 +62,9 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Integration identifiers [list of integers].'
 
         def insync?(is)
-            if is == :absent
-                return should.nil?
+            def insync?(is)
+                is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
             end
-            should.nil? or is.sort == should.sort
         end
     end
 
@@ -197,10 +195,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Check tags [list of strings].'
 
         def insync?(is)
-            if is == :absent
-                return should.nil?
-            end
-            should.nil? or is.sort == should.sort
+            is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
         end
     end
 
@@ -221,11 +216,11 @@ Puppet::Type.newtype(:pingdom_check) do
     feature :stringtosend,     'String to send [string]'
     feature :url,              'HTTP URL [string]'
 
-    newproperty(:additionalurls, :required_features => :additionalurls) do
+    newproperty(:additionalurls, :array_matching => :all, :required_features => :additionalurls) do
         desc 'List of additional URLs with hostname included [string]'
 
         def insync?(is)
-            should.nil? or is.sort == should.sort
+            is == :absent ? should.nil? : (should.nil? or is.sort == should.sort)
         end
     end
 

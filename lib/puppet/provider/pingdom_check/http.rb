@@ -3,6 +3,14 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
                  :shouldnotcontain, :postdata, :requestheaders
     defaultfor :feature => :posix
 
+    def auth
+        begin
+            @check['type']['http']['auth']
+        rescue => exception
+            :absent
+        end
+    end
+
     def encryption
         begin
             @check['type']['http']['encryption']
@@ -19,6 +27,14 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
         end
     end
 
+    def postdata
+        begin
+            @check['type']['http']['postdata']
+        rescue => exception
+            :absent
+        end
+    end
+
     def requestheaders
         begin
             headers = @check['type']['http']['requestheaders']
@@ -30,6 +46,24 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def requestheaders=(value)
         @property_hash[:requestheaders] = value.join(',') if value.respond_to? :join
+    end
+
+    def shouldcontain
+        begin
+            headers = @check['type']['http']['shouldcontain']
+            headers.split(',')
+        rescue => exception
+            :absent
+        end
+    end
+
+    def shouldnotcontain
+        begin
+            headers = @check['type']['http']['shouldnotcontain']
+            headers.split(',')
+        rescue => exception
+            :absent
+        end
     end
 
     def url
