@@ -1,6 +1,8 @@
+require 'open-uri'
+
 Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
     has_features :port, :url, :auth, :encryption, :shouldcontain,
-                 :shouldnotcontain, :additionalurls, :postdata, :requestheaders
+                 :shouldnotcontain, :postdata, :requestheaders, :additionalurls
 
     def auth
         begin
@@ -41,10 +43,14 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def postdata
         begin
-            @check['type']['httpcustom']['postdata']
+            URI.decode_www_form(@check['type']['http']['postdata']).to_h
         rescue => exception
             :absent
         end
+    end
+
+    def postdata=(value)
+        @property_hash[:postdata] = URI.encode_www_form(value)
     end
 
     def requestheaders

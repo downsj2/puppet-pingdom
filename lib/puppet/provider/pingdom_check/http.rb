@@ -1,3 +1,5 @@
+require 'uri'
+
 Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
     has_features :port, :url, :auth, :encryption, :shouldcontain,
                  :shouldnotcontain, :postdata, :requestheaders
@@ -29,10 +31,14 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def postdata
         begin
-            @check['type']['http']['postdata']
+            URI.decode_www_form(@check['type']['http']['postdata']).to_h
         rescue => exception
             :absent
         end
+    end
+
+    def postdata=(value)
+        @property_hash[:postdata] = URI.encode_www_form(value)
     end
 
     def requestheaders

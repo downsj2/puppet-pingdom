@@ -253,7 +253,10 @@ Puppet::Type.newtype(:pingdom_check) do
         desc %q(Data that should be posted to the web page, for example
                 submission data for a sign-up or login form. The data
                 needs to be formatted in the same way as a web browser
-                would send it to the web server [string])
+                would send it to the web server [Hash])
+        def insync?(is)
+            should.nil? or is == should
+        end
     end
 
     newproperty(:requestheaders, :required_features => :requestheaders, :array_matching=>:all) do
