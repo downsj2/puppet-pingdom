@@ -30,6 +30,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
     requestheaders => {
         'Content-Type' => 'x-application/json'
     },
+    postdata       => {
+        'username' => 'admin',
+        'password' => 'seecret123',
+    },
     paused         => true,
     resolution     => 5,
     contacts       => ['devops@company.com', 'devops-pager@company.com'],
