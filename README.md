@@ -18,7 +18,7 @@ Pingdom_check {
     password      => $pingdom_password,
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
-    contacts => [
+    contacts => [ 
         'DevOps',
         'DevOps Pager'
     ],
