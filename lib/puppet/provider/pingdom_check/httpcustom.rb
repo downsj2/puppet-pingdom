@@ -55,8 +55,8 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
 
     def requestheaders
         begin
-            s = @check['type']['httpcustom']['requestheaders']
-            s.split(',')
+            headers = @check['type']['httpcustom']['requestheaders']
+            headers.delete_if {|key, value| key == 'User-Agent' }
         rescue => exception
             :absent
         end

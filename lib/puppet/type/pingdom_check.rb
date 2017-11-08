@@ -259,7 +259,7 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
-    newproperty(:requestheaders, :required_features => :requestheaders, :array_matching=>:all) do
+    newproperty(:requestheaders, :required_features => :requestheaders) do
         desc %q(Custom HTTP headers. [hash]
                 For example: { 'My-Header' => 'value', 'Other-Header' => '100' })
     end

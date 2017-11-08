@@ -44,14 +44,17 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
     def requestheaders
         begin
             headers = @check['type']['http']['requestheaders']
-            headers.split(',')
+            headers.delete_if {|key, value| key == 'User-Agent' }
         rescue => exception
             :absent
         end
     end
 
     def requestheaders=(value)
-        @property_hash[:requestheaders] = value.join(',') if value.respond_to? :join
+        i = 0
+        value.each do |k, v|
+            @property_hash["requestheader#{i += 1}"] = "#{k}:#{v}"
+        end
     end
 
     def shouldcontain

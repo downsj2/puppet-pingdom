@@ -15,8 +15,7 @@
 
 API_VERSION = '2.0'
 
-# require PuppetX module
-begin
+begin # require PuppetX module
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
             File.dirname(__FILE__), '..', '..', '..',
