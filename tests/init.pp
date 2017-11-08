@@ -1,7 +1,12 @@
 Pingdom_check {
     username => $pingdom_username,
     password => $pingdom_password,
-    appkey   => $pingdom_appkey
+    appkey   => $pingdom_appkey,
+    contacts => [
+        'DevOps Account',
+        'DevOps Pager Account'
+    ],
+    paused   => true
 }
 
 Pingdom_contact {
@@ -39,15 +44,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
     },
     shouldcontain    => 'healthy',
     resolution       => 5,
-    paused           => true,
     ipv6             => false,
     notifyagainevery => 0,
     notifywhenbackup => false,
-    tags             => ['http', 'puppet-managed'],
-    contacts         => [
-        'DevOps Account',
-        'DevOps Pager Account'
-    ]
+    tags             => ['http', 'puppet-managed']
 }
 
 pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
@@ -60,7 +60,6 @@ pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
         'http://www.domain1.com',
         'http://www.domain2.com'
     ],
-    paused           => true,
     tags             => ['http', 'puppet-managed']
 }
 
@@ -70,7 +69,6 @@ pingdom_check { "dns://${facts['fqdn']}":
     host             => $facts['fqdn'],
     expectedip       => '1.2.3.4',
     nameserver       => '8.8.8.8',
-    paused           => true,
     notifywhenbackup => false,
     tags             => ['dns', 'puppet-managed']
 }
@@ -79,7 +77,6 @@ pingdom_check { "ping://${facts['fqdn']}":
     ensure           => present,
     provider         => 'ping',
     host             => $facts['fqdn'],
-    paused           => true,
     notifywhenbackup => false,
     tags             => ['ping', 'puppet-managed']
 }
@@ -91,7 +88,6 @@ pingdom_check { "imap://${facts['fqdn']}":
     port           => 993,
     stringtoexpect => 'Courier IMAP',
     encryption     => true,
-    paused         => true,
     tags           => ['imap', 'puppet-managed']
 }
 
@@ -113,7 +109,6 @@ pingdom_check { "smtp://${facts['fqdn']}":
     port           => 995,
     stringtoexpect => 'Postfix',
     encryption     => true,
-    paused         => true,
     tags           => ['smtp', 'puppet-managed']
 }
 
@@ -137,6 +132,5 @@ pingdom_check { "udp://${facts['fqdn']}":
     stringtosend   => 'ping',
     stringtoexpect => 'pong',
     encryption     => true,
-    paused         => true,
     tags           => ['udp', 'puppet-managed']
 }
