@@ -22,15 +22,19 @@ pingdom_check { "http://${facts['fqdn']}/check":
     ]
 }
 
-pingdom_check { "http://${facts['fqdn']}/status":
+pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
     ensure           => present,
     provider         => 'httpcustom',
     host             => $facts['fqdn'],
     url              => '/status/pingdom.xml',
     auth             => 'super:secret',
+    additionalurls   => [
+        'http://www.domain1.com',
+        'http://www.domain2.com'
+    ],
     paused           => true,
     tags             => ['http', 'puppet-managed'],
-    logging          => 'DEBUG'
+    logging          => 'INFO'
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
