@@ -13,6 +13,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
         username => 'admin',
         password => 'p@ssw0rd'
     },
+    requestheaders   => {
+        'Content-Type' => 'x-application/json',
+        'Auth-Token'   => 'XXX892N123456'
+    },
     shouldcontain    => 'healthy',
     resolution       => 5,
     paused           => true,
