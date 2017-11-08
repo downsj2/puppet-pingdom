@@ -21,7 +21,8 @@ Pingdom_check {
     contacts => [
         'DevOps Account',
         'DevOps Pager Account'
-    ]
+    ],
+    paused        => true
 }
 
 Pingdom_contact {
@@ -63,7 +64,6 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_key'  => 'abcdef1234567890abcdef1234567890',
         'api_user' => 'automation'
     },
-    paused         => true,
     resolution     => 5,
     tags           => ['http', 'puppet-managed']
 }
@@ -77,7 +77,6 @@ pingdom_check { "dns://${facts['fqdn']}":
     host       => $facts['fqdn'],
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
-    paused     => true,
     tags       => ['dns', 'puppet-managed']
 }
 ```
@@ -88,7 +87,6 @@ pingdom_check { "ping://${facts['fqdn']}":
     ensure   => present,
     provider => 'ping',
     host     => $facts['fqdn'],
-    paused   => true,
     tags     => ['ping', 'puppet-managed']
 }
 ```
