@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check_base) do
-    has_features :host, :port, :stringtoexpect, :encryption
+    has_features :port, :stringtoexpect, :encryption
 
     def encryption
         begin
@@ -7,10 +7,6 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check_base) do
         rescue => exception
             :absent
         end
-    end
-
-    def host
-        @check.fetch('hostname', :absent)
     end
 
     def port

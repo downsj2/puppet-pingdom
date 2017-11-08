@@ -109,6 +109,10 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         @property_hash[:contactids] = newvalue
     end
 
+    def host
+        @check.fetch('hostname', :absent)
+    end
+
     def paused
          @check.fetch('status', :absent) == 'paused'
     end

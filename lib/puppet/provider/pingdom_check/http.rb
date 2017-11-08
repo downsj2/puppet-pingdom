@@ -1,5 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
-    has_features :host, :port, :url, :auth, :encryption, :shouldcontain,
+    has_features :port, :url, :auth, :encryption, :shouldcontain,
                  :shouldnotcontain, :postdata, :requestheaders
     defaultfor :feature => :posix
 
@@ -9,10 +9,6 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
         rescue => exception
             :absent
         end
-    end
-
-    def host
-        @check.fetch('hostname', :absent)
     end
 
     def port

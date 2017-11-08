@@ -1,9 +1,5 @@
 Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
-    has_features :host, :port, :stringtosend, :stringtoexpect
-
-    def host
-        @check.fetch('hostname', :absent)
-    end
+    has_features :port, :stringtosend, :stringtoexpect
 
     def port
         begin

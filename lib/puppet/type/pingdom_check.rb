@@ -55,9 +55,13 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
-    newproperty(:hostname) do
-        desc 'Hostname to check [string].'
+    newproperty(:host) do
+        desc 'HTTP hostname or IP to check [string]'
     end
+
+    # newproperty(:hostname) do
+    #     desc 'Hostname to check [string].'
+    # end
 
     newproperty(:integrationids, :array_matching=>:all) do
         desc 'Integration identifiers [list of integers].'
@@ -211,7 +215,6 @@ Puppet::Type.newtype(:pingdom_check) do
     feature :auth,             'Credentials [string] of the form "username:password"'
     feature :encryption,       'Encryption enabled [boolean]'
     feature :expectedip,       'Expected IP address [string]'
-    feature :host,             'Hostname or IP address [string]'
     feature :nameserver,       'DNS nameserver to query [string]'
     feature :port,             'Port [integer]'
     feature :postdata,         'HTTP POST data [urlencoded string]'
@@ -245,10 +248,6 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:expectedip, :required_features => :expectedip) do
         desc 'Expected IP address [string]'
-    end
-
-    newproperty(:host, :required_features => :host) do
-        desc 'HTTP hostname or IP to check [string]'
     end
 
     newproperty(:nameserver, :required_features => :nameserver) do
