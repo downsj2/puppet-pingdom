@@ -23,7 +23,7 @@ Pingdom_contact {
     username    => $pingdom_username,
     password    => $pingdom_password,
     appkey      => $pingdom_appkey,
-    countrycode => '+1',
+    countrycode => '1',
     countryiso  => 'US'
 }
 ```
