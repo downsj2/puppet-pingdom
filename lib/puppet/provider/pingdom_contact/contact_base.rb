@@ -30,18 +30,22 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
 
     def api
         @api ||= begin
-            raise 'Missing API credentials' if [
-                @resource[:username],
-                @resource[:password],
-                @resource[:appkey]
-            ].include? nil
-
-            PuppetX::Pingdom::Client.new(
-                @resource[:username],
-                @resource[:password],
-                @resource[:appkey],
-                @resource[:logging]
-            )
+            if @resource[:credentials_file]
+                require 'yaml'
+                # just let any exception bubble up
+                creds = YAML.load_file(
+                    File.expand_path @resource[:credentials_file]
+                )
+                username, password, appkey = creds['username'], creds['password'], creds['appkey']
+            else
+                raise 'Missing API credentials' if [
+                    @resource[:username],
+                    @resource[:password],
+                    @resource[:appkey]
+                ].include? nil and @resource[:credentials_file].is_nil?
+                username, password, appkey = @resource[:username], @resource[:password], @resource[:appkey]
+            end
+            PuppetX::Pingdom::Client.new(username, password, appkey, @resource[:logging])
         end
     end
 

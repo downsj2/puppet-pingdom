@@ -1,24 +1,25 @@
-$pingdom_username = ''
-$pingdom_password = ''
-$pingdom_appkey   = ''
+# Before running the tests, create a file ~/.pingdom_credentials
+# with the following content:
+#
+# ---
+# username: 'Your Pingdom username'
+# password: 'Your Pingdom password'
+# appkey: 'Your Pingdom appkey'
+#
 
 Pingdom_check {
-    username => $pingdom_username,
-    password => $pingdom_password,
-    appkey   => $pingdom_appkey,
+    credentials_file => '~/.pingdom_credentials',
+    paused           => true,
     contacts => [
         'DevOps',
         'DevOps Pager'
-    ],
-    paused   => true
+    ]
 }
 
 Pingdom_contact {
-    username    => $pingdom_username,
-    password    => $pingdom_password,
-    appkey      => $pingdom_appkey,
-    countrycode => '1',
-    countryiso  => 'US'
+    credentials_file => '~/.pingdom_credentials',
+    countrycode      => '1',
+    countryiso       => 'US'
 }
 
 pingdom_contact { 'DevOps':
