@@ -76,7 +76,6 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
     end
 
     def url
-        puts "PROVIDER: #{@provider_name}"
         begin
             @check['type']['http']['url']
         rescue => exception

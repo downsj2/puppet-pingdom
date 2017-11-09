@@ -13,6 +13,12 @@
 # At this point, from the top-level directory, you can run:
 #     `export RUBYLIB=$PWD/lib ; puppet apply tests/init.pp`
 
+Pingdom_contact {
+    credentials_file => '~/.pingdom_credentials',
+    countrycode      => '1',
+    countryiso       => 'US'
+}
+
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials',
     paused           => true,
@@ -20,12 +26,6 @@ Pingdom_check {
         'DevOps',
         'DevOps Pager'
     ]
-}
-
-Pingdom_contact {
-    credentials_file => '~/.pingdom_credentials',
-    countrycode      => '1',
-    countryiso       => 'US'
 }
 
 pingdom_contact { 'DevOps':
