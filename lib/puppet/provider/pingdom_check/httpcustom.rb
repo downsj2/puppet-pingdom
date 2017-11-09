@@ -50,10 +50,6 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
         end
     end
 
-    def postdata=(value)
-        @property_hash[:postdata] = URI.encode_www_form(value)
-    end
-
     def requestheaders
         begin
             headers = @check['type']['httpcustom']['requestheaders']
