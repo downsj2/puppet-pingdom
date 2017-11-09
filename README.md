@@ -1,16 +1,16 @@
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
-Puppet type and provider for the Pingdom API.
+Puppet type and provider for the Pingdom API. _Fully automated sleep-deprivation at your fingertips._
 
 #### Status
-Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature.
+Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
 
-Still a work-in-progress (property coverage is probably not 100% at the moment), but the basics are fully functional. Please provide [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
+#### Types
+[`pingdom_check`][pingdom_check_properties], [`pingdom_contact`][pingdom_contact_properties]
 
-#### Providers
-**http**, **ping**, **dns**, **imap**, **pop3**, **smtp**, **tcp**, **udp**, **httpcustom**
+#### Check providers
+`http`, `ping`, `dns`, `imap`, `pop3`, `smtp`, `tcp`, `udp`, `httpcustom`
 
-Please see the [wiki](https://github.com/cwells/puppet-pingdom/wiki) for provider properties and links to other resources.
-
+---
 #### Example usage
 ###### Defaults:
 ```puppet
@@ -98,3 +98,6 @@ See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - BeepManager API isn't currently manageable. That's an API 2.1 feature and 2.1 isn't publicly available yet. This means only legacy notifications are supported. Sucks, but the silver lining is that you don't _have_ to manage notifications with Puppet. Unless otherwise specified, BeepManager is the default, so you can simply skip controlling this aspect with Puppet and let the defaults handle the situation.
+
+[pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
+[pingdom_contact_properties]: https://github.com/cwells/puppet-pingdom/wiki/Contact-properties
