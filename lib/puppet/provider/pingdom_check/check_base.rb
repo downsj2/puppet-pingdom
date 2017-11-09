@@ -65,25 +65,24 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def flush
+        if @resource[:ensure] == :absent
+            api.delete_check @check if @check
+            return
+
         @resource.eachproperty do |prop|
             prop = prop.to_s.to_sym
             self.method("#{prop}=").call @resource[prop] if prop != :ensure
         end
-
         @property_hash.update({
             :name                     => @resource[:name],
             :use_legacy_notifications => @resource[:use_legacy_notifications]
         })
 
-        if @resource[:ensure] == :absent
-            api.delete_check @check if @check
+        if @check
+            api.modify_check @check, @property_hash
         else
-            if @check
-                api.modify_check @check, @property_hash
-            else
-                @property_hash[:type] = @resource[:provider]
-                api.create_check @resource[:name], @property_hash
-            end
+            @property_hash[:type] = @resource[:provider]
+            api.create_check @resource[:name], @property_hash
         end
     end
 

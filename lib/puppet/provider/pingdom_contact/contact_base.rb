@@ -65,20 +65,20 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
     end
 
     def flush
+        if @resource[:ensure] == :absent
+            api.delete_contact @contact if @contact
+            return
+
         @resource.eachproperty do |prop|
             prop = prop.to_s.to_sym
             self.method("#{prop}=").call @resource[prop] if prop != :ensure
         end
         @property_hash[:name] = @resource[:name]
 
-        if @resource[:ensure] == :absent
-            api.delete_contact @contact if @contact
+        if @contact
+            api.modify_contact @contact, @property_hash
         else
-            if @contact
-                api.modify_contact @contact, @property_hash
-            else
-                api.create_contact @resource[:name], @property_hash
-            end
+            api.create_contact @resource[:name], @property_hash
         end
     end
 
