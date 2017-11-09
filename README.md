@@ -1,5 +1,5 @@
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
-Puppet type and provider for the Pingdom API.
+Puppet type and provider for the Pingdom API. Fully automated sleep deprivation is now yours.
 
 #### Status
 Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
@@ -8,7 +8,7 @@ Currently supports API 2.0 with legacy notifications. This module is considered 
 [`pingdom_check`][pingdom_check_properties], [`pingdom_contact`][pingdom_contact_properties]
 
 #### Check providers
-**`http`**, **`ping`**, **`dns`**, **`imap`**, **`pop3`**, **`smtp`**, **`tcp`**, **`udp`**, **`httpcustom`**
+`http`, `ping`, `dns`, `imap`, `pop3`, `smtp`, `tcp`, `udp`, `httpcustom`
 
 ---
 #### Example usage
