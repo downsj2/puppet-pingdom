@@ -2,7 +2,7 @@
 Puppet type and provider for the Pingdom API. _Fully automated sleep-deprivation at your fingertips._
 
 #### Status
-Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
+Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
 
 #### Types
 [`pingdom_check`][pingdom_check_properties], [`pingdom_contact`][pingdom_contact_properties]
