@@ -1,5 +1,5 @@
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
-Puppet type and provider for the Pingdom API. Fully automated sleep deprivation is now yours.
+Puppet type and provider for the Pingdom API. _Fully automated sleep deprivation at your fingertips._
 
 #### Status
 Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
