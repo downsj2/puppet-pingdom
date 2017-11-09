@@ -11,7 +11,7 @@
 # them to git ;-)
 #
 # At this point, from the top-level directory, you can run:
-#     `export RUBYLIB=$PWD/lib ; puppet apply tests/absent.pp`
+#     `export RUBYLIB=$PWD/lib ; puppet apply tests/delete.pp`
 
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials'
