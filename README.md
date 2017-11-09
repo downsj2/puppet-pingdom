@@ -10,6 +10,7 @@ Currently supports API 2.0 with legacy notifications. This module is considered 
 #### Check providers
 **`http`**, **`ping`**, **`dns`**, **`imap`**, **`pop3`**, **`smtp`**, **`tcp`**, **`udp`**, **`httpcustom`**
 
+---
 #### Example usage
 ###### Defaults:
 ```puppet
