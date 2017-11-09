@@ -88,7 +88,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     # custom getters/setters
     #
     def contacts
-        # returns list of names
+        # accepts list of ids, returns list of names
         ids = @check.fetch('contactids', nil)
         contact = api.select_contacts(ids, search='id') if !ids.nil?
         if contact.respond_to? :map
@@ -99,7 +99,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def contacts=(value)
-        # accepts list of names, converts to ids
+        # accepts list of names, returns list of ids
         contacts = api.select_contacts(value, search='name')
         raise 'Unknown contact in list' unless contacts.size == value.size
         ids = contacts.map { |contact| contact['id'] }
