@@ -21,7 +21,7 @@ begin # require PuppetX module
         )
     )
     has_pingdom_api = true
-rescue LoadError
+rescue => exception
     has_pingdom_api = false
 end
 
