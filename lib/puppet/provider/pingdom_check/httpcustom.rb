@@ -1,6 +1,6 @@
 require 'uri'
 
-Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :http) do
+Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) do
     has_features :port, :url, :auth, :encryption, :shouldcontain,
                  :shouldnotcontain, :postdata, :requestheaders, :additionalurls
 

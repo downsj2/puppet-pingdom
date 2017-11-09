@@ -45,14 +45,14 @@ pingdom_check { "http://${facts['fqdn']}/check":
     provider         => 'http',
     host             => $facts['fqdn'],
     url              => '/uptime',
-    postdata         => {
+    postdata         => Sensitive({
         username => 'admin',
         password => 'newp@ssw0rd'
-    },
-    requestheaders   => {
+    }),
+    requestheaders   => Sensitive({
         'Content-Type' => 'x-application/json',
         'Auth-Token'   => 'XXX892N123456ZZZ'
-    },
+    }),
     shouldcontain    => 'healthy',
     resolution       => 5,
     ipv6             => false,
@@ -66,7 +66,7 @@ pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
     provider         => 'httpcustom',
     host             => $facts['fqdn'],
     url              => '/check/pingdom.xml',
-    auth             => 'root:secret',
+    auth             => Sensitive('root:secret'),
     additionalurls   => [
         'http://www.domain1.com',
         'http://www.domain3.com'
