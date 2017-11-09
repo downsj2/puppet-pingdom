@@ -8,7 +8,7 @@ Currently supports API 2.0 with legacy notifications. This module is considered 
 [`pingdom_check`][pingdom_check_properties], [`pingdom_contact`][pingdom_contact_properties]
 
 #### Check providers
-`dns`, `http`, `httpcustom`, `imap`, `ping`, `pop3`, `smtp`, `tcp`, `udp`, 
+`dns`, `http`, `httpcustom`, `imap`, `ping`, `pop3`, `smtp`, `tcp`, `udp`
 
 ---
 #### Example usage
