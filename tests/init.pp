@@ -1,14 +1,17 @@
-# Before running the tests, create a file ~/.pingdom_credentials
-# with the following YAML content:
+# Before running the tests, create a file named
+# ~/.pingdom_credentials with the following YAML content:
 #
-# ---
-# username: 'Your Pingdom username'
-# password: 'Your Pingdom password'
-# appkey: 'Your Pingdom appkey'
+#     ---
+#     username: 'Your Pingdom username'
+#     password: 'Your Pingdom password'
+#     appkey: 'Your Pingdom appkey'
 #
 # Alternatively, just provide your credentials in the
 # resource declarations below. Just be sure not to commit
 # them to git ;-)
+#
+# At this point, from the top-level directory you can run:
+#     `export RUBYLIB=$PWD/lib ; puppet apply tests/init.pp`
 
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials',
