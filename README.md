@@ -56,7 +56,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     provider       => 'http',
     host           => $facts['fqdn'],
     url            => '/check',
-    auth           => "admin:p@ssw0rd",
+    auth           => Sensitive("admin:p@ssw0rd"),
     requestheaders => {
         'Accept' => 'x-application/json'
     },
