@@ -5,7 +5,7 @@ Puppet type and provider for the Pingdom API.
 Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
 
 #### Types
-**pingdom_check**, **pingdom_contact
+**pingdom_check**, **pingdom_contact**
 
 #### Check providers
 **http**, **ping**, **dns**, **imap**, **pop3**, **smtp**, **tcp**, **udp**, **httpcustom**
