@@ -2,7 +2,9 @@
 Puppet type and provider for the Pingdom API. 
 
 #### Status
-Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
+Currently supports the 2.0 API with legacy notifications. 
+
+This module is considered fully-functional, but hasn't seen wide testing. Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
 #### Types
 [`pingdom_check`][pingdom_check_properties], [`pingdom_contact`][pingdom_contact_properties]
