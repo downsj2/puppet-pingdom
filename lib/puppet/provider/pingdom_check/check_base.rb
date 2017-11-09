@@ -54,7 +54,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def create
-        # Dummy method.
+        # Dummy method. Real work is done in `flush`.
     end
 
     def flush

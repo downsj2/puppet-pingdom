@@ -54,14 +54,7 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
     end
 
     def create
-        # Dummy method. Real work is done in `flush`. Providers generally call
-        # `create` followed by `flush`. This results in excessive calls to
-        # external resources, in this case an internet API that could invoke
-        # throttling or simply be slow.
-        # To avoid this, instead of creating a basic resource using `create`
-        # and then fixing its properties via a second call to `flush`, we just
-        # do it all in `flush`. Requires a bit more work in Ruby code, but cuts
-        # the number of API calls in half.
+        # Dummy method. Real work is done in `flush`.
     end
 
     def flush
