@@ -68,6 +68,7 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
         if @resource[:ensure] == :absent
             api.delete_contact @contact if @contact
             return
+        end
 
         @resource.eachproperty do |prop|
             prop = prop.to_s.to_sym

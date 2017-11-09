@@ -68,6 +68,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         if @resource[:ensure] == :absent
             api.delete_check @check if @check
             return
+        end
 
         @resource.eachproperty do |prop|
             prop = prop.to_s.to_sym
