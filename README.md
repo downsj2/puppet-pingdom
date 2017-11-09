@@ -60,10 +60,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
     requestheaders => {
         'Accept' => 'x-application/json'
     },
-    postdata => {
+    postdata => Sensitive({
         'api_key'  => 'abcdef1234567890abcdef1234567890',
         'api_user' => 'automation'
-    },
+    }),
     resolution     => 5,
     tags           => ['http', 'puppet-managed']
 }
