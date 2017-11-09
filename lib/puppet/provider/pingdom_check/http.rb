@@ -7,8 +7,8 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def auth
         begin
-            username = @check['type']['http']['username']
-            password = @check['type']['http']['password']
+            username = @check['type'][self.name]['username']
+            password = @check['type'][self.name]['password']
             "#{username}:#{password}"
         rescue => exception
             :absent
@@ -17,7 +17,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def encryption
         begin
-            @check['type']['http']['encryption']
+            @check['type'][self.name]['encryption']
         rescue => exception
             :absent
         end
@@ -25,7 +25,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def port
         begin
-            @check['type']['http']['port']
+            @check['type'][self.name]['port']
         rescue => exception
             :absent
         end
@@ -33,7 +33,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def postdata
         begin
-            URI.decode_www_form(@check['type']['http']['postdata']).to_h
+            URI.decode_www_form(@check['type'][self.name]['postdata']).to_h
         rescue => exception
             :absent
         end
@@ -45,7 +45,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def requestheaders
         begin
-            headers = @check['type']['http']['requestheaders']
+            headers = @check['type'][self.name]['requestheaders']
             headers.delete_if { |key, value| key == 'User-Agent' }
         rescue => exception
             :absent
@@ -61,7 +61,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def shouldcontain
         begin
-            @check['type']['http']['shouldcontain']
+            @check['type'][self.name]['shouldcontain']
         rescue => exception
             :absent
         end
@@ -69,7 +69,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def shouldnotcontain
         begin
-            @check['type']['http']['shouldnotcontain']
+            @check['type'][self.name]['shouldnotcontain']
         rescue => exception
             :absent
         end
@@ -77,7 +77,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
 
     def url
         begin
-            @check['type']['http']['url']
+            @check['type'][self.name]['url']
         rescue => exception
             :absent
         end

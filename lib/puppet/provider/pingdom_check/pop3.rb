@@ -3,7 +3,7 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check_base) do
 
     def encryption
         begin
-            @check['type']['pop3']['encryption']
+            @check['type'][self.name]['encryption']
         rescue => exception
             :absent
         end
@@ -11,7 +11,7 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check_base) do
 
     def port
         begin
-            @check['type']['pop3']['port']
+            @check['type'][self.name]['port']
         rescue => exception
             :absent
         end
@@ -19,7 +19,7 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check_base) do
 
     def stringtoexpect
         begin
-            @check['type']['pop3']['stringtoexpect']
+            @check['type'][self.name]['stringtoexpect']
         rescue => exception
             :absent
         end
