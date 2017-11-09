@@ -21,7 +21,7 @@ Pingdom_contact {
     credentials_file => '~/.pingdom_credentials'
 }
 
-pingdom_contact { [ 'DevOps', 'DevOpsPager' ]:
+pingdom_contact { [ 'DevOps', 'DevOps Pager' ]:
     ensure => absent
 }
 
