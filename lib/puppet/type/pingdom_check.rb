@@ -212,6 +212,12 @@ Puppet::Type.newtype(:pingdom_check) do
                     should.nil? or is.sort == should.sort
             end
         end
+
+        validate do |value|
+            if value.match /[^a-zA-Z0-9_-]+/
+                raise 'Tags can only include alphanumeric, underscore, and hyphen characters.'
+            end
+        end
     end
 
     #
