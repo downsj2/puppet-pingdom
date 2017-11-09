@@ -2,9 +2,7 @@
 Puppet type and provider for the Pingdom API.
 
 #### Status
-Currently supports API 2.0 with legacy notifications. This means no BeepManager support yet, since that's a 2.1 feature.
-
-This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
+Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
 
 #### Providers
 **http**, **ping**, **dns**, **imap**, **pop3**, **smtp**, **tcp**, **udp**, **httpcustom**
