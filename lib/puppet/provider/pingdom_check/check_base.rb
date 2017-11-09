@@ -77,7 +77,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
 
         if @check
             api.modify_check @check, @property_hash
-        else
+        elsif @resource[:ensure] != :absent
             @property_hash[:type] = @resource[:provider]
             api.create_check @resource[:name], @property_hash
         end
