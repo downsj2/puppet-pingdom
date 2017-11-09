@@ -75,18 +75,20 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
             :use_legacy_notifications => @resource[:use_legacy_notifications]
         })
 
-        if @check
-            api.modify_check @check, @property_hash
-        elsif @resource[:ensure] != :absent
-            @property_hash[:type] = @resource[:provider]
-            api.create_check @resource[:name], @property_hash
+        if @resource[:ensure] == :absent
+            api.delete_check @check if @check
+        else
+            if @check
+                api.modify_check @check, @property_hash
+            else
+                @property_hash[:type] = @resource[:provider]
+                api.create_check @resource[:name], @property_hash
+            end
         end
     end
 
     def destroy
-        api.delete_check @check if @check
         @resource[:ensure] = :absent
-        @check = nil
     end
 
     #

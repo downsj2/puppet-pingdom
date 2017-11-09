@@ -71,17 +71,19 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
         end
         @property_hash[:name] = @resource[:name]
 
-        if @contact
-            api.modify_contact @contact, @property_hash
-        elsif @resource[:ensure] != :absent
-            api.create_contact @resource[:name], @property_hash
+        if @resource[:ensure] == :absent
+            api.delete_contact @contact if @contact
+        else
+            if @contact
+                api.modify_contact @contact, @property_hash
+            else
+                api.create_contact @resource[:name], @property_hash
+            end
         end
     end
 
     def destroy
-        api.delete_contact @contact if @contact
         @resource[:ensure] = :absent
-        @contact = nil
     end
 
     #
