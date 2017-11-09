@@ -5,7 +5,7 @@ Puppet type and provider for the Pingdom API.
 Currently supports API 2.0 with legacy notifications. This module is considered fully-functional, but hasn't seen wide testing. Please help by providing [bug reports](https://github.com/cwells/puppet-pingdom/issues)!
 
 #### Types
-[pingdom_check](https://github.com/cwells/puppet-pingdom/wiki/Check-properties), [pingdom_contact](https://github.com/cwells/puppet-pingdom/wiki/Contact-properties)
+[`pingdom_check`](pingdom_check_properties), [`pingdom_contact`](pingdom_contact_properties)
 
 #### Check providers
 **`http`**, **`ping`**, **`dns`**, **`imap`**, **`pop3`**, **`smtp`**, **`tcp`**, **`udp`**, **`httpcustom`**
@@ -99,3 +99,6 @@ See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - BeepManager API isn't currently manageable. That's an API 2.1 feature and 2.1 isn't publicly available yet. This means only legacy notifications are supported. Sucks, but the silver lining is that you don't _have_ to manage notifications with Puppet. Unless otherwise specified, BeepManager is the default, so you can simply skip controlling this aspect with Puppet and let the defaults handle the situation.
+
+[pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
+[pingdom_contact_properties]: https://github.com/cwells/puppet-pingdom/wiki/Contact-properties
