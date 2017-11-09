@@ -46,7 +46,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
     def requestheaders
         begin
             headers = @check['type']['http']['requestheaders']
-            headers.delete_if {|key, value| key == 'User-Agent' }
+            headers.delete_if { |key, value| key == 'User-Agent' }
         rescue => exception
             :absent
         end
@@ -76,6 +76,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check_base) do
     end
 
     def url
+        puts "PROVIDER: #{@provider_name}"
         begin
             @check['type']['http']['url']
         rescue => exception
