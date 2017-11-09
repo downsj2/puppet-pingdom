@@ -3,7 +3,7 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
 
     def port
         begin
-            @check['type'][self.name]['port']
+            @check['type']['udp']['port']
         rescue => exception
             :absent
         end
@@ -11,7 +11,7 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
 
     def stringtoexpect
         begin
-            @check['type'][self.name]['stringtoexpect']
+            @check['type']['udp']['stringtoexpect']
         rescue => exception
             :absent
         end
@@ -19,7 +19,7 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
 
     def stringtosend
         begin
-            @check['type'][self.name]['stringtosend']
+            @check['type']['udp']['stringtosend']
         rescue => exception
             :absent
         end
