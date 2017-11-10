@@ -4,7 +4,7 @@ Puppet type and provider for the Pingdom API.
 #### Status
 Currently supports the 2.0 API with legacy notifications. 
 
-*Please* see [the wiki](https://github.com/cwells/puppet-pingdom/wiki#the-importance-of-filter_tags) for important information regarding the use of `filter_tags` and keeping your Puppet runs fast.
+**Please* see [the wiki](https://github.com/cwells/puppet-pingdom/wiki#the-importance-of-filter_tags) for important information regarding the use of `filter_tags` and keeping your Puppet runs fast.**
 
 This module is considered fully-functional, but hasn't seen wide testing. Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
