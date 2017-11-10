@@ -72,7 +72,7 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
         if @contact
             api.modify_contact @contact, @property_hash
         else
-            api.create_contact @resource[:name], @property_hash
+            api.create_contact @property_hash
         end
     end
 
