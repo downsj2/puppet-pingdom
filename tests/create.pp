@@ -14,14 +14,23 @@
 #     `export RUBYLIB=$PWD/lib ; puppet apply tests/create.pp`
 
 Pingdom_contact {
-    credentials_file => '~/.pingdom_credentials',
-    countrycode      => '1',
-    countryiso       => 'US'
+    credentials_file   => '~/.pingdom_credentials',
+    countrycode        => '1',
+    countryiso         => 'US',
+    defaultsmsprovider => 'esendex',
+    directtwitter      => true,
+    twitteruser        => 'kimjongil'
 }
 
 Pingdom_check {
-    credentials_file => '~/.pingdom_credentials',
-    paused           => true,
+    credentials_file         => '~/.pingdom_credentials',
+    paused                   => true,
+    ipv6                     => false,
+    notifyagainevery         => 0,
+    notifywhenbackup         => false,
+    resolution               => 30,
+    responsetime_threshold   => 30000,
+    sendnotificationwhendown => 3,
     contacts => [
         'DevOps',
         'DevOps Pager'
@@ -54,10 +63,10 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'Auth-Token'   => 'XXX892N123456'
     }),
     shouldcontain    => 'healthy',
-    resolution       => 5,
-    ipv6             => false,
-    notifyagainevery => 0,
-    notifywhenbackup => false,
+    # shouldnotcontain can't be used with shouldcontain
+    port             => 80,
+    auth             => "admin:password",
+    encryption       => false,
     tags             => ['http', 'puppet-managed']
 }
 
@@ -71,6 +80,17 @@ pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
         'http://www.domain1.com',
         'http://www.domain2.com'
     ],
+    port             => 80,
+    encryption       => true,
+    # shouldcontain can't be used with shouldnotcontain
+    shouldnotcontain => '500 error',
+    postdata         => {
+        'field1' => 'value1',
+        'field2' => 'value2'
+    },
+    requestheaders => {
+        'Accept' => 'text/html'
+    },
     tags             => ['http', 'puppet-managed']
 }
 
