@@ -103,7 +103,7 @@ See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 ---
 
 #### Attention
-Please see [this page](https://github.com/cwells/puppet-pingdom/wiki#the-importance-of-filter_tags) for important information regarding the use of `filter_tags` and keeping your Puppet runs as fast as possible.
+Please see [this page](https://github.com/cwells/puppet-pingdom/wiki#the-importance-of-filter_tags) for important information regarding the use of `filter_tags` and keeping your Puppet runs as efficient as possible.
 
 ---
 
