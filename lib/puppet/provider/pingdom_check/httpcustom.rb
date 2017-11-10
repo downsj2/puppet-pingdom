@@ -1,8 +1,7 @@
 require 'uri'
 
 Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) do
-    has_features :port, :url, :auth, :encryption, :shouldcontain,
-                 :shouldnotcontain, :postdata, :requestheaders, :additionalurls
+    has_features :port, :url, :auth, :encryption, :additionalurls
 
     def additionalurls
         begin
@@ -37,50 +36,6 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) d
     def port
         begin
             @check['type']['httpcustom']['port']
-        rescue => exception
-            :absent
-        end
-    end
-
-    def postdata
-        begin
-            URI.decode_www_form(@check['type']['httpcustom']['postdata']).to_h
-        rescue => exception
-            :absent
-        end
-    end
-
-    def postdata=(value)
-        @property_hash[:postdata] = URI.encode_www_form(value)
-    end
-
-    def requestheaders
-        begin
-            headers = @check['type']['httpcustom']['requestheaders']
-            headers.delete_if { |key, value| key == 'User-Agent' }
-        rescue => exception
-            :absent
-        end
-    end
-
-    def requestheaders=(value)
-        i = 0
-        value.each do |k, v|
-            @property_hash["requestheader#{i += 1}"] = "#{k}:#{v}"
-        end
-    end
-
-    def shouldcontain
-        begin
-            @check['type']['httpcustom']['shouldcontain']
-        rescue => exception
-            :absent
-        end
-    end
-
-    def shouldnotcontain
-        begin
-            @check['type']['httpcustom']['shouldnotcontain']
         rescue => exception
             :absent
         end
