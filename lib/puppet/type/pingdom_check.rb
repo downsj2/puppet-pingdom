@@ -312,7 +312,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Target site should contain this string [string]'
 
         validate do |value|
-            if !@resource[:shouldnotcontain].nil? or !value.empty?
+            if !(@resource[:shouldnotcontain].nil? or value.empty?)
                 raise 'shouldcontain and shouldnotcontain are mutually exclusive.'
             end
         end
@@ -323,7 +323,7 @@ Puppet::Type.newtype(:pingdom_check) do
                 is also set, this parameter is not allowed [string])
 
         validate do |value|
-            if !@resource[:shouldcontain].nil? or !value.empty?
+            if !(@resource[:shouldcontain].nil? or value.empty?)
                 raise 'shouldnotcontain and shouldcontain are mutually exclusive.'
             end
         end
