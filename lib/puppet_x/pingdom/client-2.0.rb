@@ -43,7 +43,6 @@ class PuppetX::Pingdom::Client
     #
     def checks(filter_tags='')
         # list of checks
-        puts "FILTER_TAG: #{filter_tags}"
         @checks ||= begin
             params = { :include_tags => true, :tags => filter_tags.join(',') }
             response = @api.get @@endpoint[:checks], params

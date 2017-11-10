@@ -33,6 +33,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'Automatically tag and filter checks [boolean]'
         newvalues(:true, :false)
         defaultto :false
+
+        validate do |value|
+            if !@resource[:filter_tags].nil?
+                raise 'autofilter and filter_tags are mutually exclusive.'
+            end
+        end
     end
 
     newparam(:credentials_file) do
@@ -42,6 +48,12 @@ Puppet::Type.newtype(:pingdom_check) do
     newparam(:filter_tags) do
         desc 'List of tags to restrict actions to [list of strings]'
         defaultto []
+
+        validate do |value|
+            if @resource[:autofilter] == :true and !value.empty?
+                raise 'filter_tags and autofilter are mutually exclusive.'
+            end
+        end
     end
 
     newparam(:logging) do
