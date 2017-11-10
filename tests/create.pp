@@ -29,7 +29,6 @@ Pingdom_check {
     notifyagainevery         => 0,
     notifywhenbackup         => false,
     resolution               => 30,
-    responsetime_threshold   => 30000,
     sendnotificationwhendown => 3,
     contacts => [
         'DevOps',
