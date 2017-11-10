@@ -103,7 +103,7 @@ See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 ---
 
 #### Attention
-This release introduces a new feature `autotags` [default: `true`]. Be aware that this feature will automatically tag the check with a shortened SHA1 hash of the check's `name` property, and automatically set `filter_tags` to include this tag. This allows us to quickly locate this check in the future. However, if you have existing checks, enabling `autotag` will cause them to no longer be found (since they lack the requisite SHA1 tag in `filter_tags`). You can add the tag yourself to existing resources with code similar to this:
+This release introduces a new feature `autotags` [default: `true`]. Be aware that this feature will automatically tag the check with a shortened SHA1 hash of the check's `name` property, and automatically set `filter_tags` to include this tag. This allows us to efficiently locate this check in the future. However, if you have existing checks, enabling `autotag` will cause them to no longer be found (since they lack the requisite SHA1 tag in `filter_tags`). You can add the tag yourself to existing resources with code similar to this:
 
 ```puppet
 Pingdom_check {
