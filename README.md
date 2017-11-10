@@ -106,7 +106,7 @@ This release introduces a new feature `autofilter` [default: `true`]. Be aware t
 
 ```puppet
 Pingdom_check {
-    autotag => false
+    autofilter => false
 }
 
 pingdom_check { "http://${facts['fqdn']}":
@@ -115,9 +115,11 @@ pingdom_check { "http://${facts['fqdn']}":
 }
 ```
 
-Once Puppet has run, remove the sha1 tag, and set `autotag => true`. Your existing checks should be found.
+Once Puppet has run, remove the sha1 tag, and set `autofilter => true`. Your existing checks should be found.
 
 More simply, delete the existing checks and allow Puppet to recreate them with the proper tags.
+
+Finally, if you don't want or need this feature (trust me, you do), then just disable it with `autofilter => false`.
 
 ---
 
