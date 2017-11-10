@@ -17,16 +17,16 @@ This module is considered fully-functional, but hasn't seen wide testing. Please
 ###### Defaults:
 ```puppet
 Pingdom_contact {
-    username    => $pingdom_username,
-    password    => $pingdom_password,
+    username    => Sensitive($pingdom_username),
+    password    => Sensitive($pingdom_password),
     appkey      => $pingdom_appkey,
     countrycode => '1',
     countryiso  => 'US'
 }
 
 Pingdom_check {
-    username      => $pingdom_username,
-    password      => $pingdom_password,
+    username      => Sensitive($pingdom_username),
+    password      => Sensitive($pingdom_password),
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
     contacts      => ['DevOps', 'DevOps Pager'],
