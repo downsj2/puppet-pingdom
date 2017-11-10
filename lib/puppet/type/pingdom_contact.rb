@@ -77,6 +77,10 @@ Puppet::Type.newtype(:pingdom_contact) do
     newproperty(:directtwitter) do
         desc %q(Send tweets as direct messages [Boolean])
         newvalues(:true, :false)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
     end
 
     newproperty(:paused) do

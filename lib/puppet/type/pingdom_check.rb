@@ -138,11 +138,6 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
-    newproperty(:responsetime_threshold) do
-        desc %q(Triggers a down alert if the response time exceeds
-                threshold specified in ms [integer].)
-    end
-
     newproperty(:sendnotificationwhendown) do
         desc %q(Send notification when down n times [integer].'
                 Requires use_legacy_notifications => true.)
