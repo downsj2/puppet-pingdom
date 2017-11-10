@@ -35,7 +35,6 @@ Pingdom_check {
         'DevOps Pager'
     ],
     tags                     => ['puppet-managed'],
-    filter_tags              => ['foo'],
     autofilter               => true,
     logging                  => 'INFO'
 }
