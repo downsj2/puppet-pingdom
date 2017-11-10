@@ -1,3 +1,5 @@
+<div style="width: 100%; height: 200px; background: yellow; float: left; position: absolute; top: 0; left: 0;"></div>
+
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
 Puppet type and provider for the Pingdom API. 
 
