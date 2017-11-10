@@ -6,6 +6,8 @@ Currently supports the 2.0 API with legacy notifications.
 
 This module is considered fully-functional, but hasn't seen wide testing. Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
+---
+
 #### Types
 [`pingdom_check`][pingdom_check_properties] [`pingdom_contact`][pingdom_contact_properties]
 
@@ -13,6 +15,7 @@ This module is considered fully-functional, but hasn't seen wide testing. Please
 `dns` `http` `httpcustom` `imap` `ping` `pop3` `smtp` `tcp` `udp`
 
 ---
+
 #### Example usage
 ###### Defaults:
 ```puppet
@@ -91,8 +94,12 @@ pingdom_check { "ping://${facts['fqdn']}":
 }
 ```
 
+---
+
 #### Installation
 See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme).
+
+---
 
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
