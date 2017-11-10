@@ -52,7 +52,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     def exists?
         if @resource[:autofilter]
             @autotag ||= Digest::SHA1.hexdigest(@resource[:name])[0..5]
-            @resource[:filter_tags] << @autotag
+            @resource[:filter_tags] = [@autotag]
             @property_hash[:tags] = @autotag
         else
             @autotag = nil

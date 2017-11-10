@@ -41,7 +41,7 @@ class PuppetX::Pingdom::Client
     #
     # Checks API
     #
-    def checks(filter_tags='')
+    def checks(filter_tags=[])
         # list of checks
         @checks ||= begin
             params = { :include_tags => true, :tags => filter_tags.join(',') }
