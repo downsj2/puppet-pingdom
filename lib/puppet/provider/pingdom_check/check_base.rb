@@ -50,7 +50,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def exists?
-        @check ||= api.find_check @resource[:name]
+        @check ||= api.find_check @resource[:name], @resource[:filter_tags]
     end
 
     def create
@@ -105,6 +105,10 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         ids = contacts.map { |contact| contact['id'] }
         newvalue = ids.join(',') if ids.respond_to? :join
         @property_hash[:contactids] = newvalue
+    end
+
+    def filter_tags=(value)
+        @property_hash[:tags] = value.join(',')
     end
 
     def host

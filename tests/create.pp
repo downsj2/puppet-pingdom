@@ -30,10 +30,11 @@ Pingdom_check {
     notifywhenbackup         => false,
     resolution               => 30,
     sendnotificationwhendown => 3,
-    contacts => [
+    contacts                 => [
         'DevOps',
         'DevOps Pager'
-    ]
+    ],
+    filter_tags              => ['puppet-managed']
 }
 
 pingdom_contact { 'DevOps':

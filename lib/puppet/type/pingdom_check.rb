@@ -33,6 +33,10 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'YAML file containing Pingdom credentials [string]'
     end
 
+    newparam(:filter_tags) do
+        desc 'List of tags to restrict actions to [list of strings]'
+    end
+
     newparam(:logging) do
         desc 'Logging level for API requests [String (ERROR, WARN, INFO, DEBUG)]'
         newvalues(:ERROR, :WARN, :INFO, :DEBUG)

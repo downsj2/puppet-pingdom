@@ -22,10 +22,11 @@ Pingdom_contact {
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials',
     paused           => true,
-    contacts => [
+    contacts         => [
         'DevOps',
         'DevOps Pager'
-    ]
+    ],
+    filter_tags      => ['puppet-managed']
 }
 
 pingdom_contact { 'DevOps':
@@ -143,5 +144,6 @@ pingdom_check { "udp://${facts['fqdn']}":
     stringtosend   => 'hello',
     stringtoexpect => 'howdy',
     encryption     => true,
-    tags           => ['udp', 'puppet-managed']
+    tags           => ['udp', 'puppet-managed'],
+    filter_tags    => ['puppet-managed']
 }

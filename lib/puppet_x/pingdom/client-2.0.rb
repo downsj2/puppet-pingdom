@@ -40,10 +40,13 @@ class PuppetX::Pingdom::Client
     #
     # Checks API
     #
-    def checks
+    def checks(filter_tags=[])
         # list of checks
         @checks ||= begin
-            response = @api.get @@endpoint[:checks], { :include_tags => true }
+            response = @api.get @@endpoint[:checks], {
+                :include_tags => true,
+                :tags => filter_tags.join(',')
+            }
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']
@@ -65,9 +68,9 @@ class PuppetX::Pingdom::Client
         body['check']
     end
 
-    def find_check(name)
+    def find_check(name, filter_tags)
         # returns check or nil
-        check = checks.select { |check| check['name'] == name } [0]
+        check = checks(filter_tags).select { |check| check['name'] == name } [0]
         get_check_details(check) if check
     end
 
