@@ -33,7 +33,7 @@ Pingdom_check {
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
     contacts      => ['DevOps', 'DevOps Pager'],
-    filter_tags   => ['puppet-managed'],
+    autofilter    => true, # this will cause a sha1 tag to be added to the check
     paused        => true
 }
 ```
@@ -69,7 +69,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_user' => 'automation'
     }),
     resolution     => 5,
-    tags           => ['http', 'puppet-managed']
+    tags           => ['http']
 }
 ```
 
@@ -81,7 +81,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     host       => $facts['fqdn'],
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
-    tags       => ['dns', 'puppet-managed']
+    tags       => ['dns']
 }
 ```
 
@@ -91,7 +91,7 @@ pingdom_check { "ping://${facts['fqdn']}":
     ensure   => present,
     provider => 'ping',
     host     => $facts['fqdn'],
-    tags     => ['ping', 'puppet-managed']
+    tags     => ['ping']
 }
 ```
 
@@ -103,7 +103,19 @@ See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 ---
 
 #### Attention
-Please see [this page](https://github.com/cwells/puppet-pingdom/wiki#the-importance-of-filter_tags) for important information regarding the use of `filter_tags` and keeping your Puppet runs as efficient as possible.
+This release introduces a new feature `autotags`. Be aware that this feature will automatically tag the check with a shortened SHA1 hash. This tag is used to quickly locate this check in the future. However, if you have existing checks, enabling `autotag` will cause them to no longer be found (since they lack the requisite SHA1 tag). You can add the tag yourself to existing resources with code similar to this:
+
+```puppet
+Pingdom_check {
+    autotag => false
+}
+
+pingdom_check { "http://${facts['fqdn']}": 
+    ensure => present,
+    tags   => [sha1("http://${facts['fqdn']}")[0,5], 'http']
+}
+```
+or, more simply, delete the existing checks and allow Puppet to recreate them with the proper tags (probably the right choice).
 
 ---
 
