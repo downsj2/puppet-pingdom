@@ -90,7 +90,7 @@ pingdom_check { "ping://${facts['fqdn']}":
     tags     => ['ping', 'puppet-managed']
 }
 ```
-
+---
 #### Installation
 See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme).
 
