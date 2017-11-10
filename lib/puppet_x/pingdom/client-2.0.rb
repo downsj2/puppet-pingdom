@@ -7,6 +7,7 @@
 
 require 'json'
 require 'faraday'
+require 'digest/sha1'
 
 module PuppetX; end
 module PuppetX::Pingdom; end
@@ -40,13 +41,11 @@ class PuppetX::Pingdom::Client
     #
     # Checks API
     #
-    def checks(filter_tags=[])
+    def checks(filter_tags='')
         # list of checks
         @checks ||= begin
-            response = @api.get @@endpoint[:checks], {
-                :include_tags => true,
-                :tags => filter_tags.join(',')
-            }
+            params = { :include_tags => true, :tags => filter_tags.join(',') }
+            response = @api.get @@endpoint[:checks], params
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']

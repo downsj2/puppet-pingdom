@@ -34,7 +34,10 @@ Pingdom_check {
         'DevOps',
         'DevOps Pager'
     ],
-    filter_tags              => ['puppet-managed']
+    # filter_tags              => ['puppet-managed'],
+    # tags                     => ['puppet-managed'],
+    autofilter               => true,
+    logging                  => 'INFO'
 }
 
 pingdom_contact { 'DevOps':
@@ -67,92 +70,93 @@ pingdom_check { "http://${facts['fqdn']}/check":
     port             => 80,
     auth             => "admin:password",
     encryption       => false,
-    tags             => ['http', 'puppet-managed']
+    tags             => ['http']
 }
 
-pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
-    ensure           => present,
-    provider         => 'httpcustom',
-    host             => $facts['fqdn'],
-    url              => '/status/pingdom.xml',
-    auth             => Sensitive('super:secret'),
-    additionalurls   => [
-        'http://www.domain1.com',
-        'http://www.domain2.com'
-    ],
-    port             => 80,
-    encryption       => true,
-    tags             => ['http', 'puppet-managed']
-}
-
-pingdom_check { "dns://${facts['fqdn']}":
-    ensure           => present,
-    provider         => 'dns',
-    host             => $facts['fqdn'],
-    expectedip       => '1.2.3.4',
-    nameserver       => '8.8.8.8',
-    notifywhenbackup => false,
-    tags             => ['dns', 'puppet-managed']
-}
-
-pingdom_check { "ping://${facts['fqdn']}":
-    ensure           => present,
-    provider         => 'ping',
-    host             => $facts['fqdn'],
-    notifywhenbackup => false,
-    tags             => ['ping', 'puppet-managed']
-}
-
-pingdom_check { "imap://${facts['fqdn']}":
-    ensure         => present,
-    provider       => 'imap',
-    host           => $facts['fqdn'],
-    port           => 993,
-    stringtoexpect => 'Courier IMAP',
-    encryption     => true,
-    tags           => ['imap', 'puppet-managed']
-}
-
-pingdom_check { "pop3://${facts['fqdn']}":
-    ensure         => present,
-    provider       => 'pop3',
-    host           => $facts['fqdn'],
-    port           => 995,
-    stringtoexpect => 'Courier POP3',
-    encryption     => true,
-    paused         => true,
-    tags           => ['pop3', 'puppet-managed']
-}
-
-pingdom_check { "smtp://${facts['fqdn']}":
-    ensure         => present,
-    provider       => 'smtp',
-    host           => $facts['fqdn'],
-    port           => 995,
-    stringtoexpect => 'Postfix',
-    encryption     => true,
-    tags           => ['smtp', 'puppet-managed']
-}
-
-pingdom_check { "tcp://${facts['fqdn']}":
-    ensure         => present,
-    provider       => 'tcp',
-    host           => $facts['fqdn'],
-    port           => 1234,
-    stringtosend   => 'ping',
-    stringtoexpect => 'pong',
-    encryption     => true,
-    paused         => true,
-    tags           => ['tcp', 'puppet-managed']
-}
-
-pingdom_check { "udp://${facts['fqdn']}":
-    ensure         => present,
-    provider       => 'udp',
-    host           => $facts['fqdn'],
-    port           => 1234,
-    stringtosend   => 'ping',
-    stringtoexpect => 'pong',
-    encryption     => true,
-    tags           => ['udp', 'puppet-managed']
-}
+# pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
+    # ensure           => present,
+    # provider         => 'httpcustom',
+    # host             => $facts['fqdn'],
+    # url              => '/status/pingdom.xml',
+    # auth             => Sensitive('super:secret'),
+    # additionalurls   => [
+        # 'http://www.domain1.com',
+        # 'http://www.domain2.com'
+    # ],
+    # port             => 80,
+    # encryption       => true,
+    # tags             => ['http', 'puppet-managed']
+# }
+#
+# pingdom_check { "dns://${facts['fqdn']}":
+    # ensure           => present,
+    # provider         => 'dns',
+    # host             => $facts['fqdn'],
+    # expectedip       => '1.2.3.4',
+    # nameserver       => '8.8.8.8',
+    # notifywhenbackup => false,
+    # tags             => ['dns', 'puppet-managed']
+# }
+#
+# pingdom_check { "ping://${facts['fqdn']}":
+    # ensure           => present,
+    # provider         => 'ping',
+    # host             => $facts['fqdn'],
+    # notifywhenbackup => false,
+    # tags             => ['ping', 'puppet-managed']
+# }
+#
+# pingdom_check { "imap://${facts['fqdn']}":
+    # ensure         => present,
+    # provider       => 'imap',
+    # host           => $facts['fqdn'],
+    # port           => 993,
+    # stringtoexpect => 'Courier IMAP',
+    # encryption     => true,
+    # tags           => ['imap', 'puppet-managed']
+# }
+#
+# pingdom_check { "pop3://${facts['fqdn']}":
+    # ensure         => present,
+    # provider       => 'pop3',
+    # host           => $facts['fqdn'],
+    # port           => 995,
+    # stringtoexpect => 'Courier POP3',
+    # encryption     => true,
+    # paused         => true,
+    # tags           => ['pop3', 'puppet-managed']
+# }
+#
+# pingdom_check { "smtp://${facts['fqdn']}":
+    # ensure         => present,
+    # provider       => 'smtp',
+    # host           => $facts['fqdn'],
+    # port           => 995,
+    # stringtoexpect => 'Postfix',
+    # encryption     => true,
+    # tags           => ['smtp', 'puppet-managed']
+# }
+#
+# pingdom_check { "tcp://${facts['fqdn']}":
+    # ensure         => present,
+    # provider       => 'tcp',
+    # host           => $facts['fqdn'],
+    # port           => 1234,
+    # stringtosend   => 'ping',
+    # stringtoexpect => 'pong',
+    # encryption     => true,
+    # paused         => true,
+    # tags           => ['tcp', 'puppet-managed']
+# }
+#
+# pingdom_check { "udp://${facts['fqdn']}":
+    # ensure         => present,
+    # provider       => 'udp',
+    # host           => $facts['fqdn'],
+    # port           => 1234,
+    # stringtosend   => 'ping',
+    # stringtoexpect => 'pong',
+    # encryption     => true,
+    # tags           => ['udp', 'puppet-managed']
+# }
+#

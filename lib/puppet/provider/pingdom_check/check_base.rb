@@ -50,6 +50,12 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def exists?
+        if @resource[:autofilter]
+            @autotag ||= Digest::SHA1.hexdigest(@resource[:name])[0..5]
+            @resource[:filter_tags] << @autotag
+            @property_hash[:tags] = @autotag
+        end
+
         @check ||= api.find_check @resource[:name], @resource[:filter_tags]
     end
 
@@ -108,7 +114,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def filter_tags=(value)
-        @property_hash[:tags] = value.join(',')
+        @property_hash[:tags] = [@property_hash[:tags], value].join(',')
     end
 
     def host
@@ -125,12 +131,14 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def tags
-        @check.fetch('tags', []).map { |tag| tag['name'] }
+        usertags = @check.fetch('tags', []).map { |tag| tag['name'] if tag['u'] }
+        usertags.delete @autotag
+        usertags
     end
 
     def tags=(value)
         newvalue = value.join(',') if value.respond_to? :join
-        @property_hash[:tags] = newvalue
+        @property_hash[:tags] = [@property_hash[:tags], newvalue].join(',')
     end
 
     #

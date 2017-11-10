@@ -29,12 +29,19 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string].'
     end
 
+    newparam(:autofilter) do
+        desc 'Automatically tag and filter checks [boolean]'
+        newvalues(:true, :false)
+        defaultto :false
+    end
+
     newparam(:credentials_file) do
         desc 'YAML file containing Pingdom credentials [string]'
     end
 
     newparam(:filter_tags) do
         desc 'List of tags to restrict actions to [list of strings]'
+        defaultto []
     end
 
     newparam(:logging) do
