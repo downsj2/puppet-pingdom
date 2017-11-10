@@ -25,8 +25,7 @@ Pingdom_check {
     contacts         => [
         'DevOps',
         'DevOps Pager'
-    ],
-    autofilter       => true
+    ]
 }
 
 pingdom_contact { 'DevOps':

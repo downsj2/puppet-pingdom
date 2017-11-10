@@ -18,8 +18,7 @@ Pingdom_contact {
 }
 
 Pingdom_check {
-    credentials_file => '~/.pingdom_credentials',
-    autofilter       => true
+    credentials_file => '~/.pingdom_credentials'
 }
 
 $checks = [
