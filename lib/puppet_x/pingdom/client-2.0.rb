@@ -20,7 +20,9 @@ class PuppetX::Pingdom::Client
     }
 
     def initialize(username, password, appkey, logging=nil)
-        @api = if !logging.nil?
+        @api = if logging.nil?
+            Faraday.new(:url => @@api_host)
+        else
             require 'logger'
             logger = Logger.new $stderr
             logger.level = Logger.const_get(logging)
@@ -30,8 +32,6 @@ class PuppetX::Pingdom::Client
                 faraday.request  :url_encoded
                 faraday.adapter Faraday.default_adapter
             end
-        else
-            Faraday.new(:url => @@api_host)
         end
         @api.basic_auth(username, password)
         @api.headers['App-Key'] = appkey
