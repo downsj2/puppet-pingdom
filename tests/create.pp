@@ -82,15 +82,6 @@ pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
     ],
     port             => 80,
     encryption       => true,
-    # shouldcontain can't be used with shouldnotcontain
-    shouldnotcontain => '500 error',
-    postdata         => {
-        'field1' => 'value1',
-        'field2' => 'value2'
-    },
-    requestheaders => {
-        'Accept' => 'text/html'
-    },
     tags             => ['http', 'puppet-managed']
 }
 
