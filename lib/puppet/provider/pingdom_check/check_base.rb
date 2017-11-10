@@ -54,6 +54,8 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
             @autotag ||= Digest::SHA1.hexdigest(@resource[:name])[0..5]
             @resource[:filter_tags] << @autotag
             @property_hash[:tags] = @autotag
+        else
+            @autotag = nil
         end
 
         @check ||= api.find_check @resource[:name], @resource[:filter_tags]
@@ -131,7 +133,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def tags
-        usertags = @check.fetch('tags', []).map { |tag| tag['name'] if tag['u'] }
+        usertags = @check.fetch('tags', []).map { |tag| tag['name'] if tag['type'] == 'u' }
         usertags.delete @autotag
         usertags
     end
