@@ -1,8 +1,8 @@
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
-Puppet type and provider for the Pingdom API. 
+Puppet type and provider for the Pingdom API.
 
 #### Status
-Currently supports the 2.0 API with legacy notifications. 
+Currently supports the 2.0 API with legacy notifications.
 
 This module is considered fully-functional, but hasn't seen wide testing. Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
@@ -33,7 +33,6 @@ Pingdom_check {
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
     contacts      => ['DevOps', 'DevOps Pager'],
-    autofilter    => true, # this will cause a sha1 tag to be added to the check
     paused        => true
 }
 ```
@@ -110,7 +109,7 @@ Pingdom_check {
     autotag => false
 }
 
-pingdom_check { "http://${facts['fqdn']}": 
+pingdom_check { "http://${facts['fqdn']}":
     ensure => present,
     tags   => [sha1("http://${facts['fqdn']}")[0,5], 'http']
 }
