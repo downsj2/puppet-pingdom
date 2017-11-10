@@ -310,11 +310,23 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:shouldcontain, :required_features => :shouldcontain) do
         desc 'Target site should contain this string [string]'
+
+        validate do |value|
+            if !@resource[:shouldnotcontain].nil? or !value.empty?
+                raise 'shouldcontain and shouldnotcontain are mutually exclusive.'
+            end
+        end
     end
 
     newproperty(:shouldnotcontain, :required_features => :shouldnotcontain) do
         desc %q(Target site should NOT contain this string. If shouldcontain
                 is also set, this parameter is not allowed [string])
+
+        validate do |value|
+            if !@resource[:shouldcontain].nil? or !value.empty?
+                raise 'shouldnotcontain and shouldcontain are mutually exclusive.'
+            end
+        end
     end
 
     newproperty(:stringtoexpect, :required_features => :stringtoexpect) do
