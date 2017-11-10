@@ -115,7 +115,10 @@ pingdom_check { "http://${facts['fqdn']}":
     tags   => [sha1("http://${facts['fqdn']}")[0,5], 'http']
 }
 ```
-or, more simply, delete the existing checks and allow Puppet to recreate them with the proper tags (probably the right choice).
+
+Once Puppet has run, remove the sha1 tag, and set `autotag => true`. Your existing checks should be found.
+
+More simply, delete the existing checks and allow Puppet to recreate them with the proper tags.
 
 ---
 
