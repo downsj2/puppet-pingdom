@@ -33,6 +33,7 @@ Pingdom_check {
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
     contacts      => ['DevOps', 'DevOps Pager'],
+    autotags      => true,
     paused        => true
 }
 ```
