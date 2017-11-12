@@ -49,11 +49,11 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'List of tags to restrict actions to [list of strings]'
         defaultto []
 
-        validate do |value|
-            if @resource[:autofilter] == :true and !value.empty?
-                raise 'filter_tags and autofilter are mutually exclusive.'
-            end
-        end
+        # validate do |value|
+        #     if @resource[:autofilter] == :true and !value.empty?
+        #         raise 'filter_tags and autofilter are mutually exclusive.'
+        #     end
+        # end
     end
 
     newparam(:logging) do

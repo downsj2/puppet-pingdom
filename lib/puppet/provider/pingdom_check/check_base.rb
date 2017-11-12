@@ -53,7 +53,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         if @resource[:autofilter] == :true
             @autotag ||= 'puppet-' + Digest::SHA1.hexdigest(@resource[:name])[0..5]
             @resource[:filter_tags] = [@autotag]
-            @property_hash[:tags] = @autotag
+            @property_hash[:tags] = [@autotag]
         else
             @autotag = nil
         end
@@ -139,9 +139,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def tags=(value)
-        # newvalue = value.join(',') if value.respond_to? :join
-        # @property_hash[:tags] = [@property_hash[:tags], newvalue].join(',')
-        @property_hash[:tags] = value
+        @property_hash[:tags] += value
     end
 
     #
