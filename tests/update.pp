@@ -26,7 +26,7 @@ Pingdom_check {
         'DevOps',
         'DevOps Pager'
     ],
-    filter_tags      => ['puppet-managed']
+    autofilter       => true
 }
 
 pingdom_contact { 'DevOps':
@@ -59,7 +59,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     ipv6             => false,
     notifyagainevery => 0,
     notifywhenbackup => false,
-    tags             => ['http', 'puppet-managed']
+    tags             => ['http', 'updated']
 }
 
 pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
@@ -72,7 +72,7 @@ pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
         'http://www.domain1.com',
         'http://www.domain3.com'
     ],
-    tags             => ['http', 'puppet-managed']
+    tags             => ['http', 'updated']
 }
 
 pingdom_check { "dns://${facts['fqdn']}":
@@ -82,7 +82,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     expectedip       => '5.2.3.4',
     nameserver       => '8.8.8.8',
     notifywhenbackup => false,
-    tags             => ['dns', 'puppet-managed']
+    tags             => ['dns', 'updated']
 }
 
 pingdom_check { "ping://${facts['fqdn']}":
@@ -90,7 +90,7 @@ pingdom_check { "ping://${facts['fqdn']}":
     provider         => 'ping',
     host             => $facts['fqdn'],
     notifywhenbackup => false,
-    tags             => ['ping', 'puppet-managed']
+    tags             => ['ping', 'updated']
 }
 
 pingdom_check { "imap://${facts['fqdn']}":
@@ -100,7 +100,7 @@ pingdom_check { "imap://${facts['fqdn']}":
     port           => 993,
     stringtoexpect => 'Courier IMAP v3',
     encryption     => true,
-    tags           => ['imap', 'puppet-managed']
+    tags           => ['imap', 'updated']
 }
 
 pingdom_check { "pop3://${facts['fqdn']}":
@@ -111,7 +111,7 @@ pingdom_check { "pop3://${facts['fqdn']}":
     stringtoexpect => 'Courier POP3 v3',
     encryption     => true,
     paused         => true,
-    tags           => ['pop3', 'puppet-managed']
+    tags           => ['pop3', 'updated']
 }
 
 pingdom_check { "smtp://${facts['fqdn']}":
@@ -121,7 +121,7 @@ pingdom_check { "smtp://${facts['fqdn']}":
     port           => 995,
     stringtoexpect => 'Postfix SMTP Server',
     encryption     => true,
-    tags           => ['smtp', 'puppet-managed']
+    tags           => ['smtp', 'updated']
 }
 
 pingdom_check { "tcp://${facts['fqdn']}":
@@ -133,7 +133,7 @@ pingdom_check { "tcp://${facts['fqdn']}":
     stringtoexpect => 'howdy',
     encryption     => true,
     paused         => true,
-    tags           => ['tcp', 'puppet-managed']
+    tags           => ['tcp', 'updated']
 }
 
 pingdom_check { "udp://${facts['fqdn']}":
@@ -144,6 +144,5 @@ pingdom_check { "udp://${facts['fqdn']}":
     stringtosend   => 'hello',
     stringtoexpect => 'howdy',
     encryption     => true,
-    tags           => ['udp', 'puppet-managed'],
-    filter_tags    => ['puppet-managed']
+    tags           => ['udp', 'updated']
 }

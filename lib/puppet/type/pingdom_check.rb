@@ -29,12 +29,31 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'API app key [string].'
     end
 
+    newparam(:autofilter) do
+        desc 'Automatically tag and filter checks [boolean]'
+        newvalues(:true, :false)
+        defaultto :false
+
+        validate do |value|
+            if !@resource[:filter_tags].nil?
+                raise 'autofilter and filter_tags are mutually exclusive.'
+            end
+        end
+    end
+
     newparam(:credentials_file) do
         desc 'YAML file containing Pingdom credentials [string]'
     end
 
     newparam(:filter_tags) do
         desc 'List of tags to restrict actions to [list of strings]'
+        defaultto []
+
+        # validate do |value|
+        #     if @resource[:autofilter] == :true and !value.empty?
+        #         raise 'filter_tags and autofilter are mutually exclusive.'
+        #     end
+        # end
     end
 
     newparam(:logging) do
@@ -291,11 +310,23 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:shouldcontain, :required_features => :shouldcontain) do
         desc 'Target site should contain this string [string]'
+
+        validate do |value|
+            if !(@resource[:shouldnotcontain].nil? or value.empty?)
+                raise 'shouldcontain and shouldnotcontain are mutually exclusive.'
+            end
+        end
     end
 
     newproperty(:shouldnotcontain, :required_features => :shouldnotcontain) do
         desc %q(Target site should NOT contain this string. If shouldcontain
                 is also set, this parameter is not allowed [string])
+
+        validate do |value|
+            if !(@resource[:shouldcontain].nil? or value.empty?)
+                raise 'shouldnotcontain and shouldcontain are mutually exclusive.'
+            end
+        end
     end
 
     newproperty(:stringtoexpect, :required_features => :stringtoexpect) do

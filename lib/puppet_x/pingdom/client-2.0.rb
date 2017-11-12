@@ -7,6 +7,7 @@
 
 require 'json'
 require 'faraday'
+require 'digest/sha1'
 
 module PuppetX; end
 module PuppetX::Pingdom; end
@@ -43,10 +44,8 @@ class PuppetX::Pingdom::Client
     def checks(filter_tags=[])
         # list of checks
         @checks ||= begin
-            response = @api.get @@endpoint[:checks], {
-                :include_tags => true,
-                :tags => filter_tags.join(',')
-            }
+            params = { :include_tags => true, :tags => filter_tags.join(',') }
+            response = @api.get @@endpoint[:checks], params
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']
@@ -62,6 +61,7 @@ class PuppetX::Pingdom::Client
 
     def create_check(params)
         # see https://www.pingdom.com/resources/api/2.0#ResourceChecks for params
+        params.update :tags => params[:tags].join(',')
         response = @api.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -75,6 +75,7 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
+        params.update :tags => params[:tags].join(',')
         response = @api.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?

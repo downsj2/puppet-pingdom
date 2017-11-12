@@ -19,7 +19,7 @@ Pingdom_contact {
 
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials',
-    filter_tags      => ['puppet-managed']
+    autofilter       => true
 }
 
 $checks = [

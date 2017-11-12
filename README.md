@@ -1,8 +1,8 @@
 # puppet-pingdom <img align="right" src="https://my.pingdom.com/images/pingdom.svg" />
-Puppet type and provider for the Pingdom API. 
+Puppet type and provider for the Pingdom API.
 
 #### Status
-Currently supports the 2.0 API with legacy notifications. 
+Currently supports the 2.0 API with legacy notifications.
 
 This module is considered fully-functional, but hasn't seen wide testing. Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
@@ -33,7 +33,6 @@ Pingdom_check {
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
     contacts      => ['DevOps', 'DevOps Pager'],
-    filter_tags   => ['puppet-managed'],
     paused        => true
 }
 ```
@@ -69,7 +68,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_user' => 'automation'
     }),
     resolution     => 5,
-    tags           => ['http', 'puppet-managed']
+    tags           => ['http']
 }
 ```
 
@@ -81,7 +80,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     host       => $facts['fqdn'],
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
-    tags       => ['dns', 'puppet-managed']
+    tags       => ['dns']
 }
 ```
 
@@ -91,7 +90,7 @@ pingdom_check { "ping://${facts['fqdn']}":
     ensure   => present,
     provider => 'ping',
     host     => $facts['fqdn'],
-    tags     => ['ping', 'puppet-managed']
+    tags     => ['ping']
 }
 ```
 
@@ -103,7 +102,24 @@ See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme
 ---
 
 #### Attention
-Please see [this page](https://github.com/cwells/puppet-pingdom/wiki#the-importance-of-filter_tags) for important information regarding the use of `filter_tags` and keeping your Puppet runs as efficient as possible.
+This release introduces a new feature `autofilter` [default: `true`]. Be aware that this feature will automatically tag the check with a shortened SHA1 hash of the check's `name` property, and automatically set `filter_tags` to include this tag. This allows us to efficiently locate this check in the future. However, if you have existing checks, enabling `autofilter` will cause them to no longer be found (since they lack the requisite SHA1 tag in `filter_tags`). You can add the tag yourself to existing resources with code similar to this:
+
+```puppet
+Pingdom_check {
+    autofilter => false
+}
+
+pingdom_check { "http://${facts['fqdn']}":
+    ensure => present,
+    tags   => [sha1("http://${facts['fqdn']}")[0,5], 'http']
+}
+```
+
+Once Puppet has run, remove the sha1 tag, and set `autofilter => true`. Your existing checks should be found.
+
+More simply, delete the existing checks and allow Puppet to recreate them with the proper tags.
+
+Finally, if you don't want or need this feature (trust me, you do), then just disable it with `autofilter => false`.
 
 ---
 
