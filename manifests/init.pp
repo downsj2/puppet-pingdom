@@ -4,7 +4,6 @@ class pingdom {
     provider => 'puppet_gem'
   })
 
-  # $definitions = lookup('pingdom', Hash)
   $definitions = hiera('pingdom')
 
   $defaults = {
