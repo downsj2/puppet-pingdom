@@ -1,6 +1,6 @@
 {
   "name": "cwells-pingdom",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "author": "Cliff Wells <cliff.wells@protonmail.com>",
   "license": "Apache-2.0",
   "summary": "Puppet Pingdom module.",
@@ -10,7 +10,7 @@
   "issues_url": "https://github.com/cwells/puppet-pingdom/issues",
 
   "dependencies": [
-    { "name": "ruby-faraday", "version_requirement": ">= 0.13.1 <= 0.14.0" }
+    { "name": "ruby-faraday", "version_requirement": ">= 0.13.1 < 0.14.0" }
   ],
 
   "requirements": [
