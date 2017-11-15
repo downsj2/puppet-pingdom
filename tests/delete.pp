@@ -37,6 +37,7 @@ Pingdom_user {
     credentials_file => '~/.pingdom_credentials'
 }
 
-pingdom_user { 'SRE PagerDuty':
+$users = [ 'SRE PagerDuty', 'DevOps', 'DevOps Pager']
+pingdom_user { $users:
     ensure => absent
 }
