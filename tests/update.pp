@@ -18,7 +18,7 @@ $loglevel = 'ERROR'
 Pingdom_user {
     credentials_file => '~/.pingdom_credentials',
     paused           => true,
-    logging          => $loglevel
+    logging          => 'DEBUG'
 }
 
 Pingdom_check {
@@ -65,7 +65,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     }),
     shouldcontain    => 'not bad',
     port             => 80,
-    auth             => "admin:f00b@rb@z",
+    auth             => Sensitive("admin:f00b@rb@z"),
     encryption       => true,
     tags             => ['http']
 }

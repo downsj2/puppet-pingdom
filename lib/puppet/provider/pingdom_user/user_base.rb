@@ -125,6 +125,18 @@ Puppet::Type.type(:pingdom_user).provide(:user_base) do
         @property_hash[:paused] = { :true => 'YES', :false => 'NO' }[value]
     end
 
+    def primary
+        if @user.include? 'primary'
+            (@user['primary'] == 'YES').to_s.to_sym
+        else
+            :absent
+        end
+    end
+
+    def primary=(value)
+        @property_hash[:primary] = { :true => 'YES', :false => 'NO' }[value]
+    end
+
     #
     # utility methods
     #
