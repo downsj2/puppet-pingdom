@@ -56,10 +56,20 @@ Puppet::Type.newtype(:pingdom_user) do
         validate do |value|
             keyset = Set.new(value.keys)
             if keyset.subset? Set['id', 'email', 'severity']
-                return
+                required = Set['email']
+                if required.subset? keyset
+                    return
+                else
+                    raise "Missing required parameter(s): #{(required - keyset).to_a}"
+                end
             end
             if keyset.subset? Set['id', 'number', 'countrycode', 'severity']
-                return
+                required = Set['number', 'countrycode']
+                if required.subset? keyset
+                    return
+                else
+                    raise "Missing required parameter(s): #{(required - keyset).to_a}"
+                end
             end
             raise "Invalid contact_target specified: #{value}"
         end
