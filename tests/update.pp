@@ -18,7 +18,7 @@ $loglevel = 'ERROR'
 Pingdom_user {
     credentials_file => '~/.pingdom_credentials',
     paused           => true,
-    logging          => 'DEBUG'
+    logging          => $loglevel
 }
 
 Pingdom_check {
