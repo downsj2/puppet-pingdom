@@ -97,7 +97,7 @@ pingdom_check { "ping://${facts['fqdn']}":
 }
 ```
 
-or via Hiera:
+###### Via Hiera:
 
 ```yaml
 pingdom:
@@ -137,7 +137,7 @@ After configuring Hiera, simply `include pingdom` in your manifest.
 ---
 
 #### Installation
-See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme).
+See instructions on [PuppetForge](https://forge.puppet.com/cwells/pingdom/readme). Requires `ruby-faraday` gem.
 
 ---
 
