@@ -97,6 +97,43 @@ pingdom_check { "ping://${facts['fqdn']}":
 }
 ```
 
+or via Hiera:
+
+```yaml
+pingdom:
+  account_email: 'support@company.com'
+  user_email: 'puppet@company.com'
+  password: 's3cr3ts4uc3'
+  appkey: '11111111111111111111111'
+
+  users:
+    'DevOps':
+      contact_targets:
+        - email: devops@company.com
+        - number: 555-123-1234
+          countrycode: 1
+
+  checks:
+    "http://%{facts.fqdn}/status":
+      provider: http
+      host: "%{facts.fqdn}"
+      url: '/status'
+      tags: [ http ]
+      paused: true
+      contacts:
+        - 'DevOps'
+
+    "ping://%{facts.fqdn}":
+      provider: ping
+      host: "%{facts.fqdn}"
+      tags: [ ping ]
+      paused: true
+      contacts:
+        - 'DevOps'
+```
+
+After configuring Hiera, simply `include pingdom` in your manifest.
+
 ---
 
 #### Installation
