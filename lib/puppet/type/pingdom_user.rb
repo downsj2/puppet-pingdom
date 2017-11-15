@@ -18,8 +18,12 @@ Puppet::Type.newtype(:pingdom_user) do
         desc 'The name of the user.'
     end
 
-    newparam(:username) do
-        desc 'API username [string].'
+    newparam(:account_email) do
+        desc 'Account email [string].'
+    end
+
+    newparam(:user_email) do
+        desc 'User email [string].'
     end
 
     newparam(:password) do

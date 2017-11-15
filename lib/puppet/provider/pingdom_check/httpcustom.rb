@@ -1,3 +1,5 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '.', 'check_base.rb'))
+
 require 'uri'
 
 Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) do
