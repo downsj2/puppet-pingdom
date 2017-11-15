@@ -7,6 +7,7 @@
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
+require 'set'
 
 Puppet::Type.newtype(:pingdom_user) do
     @doc = 'Pingdom Users API'
@@ -50,6 +51,17 @@ Puppet::Type.newtype(:pingdom_user) do
             end
             filtered = is.map { |contact| contact.select { |k, v| k != 'id' } }
             should.nil? or filtered = should
+        end
+
+        validate do |value|
+            keyset = Set.new(value.keys)
+            if keyset.subset? Set['id', 'email', 'severity']
+                return
+            end
+            if keyset.subset? Set['id', 'number', 'countrycode', 'severity']
+                return
+            end
+            raise "Invalid contact_target specified: #{value}"
         end
     end
 
