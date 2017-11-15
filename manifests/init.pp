@@ -7,9 +7,9 @@ class pingdom {
   $definitions = lookup('pingdom', Hash)
 
   $defaults = {
-    'account_email' => $definitions['account_email'],
-    'user_email'    => $definitions['user_email'],
-    'password'      => $definitions['password'],
+    'account_email' => Sensitive($definitions['account_email']),
+    'user_email'    => Sensitive($definitions['user_email']),
+    'password'      => Sensitive($definitions['password']),
     'appkey'        => $definitions['appkey'],
     'require'       => Package['faraday']
   }
