@@ -4,7 +4,8 @@ class pingdom {
     provider => 'puppet_gem'
   })
 
-  $definitions = lookup('pingdom', Hash)
+  # $definitions = lookup('pingdom', Hash)
+  $definitions = hiera('pingdom')
 
   $defaults = {
     'account_email' => pick($definitions['account_email'], 'Missing parameter `account_email`'),
