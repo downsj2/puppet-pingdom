@@ -1,7 +1,7 @@
 class pingdom {
   package { 'faraday':
     ensure   => present,
-    provider => 'pe_gem'
+    provider => 'puppet_gem'
   }
 
   $definitions = lookup('pingdom', Hash)
