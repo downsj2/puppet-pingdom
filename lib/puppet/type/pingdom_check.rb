@@ -17,8 +17,12 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'The name of the check.'
     end
 
-    newparam(:username) do
-        desc 'API username [string].'
+    newparam(:account_email) do
+        desc 'Account email [string].'
+    end
+
+    newparam(:user_email) do
+        desc 'User email [string].'
     end
 
     newparam(:password) do
@@ -30,9 +34,9 @@ Puppet::Type.newtype(:pingdom_check) do
     end
 
     newparam(:autofilter) do
-        desc 'Automatically tag and filter checks [boolean]'
-        newvalues(:true, :false)
-        defaultto :false
+        desc 'Automatically tag and filter checks [boolean (default true)].'
+        newvalues(:true, :false, :bootstrap)
+        defaultto :true
 
         validate do |value|
             if !@resource[:filter_tags].nil?
@@ -49,7 +53,7 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'List of tags to restrict actions to [list of strings]'
         defaultto []
 
-        # validate do |value|
+        # validate do |value| # FIXME, false positive
         #     if @resource[:autofilter] == :true and !value.empty?
         #         raise 'filter_tags and autofilter are mutually exclusive.'
         #     end
@@ -61,17 +65,11 @@ Puppet::Type.newtype(:pingdom_check) do
         newvalues(:ERROR, :WARN, :INFO, :DEBUG)
     end
 
-    newparam(:use_legacy_notifications) do
-        desc 'Whether to use legacy notifications [boolean].'
-        newvalues(:true, :false)
-        defaultto :true
-    end
-
     #
     # common properties
     #
     newproperty(:contacts, :array_matching=>:all) do
-        desc 'Contact emails [list of strings].'
+        desc 'User names [list of strings].'
 
         def insync?(is)
             case is
@@ -87,8 +85,8 @@ Puppet::Type.newtype(:pingdom_check) do
         desc 'HTTP hostname or IP to check [string]'
     end
 
-    newproperty(:integrationids, :array_matching=>:all) do
-        desc 'Integration identifiers [list of integers].'
+    newproperty(:integrations, :array_matching=>:all) do
+        desc 'Integration names [list of strings].'
 
         def insync?(is)
             case is
@@ -103,25 +101,6 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:ipv6) do
         desc %q(Use ipv6 instead of ipv4. If an IP address is provided as `host` this
                 will be overridden by the IP address type [boolean].)
-        newvalues(:true, :false)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:notifyagainevery) do
-        desc %q(Notify again every n result [integer].
-                Requires use_legacy_notifications => true.)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:notifywhenbackup) do
-        desc %q(Notify when back up again [boolean].
-                Requires use_legacy_notifications => true.)
         newvalues(:true, :false)
 
         def insync?(is)
@@ -155,64 +134,6 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:resolution) do
         desc 'Check resolution [integer (1, 5, 15, 30, 60)].'
         newvalues(1, 5, 15, 30, 60)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:sendnotificationwhendown) do
-        desc %q(Send notification when down n times [integer].'
-                Requires use_legacy_notifications => true.)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:sendtoandroid) do
-        desc %q(Send notification to Android [boolean].
-                Requires use_legacy_notifications => true.)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:sendtoemail) do
-        desc %q(Send alerts as email [boolean].
-                Requires use_legacy_notifications => true.)
-        newvalues(:true, :false)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:sendtoiphone) do
-        desc %q(Send alerts to iPhone [boolean].
-                Requires use_legacy_notifications => true.)
-        newvalues(:true, :false)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:sendtosms) do
-        desc %q(Send alerts to SMS [boolean].
-                Requires use_legacy_notifications => true.)
-        newvalues(:true, :false)
-
-        def insync?(is)
-            should.nil? or is.to_s == should.to_s
-        end
-    end
-
-    newproperty(:sendtotwitter) do
-        desc %q(Send alerts to Twitter [boolean].
-                Requires use_legacy_notifications => true.)
-        newvalues(:true, :false)
 
         def insync?(is)
             should.nil? or is.to_s == should.to_s
@@ -344,7 +265,7 @@ Puppet::Type.newtype(:pingdom_check) do
     #
     # autorequires
     #
-    autorequire(:pingdom_contact) do
-        self[:contacts]
-    end
+    # autorequire(:pingdom_users) do
+    #     self[:users]
+    # end
 end

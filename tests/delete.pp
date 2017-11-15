@@ -13,13 +13,8 @@
 # At this point, from the top-level directory, you can run:
 #     `export RUBYLIB=$PWD/lib ; puppet apply tests/delete.pp`
 
-Pingdom_contact {
-    credentials_file => '~/.pingdom_credentials'
-}
-
 Pingdom_check {
-    credentials_file => '~/.pingdom_credentials',
-    autofilter       => true
+    credentials_file => '~/.pingdom_credentials'
 }
 
 $checks = [
@@ -38,6 +33,10 @@ pingdom_check { $checks:
     ensure => absent
 }
 
-pingdom_contact { [ 'DevOps', 'DevOps Pager' ]:
+Pingdom_user {
+    credentials_file => '~/.pingdom_credentials'
+}
+
+pingdom_user { 'SRE PagerDuty':
     ensure => absent
 }

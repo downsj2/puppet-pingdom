@@ -17,7 +17,7 @@ begin # require PuppetX module
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
             File.dirname(__FILE__), '..', '..', '..',
-            'puppet_x', 'pingdom', 'client-2.0.rb'
+            'puppet_x', 'pingdom', 'client-2.1.rb'
         )
     )
     has_pingdom_api = true
@@ -25,7 +25,7 @@ rescue => exception
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
+Puppet::Type.type(:pingdom_team).provide(:team_base) do
     confine :true => has_pingdom_api
 
     def api
@@ -36,16 +36,19 @@ Puppet::Type.type(:pingdom_contact).provide(:contact_base) do
                 creds = YAML.load_file(
                     File.expand_path @resource[:credentials_file]
                 )
-                username, password, appkey = creds['username'], creds['password'], creds['appkey']
+                account_email, user_email, password, appkey =
+                    creds['account_email'], creds['user_email'], creds['password'], creds['appkey']
             else
                 raise 'Missing API credentials' if [
-                    @resource[:username],
+                    @resource[:account_email],
+                    @resource[:user_email],
                     @resource[:password],
                     @resource[:appkey]
                 ].include? nil and @resource[:credentials_file].is_nil?
-                username, password, appkey = @resource[:username], @resource[:password], @resource[:appkey]
+                account_email, user_email, password, appkey =
+                    @resource[:account_email], @resource[:user_email], @resource[:password], @resource[:appkey]
             end
-            PuppetX::Pingdom::Client.new(username, password, appkey, @resource[:logging])
+            PuppetX::Pingdom::Client.new(account_email, user_email, password, appkey, @resource[:logging])
         end
     end
 

@@ -1,8 +1,8 @@
 #
-# Base class for all Check providers.
+# Base class for all user providers.
 #
 # Provider must:
-# - have `:parent => :check_base` in their declaration.
+# - have `:parent => :user_base` in their declaration.
 # - declare any new properties as features using `has_features`.
 # - create setters/getters for provider-specific properties
 #   that require special handling (optional).
@@ -25,7 +25,7 @@ rescue => exception
     has_pingdom_api = false
 end
 
-Puppet::Type.type(:pingdom_check).provide(:check_base) do
+Puppet::Type.type(:pingdom_user).provide(:user_base) do
     confine :true => has_pingdom_api
 
     def api
@@ -53,15 +53,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def exists?
-        if [:true, :bootstrap].include? @resource[:autofilter]
-            @autotag ||= 'puppet-' + Digest::SHA1.hexdigest(@resource[:name])[0..5]
-            @resource[:filter_tags] = [@autotag] if @resource[:autofilter] != :bootstrap
-            @property_hash[:tags] = [@autotag]
-        else
-            @autotag = nil
-        end
-
-        @check ||= api.find_check @resource[:name], @resource[:filter_tags]
+        @user ||= api.find_user @resource[:name]
     end
 
     def create
@@ -70,7 +62,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
 
     def flush
         if @resource[:ensure] == :absent
-            api.delete_check @check if @check
+            api.delete_user @user if @user
             return
         end
 
@@ -80,11 +72,10 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         end
         @property_hash[:name] = @resource[:name]
 
-        if @check
-            api.modify_check @check, @property_hash
+        if @user
+            api.modify_user @user, @property_hash
         else
-            @property_hash[:type] = @resource[:provider]
-            api.create_check @property_hash
+            api.create_user @property_hash
         end
     end
 
@@ -95,51 +86,43 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     #
     # custom getters/setters
     #
-    def contacts
-        # accepts list of ids, returns list of names
-        ids = @check.fetch('userids', nil)
-        user = api.select_users(ids, search='id') if ids
-        if user.respond_to? :map
-            user.map { |u| u['name'] }
+    def contact_targets
+        targets = []
+        @user['email'].each do |email|
+            targets << {
+                'id' => email['id'],
+                'email' => email['address'],
+                'severity' => email['severity']
+            }
+        end if @user['email'].respond_to? :each
+
+        @user['sms'].each do |sms|
+            targets << {
+                'id' => sms['id'],
+                'number' => sms['number'],
+                'countrycode' => sms['country_code'],
+                'severity' => sms['severity']
+            }
+        end if @user['sms'].respond_to? :each
+
+        # we need to keep track so we can delete them
+        @property_hash[:old_contact_targets] = targets
+    end
+
+    def contact_targets=(value)
+        @property_hash[:contact_targets] = value
+    end
+
+    def paused
+        if @user.include? 'paused'
+            (@user['paused'] == 'YES').to_s.to_sym
         else
             :absent
         end
     end
 
-    def contacts=(value)
-        # accepts list of names, returns list of ids
-        users = api.select_users(value, search='name')
-        raise 'Unknown contact in list' unless users.size == value.size
-        ids = users.map { |u| u['id'] }
-        newvalue = ids.join(',') if ids.respond_to? :join
-        @property_hash[:userids] = newvalue
-    end
-
-    def filter_tags=(value)
-        @property_hash[:tags] = [@property_hash[:tags], value].join(',')
-    end
-
-    def host
-        @check.fetch('hostname', :absent)
-    end
-
-    def paused
-         @check.fetch('status', :absent) == 'paused'
-    end
-
-    def probe_filters=(value)
-        newvalue = value.map { |v| 'region: ' + v }.join(',') if value.respond_to? :map
-        @property_hash[:probe_filters] = newvalue
-    end
-
-    def tags
-        usertags = @check.fetch('tags', []).map { |tag| tag['name'] if tag['type'] == 'u' }
-        usertags.delete @autotag
-        usertags
-    end
-
-    def tags=(value)
-        @property_hash[:tags] += value
+    def paused=(value)
+        @property_hash[:paused] = { :true => 'YES', :false => 'NO' }[value]
     end
 
     #
@@ -155,7 +138,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         # define every single getter/setter).
 
         [ resource_type.validproperties, resource_type.parameters ].flatten.each do |prop|
-            # It should be noted that this loops over all properties for all check providers.
+            # It should be noted that this loops over all properties for all user providers.
             # This is unfortunate, but we are protected against invalid properties by the
             # `required_features` defined on each property in the type declarations.
             prop = prop.to_sym
@@ -163,7 +146,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
 
             if !method_defined?(prop)
                 define_method(prop) do
-                    @check.fetch(prop.to_s, :absent)
+                    @user.fetch(prop.to_s, :absent)
                 end
             end
 

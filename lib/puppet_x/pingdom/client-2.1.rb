@@ -11,10 +11,6 @@ require 'faraday'
 module PuppetX; end
 module PuppetX::Pingdom; end
 
-def filter_nils(hash)
-    hash.select { |k, v| !v.nil? }
-end
-
 class PuppetX::Pingdom::Client
     @@api_host = 'https://api.pingdom.com'
     @@api_base = '/api/2.1'
@@ -24,19 +20,33 @@ class PuppetX::Pingdom::Client
         :users   => "#{@@api_base}/users"
     }
 
-    def initialize(username, password, appkey)
-        @conn = Faraday.new(:url => @@api_host)
-        @conn.basic_auth(username, password)
-        @conn.headers['App-Key'] = appkey
+    def initialize(account_email, user_email, password, appkey, logging=nil)
+        @api = if logging.nil?
+            Faraday.new(:url => @@api_host)
+        else
+            require 'logger'
+            logger = Logger.new $stderr
+            logger.level = Logger.const_get(logging)
+
+            Faraday.new(:url => @@api_host) do |faraday|
+                faraday.response :logger, logger, { :bodies => true }
+                faraday.request  :url_encoded
+                faraday.adapter Faraday.default_adapter
+            end
+        end
+        @api.basic_auth(user_email, password)
+        @api.headers['App-Key'] = appkey
+        @api.headers['Account-Email'] = account_email
     end
 
     #
-    # checks API
+    # Checks API
     #
-    def checks
+    def checks(filter_tags=[])
         # list of checks
         @checks ||= begin
-            response = @conn.get @@endpoint[:checks], { :include_tags => true }
+            params = { :include_tags => true, :tags => filter_tags.join(',') }
+            response = @api.get @@endpoint[:checks], params
             body = JSON.parse(response.body)
             raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['checks']
@@ -44,40 +54,35 @@ class PuppetX::Pingdom::Client
     end
 
     def get_check_details(check)
-        response = @conn.get "#{@@endpoint[:checks]}/#{check['id']}"
-        body = JSON.parse(response.body)
-        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        puts "Debug(#{__method__}): #{body['check']}"
-        body['check']
-    end
-
-    def create_check(name, params)
-        # see https://www.pingdom.com/resources/api/2.1#ResourceChecks for params
-        params = filter_nils params
-        puts "Debug(#{__method__}): #{params}"
-        response = @conn.post @@endpoint[:checks], params
+        response = @api.get "#{@@endpoint[:checks]}/#{check['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['check']
     end
 
-    def find_check(name)
+    def create_check(params)
+        params.update :tags => params[:tags].join(',')
+        response = @api.post @@endpoint[:checks], params
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+        body['check']
+    end
+
+    def find_check(name, filter_tags)
         # returns check or nil
-        check = checks.select { |check| check['name'] == name } [0]
+        check = checks(filter_tags).select { |check| check['name'] == name } [0]
         get_check_details(check) if check
     end
 
     def modify_check(check, params)
-        params = filter_nils params
-        puts "Debug(#{__method__}): #{params}"
-        response = @conn.put "#{@@endpoint[:checks]}/#{check['id']}", params
+        params.update :tags => params[:tags].join(',')
+        response = @api.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        find_check check['name']
     end
 
     def delete_check(check)
-        response = @conn.delete @@endpoint[:checks], {
+        response = @api.delete @@endpoint[:checks], {
             :delcheckids => check['id'].to_s
         }
         body = JSON.parse(response.body)
@@ -85,26 +90,22 @@ class PuppetX::Pingdom::Client
     end
 
     #
-    # teams API (UNTESTED)
+    # Teams API
     #
     def teams
         # list of teams
-        @teams ||= begin response = @conn.get @@endpoint[:teams]
+        @teams ||= begin
+            response = @api.get @@endpoint[:teams]
             body = JSON.parse(response.body)
-            raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+            raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['teams']
         end
     end
 
-    def create_team(name, params)
-        # see https://www.pingdom.com/resources/api/2.1#ResourceTeam for params
-        defaults = {
-            :name => name
-        }
-        defaults.update(params)
-        response = @conn.post @@endpoint[:teams], defaults
+    def create_team(params)
+        response = @api.post @@endpoint[:teams], params
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
         body['team']
     end
 
@@ -114,44 +115,50 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_team(team, params)
-        response = @conn.put "#{@@endpoint[:teams]}/#{team['id']}", params
+        response = @api.put "#{@@endpoint[:teams]}/#{team['id']}", params
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
     def delete_team(team)
-        response = @conn.delete @@endpoint[:teams], {
+        response = @api.delete @@endpoint[:teams], {
             :delteamids => team['id'].to_s
         }
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
     #
-    # users API (UNTESTED)
+    # Users API
     #
     def users
         # list of users
         @users ||= begin
-            response = @conn.get @@endpoint[:users]
+            response = @api.get @@endpoint[:users]
             body = JSON.parse(response.body)
-            raise "Error(#{__method__}): #{body['error']}" unless response.success?
+            raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
             body['users']
         end
     end
 
-    def create_user(name, params)
-        # see https://www.pingdom.com/resources/api/2.1#ResourceUsers for params
-        defaults = {
-            :name => name
-        }
-        defaults.update(params)
-        response = @conn.post @@endpoint[:users], defaults
+    def select_users(values, search='id')
+        # returns list of users or nil
+        users.select { |user| values.include? user[search] }
+    end
+
+    def create_user(params)
+        contacts = params.fetch(:contact_targets, nil)
+        params.delete :contact_targets
+        response = @api.post @@endpoint[:users], params
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body['user']
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+        user = body['user']
+        contacts.each do |contact|
+            response = @api.post "#{@@endpoint[:users]}/#{user['id']}", contact
+            contact = JSON.parse(response.body)
+            raise "Error(#{__method__}): #{contact['error']['errormessage']}" unless response.success?
+        end
+        user
     end
 
     def find_user(name)
@@ -160,18 +167,44 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_user(user, params)
-        response = @conn.put "#{@@endpoint[:users]}/#{user['id']}", params
+        contacts = params.fetch(:contact_targets, [])
+        old_contacts = params.fetch(:old_contact_targets, [])
+        params.delete :contact_targets
+        params.delete :old_contact_targets
+        response = @api.put "#{@@endpoint[:users]}/#{user['id']}", params
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+
+        old_contacts.each do |contact|
+            delete_contact user, contact if contact.include? 'id'
+        end
+        contacts.each do |contact|
+            create_contact user, contact
+        end
+        user
     end
 
     def delete_user(user)
-        response = @conn.delete @@endpoint[:users], {
-            :deluserids => user['id'].to_s
-        }
+        response = @api.delete "#{@@endpoint[:users]}/#{user['id']}"
         body = JSON.parse(response.body)
-        raise "#{__method__}: #{body['error']['errormessage']}" unless response.success?
-        body
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+    end
+
+    def create_contact(user, contact)
+        response = @api.post "#{@@endpoint[:users]}/#{user['id']}", contact
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+    end
+
+    def modify_contact(user, contact)
+        response = @api.put "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}", contact
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
+    end
+
+    def delete_contact(user, contact)
+        response = @api.delete "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
+        body = JSON.parse(response.body)
+        raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 end
