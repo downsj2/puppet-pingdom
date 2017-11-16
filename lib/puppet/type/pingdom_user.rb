@@ -59,14 +59,14 @@ Puppet::Type.newtype(:pingdom_user) do
 
         validate do |value|
             keyset = Set.new(value.keys)
-            if keyset.subset? Set['id', 'email', 'severity']
+            if keyset.subset? Set['email', 'severity']
                 required = Set['email']
                 if required.subset? keyset
                     return
                 else
                     raise "Missing required parameter(s): #{(required - keyset).to_a}"
                 end
-            elsif keyset.subset? Set['id', 'number', 'countrycode', 'severity']
+            elsif keyset.subset? Set['number', 'countrycode', 'severity']
                 required = Set['number', 'countrycode']
                 if required.subset? keyset
                     return
@@ -86,5 +86,9 @@ Puppet::Type.newtype(:pingdom_user) do
     newproperty(:primary) do
         desc %q(This user is the primary contact [Boolean])
         newvalues(:true, :false)
+    end
+
+    autorequire(:package) do
+        'faraday'
     end
 end
