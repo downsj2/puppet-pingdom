@@ -2,7 +2,8 @@
 # ~/.pingdom_credentials with the following YAML content:
 #
 #     ---
-#     username: 'Your Pingdom username'
+#     account_email: 'Pingdom account Owner email address'
+#     user_email: 'Your Pingdom email address'
 #     password: 'Your Pingdom password'
 #     appkey: 'Your Pingdom appkey'
 #
