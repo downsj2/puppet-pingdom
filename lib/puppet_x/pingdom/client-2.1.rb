@@ -62,7 +62,6 @@ class PuppetX::Pingdom::Client
     end
 
     def create_check(params)
-        params.update :tags => params[:tags].join(',')
         response = @api.post @@endpoint[:checks], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
@@ -76,7 +75,6 @@ class PuppetX::Pingdom::Client
     end
 
     def modify_check(check, params)
-        params.update :tags => params[:tags].join(',')
         response = @api.put "#{@@endpoint[:checks]}/#{check['id']}", params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
