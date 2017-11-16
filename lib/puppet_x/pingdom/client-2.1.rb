@@ -5,11 +5,15 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
-require 'json'
-require 'faraday'
-
 module PuppetX; end
 module PuppetX::Pingdom; end
+
+begin
+    require 'json'
+    require 'faraday'
+rescue LoadError
+    raise 'This module requires the `json` and `faraday` gems.'
+end
 
 class PuppetX::Pingdom::Client
     @@api_host = 'https://api.pingdom.com'
