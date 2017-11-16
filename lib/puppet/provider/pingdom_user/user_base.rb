@@ -57,7 +57,12 @@ Puppet::Type.type(:pingdom_user).provide(:user_base) do
     end
 
     def create
-        # Dummy method. Real work is done in `flush`.
+        # Pingdom for some reason decided to make user creation
+        # a two-phase process in 2.1. So we can only pass the `name`
+        # when creating a user, and have to modify the user
+        # in a second API call.
+        @user = api.create_user :name => @resource[:name]
+        @user[:name] = @resource[:name]
     end
 
     def flush

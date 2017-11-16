@@ -157,18 +157,11 @@ class PuppetX::Pingdom::Client
     end
 
     def create_user(params)
-        contacts = params.fetch(:contact_targets, nil)
-        params.delete :contact_targets
+        # params should only contain :name as of 2.1
         response = @api.post @@endpoint[:users], params
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
-        user = body['user']
-        contacts.each do |contact|
-            response = @api.post "#{@@endpoint[:users]}/#{user['id']}", contact
-            contact = JSON.parse(response.body)
-            raise "Error(#{__method__}): #{contact['error']['errormessage']}" unless response.success?
-        end
-        user
+        body['user']
     end
 
     def find_user(name)
