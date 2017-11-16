@@ -20,14 +20,16 @@ This module is considered fully-functional, but hasn't seen wide testing. Please
 ###### Defaults:
 ```puppet
 Pingdom_user {
-    username => Sensitive($pingdom_username),
-    password => Sensitive($pingdom_password),
-    appkey   => $pingdom_appkey,
-    paused   => true
+    account_email => Sensitive($pingdom_account_email),
+    user_email    => Sensitive($pingdom_user_email),
+    password      => Sensitive($pingdom_password),
+    appkey        => $pingdom_appkey,
+    paused        => true
 }
 
 Pingdom_check {
-    username      => Sensitive($pingdom_username),
+    account_email => Sensitive($pingdom_account_email),
+    user_email    => Sensitive($pingdom_user_email),
     password      => Sensitive($pingdom_password),
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
