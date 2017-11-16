@@ -5,12 +5,7 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
-begin
-    require 'json'
-    require 'faraday'
-rescue LoadError
-    puts 'This module requires the `json` and `faraday` gems.'
-end
+require 'json'
 
 module PuppetX; end
 module PuppetX::Pingdom; end
@@ -25,6 +20,8 @@ class PuppetX::Pingdom::Client
     }
 
     def initialize(account_email, user_email, password, appkey, logging=nil)
+        require 'faraday'
+
         @api = if logging.nil?
             Faraday.new(:url => @@api_host)
         else
