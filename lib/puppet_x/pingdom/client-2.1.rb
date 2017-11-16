@@ -176,11 +176,13 @@ class PuppetX::Pingdom::Client
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
 
-        old_contacts.each do |contact|
-            delete_contact user, contact if contact.include? 'id'
-        end
-        contacts.each do |contact|
-            create_contact user, contact
+        if !contacts.empty?
+            old_contacts.each do |contact|
+                delete_contact user, contact if contact.include? 'id'
+            end
+            contacts.each do |contact|
+                create_contact user, contact
+            end
         end
         user
     end
