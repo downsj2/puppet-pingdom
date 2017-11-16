@@ -46,6 +46,14 @@ pingdom_user { 'DevOps Pager':
     ]
 }
 
+pingdom_user { 'SRE PagerDuty':
+    ensure          => present,
+    contact_targets => [
+        { email  => 'pager@domain.com' },
+        { number => '555-321-4321', countrycode => '1' }
+    ]
+}
+
 pingdom_check { "http://${facts['fqdn']}/check":
     ensure           => present,
     provider         => 'http',

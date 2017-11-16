@@ -106,11 +106,16 @@ Puppet::Type.type(:pingdom_user).provide(:user_base) do
             }
         end if @user['sms'].respond_to? :each
 
-        # we need to keep track so we can delete them
         @property_hash[:old_contact_targets] = targets
     end
 
     def contact_targets=(value)
+        value.each do |contact|
+            if contact.include? 'severity'
+                contact[:severitylevel] = contact['severity']
+                contact.delete 'severity'
+            end
+        end
         @property_hash[:contact_targets] = value
     end
 
