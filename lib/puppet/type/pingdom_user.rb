@@ -70,6 +70,9 @@ Puppet::Type.newtype(:pingdom_user) do
         end
 
         validate do |value|
+            severity = value.fetch('severity', nil)
+            raise "Invalid severity level `#{severity}`" if !['HIGH', 'LOW', nil].include? severity
+
             keyset = Set.new(value.keys)
             if keyset.subset? Set['email', 'severity']
                 required = Set['email']
