@@ -268,8 +268,4 @@ Puppet::Type.newtype(:pingdom_check) do
     autorequire(:pingdom_user) do
         self[:contacts]
     end
-
-    autorequire(:package) do
-        'faraday'
-    end
 end

@@ -87,8 +87,4 @@ Puppet::Type.newtype(:pingdom_user) do
         desc %q(This user is the primary contact [Boolean])
         newvalues(:true, :false)
     end
-
-    autorequire(:package) do
-        'faraday'
-    end
 end

@@ -13,12 +13,9 @@
 # At this point, from the top-level directory, you can run:
 #     `export RUBYLIB=$PWD/lib ; puppet apply tests/create.pp`
 
-$loglevel = 'ERROR'
-
 Pingdom_user {
     credentials_file => '~/.pingdom_credentials',
-    paused           => true,
-    logging          => $loglevel
+    paused           => true
 }
 
 Pingdom_check {
@@ -28,8 +25,7 @@ Pingdom_check {
     resolution       => 30,
     contacts         => [
         'SRE PagerDuty'
-    ],
-    logging          => $loglevel
+    ]
 }
 
 pingdom_user { 'SRE PagerDuty':

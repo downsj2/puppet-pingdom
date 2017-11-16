@@ -13,12 +13,9 @@
 # At this point, from the top-level directory, you can run:
 #     `export RUBYLIB=$PWD/lib ; puppet apply tests/update.pp`
 
-$loglevel = 'ERROR'
-
 Pingdom_user {
     credentials_file => '~/.pingdom_credentials',
-    paused           => true,
-    logging          => $loglevel
+    paused           => true
 }
 
 Pingdom_check {
@@ -29,9 +26,7 @@ Pingdom_check {
     contacts         => [
         'DevOps',
         'DevOps Pager'
-    ],
-    autofilter       => 'bootstrap',
-    logging          => $loglevel
+    ]
 }
 
 pingdom_user { 'DevOps':
