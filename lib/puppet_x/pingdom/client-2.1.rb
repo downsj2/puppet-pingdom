@@ -176,10 +176,10 @@ class PuppetX::Pingdom::Client
 
         if !contacts.empty?
             old_contacts.each do |contact|
-                delete_contact user, contact if contact.include? 'id'
+                delete_contact_target user, contact if contact.include? 'id'
             end
             contacts.each do |contact|
-                create_contact user, contact
+                create_contact_target user, contact
             end
         end
         user
@@ -191,19 +191,19 @@ class PuppetX::Pingdom::Client
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
-    def create_contact(user, contact)
+    def create_contact_target(user, contact)
         response = @api.post "#{@@endpoint[:users]}/#{user['id']}", contact
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
-    def modify_contact(user, contact)
+    def modify_contact_target(user, contact)
         response = @api.put "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}", contact
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
     end
 
-    def delete_contact(user, contact)
+    def delete_contact_target(user, contact)
         response = @api.delete "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
         body = JSON.parse(response.body)
         raise "Error(#{__method__}): #{body['error']['errormessage']}" unless response.success?
