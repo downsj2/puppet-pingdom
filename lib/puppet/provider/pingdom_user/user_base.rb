@@ -77,11 +77,7 @@ Puppet::Type.type(:pingdom_user).provide(:user_base) do
         end
         @property_hash[:name] = @resource[:name]
 
-        if @user
-            api.modify_user @user, @property_hash
-        else
-            api.create_user @property_hash
-        end
+        @user = api.modify_user @user, @property_hash
     end
 
     def destroy
