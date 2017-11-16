@@ -20,11 +20,22 @@ class PuppetX::Pingdom::Client
     }
 
     def initialize(account_email, user_email, password, appkey, logging=nil)
+        # We require faraday here, because if we require it outside the module namespace,
+        # and the faraday gem isn't installed, then the type won't finish loading
+        # and no parameters will be declared, and the hapless user will be told some
+        # bullshit about how "password isn't a valid parameter", when what's really
+        # wrong is the faraday gem is missing.
+        #
+        # tldr; don't move this require.
         require 'faraday'
 
         @api = if logging.nil?
             Faraday.new(:url => @@api_host)
         else
+            # We require logger here for efficiency; if the user doesn't
+            # want logging, then don't waste resources loading the module.
+            #
+            # Again, don't move this require.
             require 'logger'
             logger = Logger.new $stderr
             logger.level = Logger.const_get(logging)
