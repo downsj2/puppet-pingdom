@@ -93,8 +93,10 @@ module PuppetX
             def checks(filter_tags=[])
                 # list of checks
                 @checks ||= begin
-                    params = { :include_tags => true, :tags => filter_tags.join(',') }
-                    response = @api.get @@endpoint[:checks], params
+                    response = @api.get @@endpoint[:checks], {
+                        :include_tags => true,
+                        :tags => filter_tags.join(',')
+                    }
                     response['checks']
                 end
             end
