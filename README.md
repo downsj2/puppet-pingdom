@@ -196,5 +196,5 @@ To get around this, and have your existing checks tagged, set `autofilter => 'bo
 - Users API is incomplete (can only manage contacts, not admins).
 
 [pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
-[pingdom_team_properties]: https://github.com/cwells/puppet-pingdom/wiki/Team-properties
 [pingdom_user_properties]: https://github.com/cwells/puppet-pingdom/wiki/User-properties
+[pingdom_team_properties]: https://github.com/cwells/puppet-pingdom/wiki/Team-properties
