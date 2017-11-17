@@ -19,6 +19,7 @@ module PuppetX
                 @headers = {}
                 @basic_auth = nil
                 enable_logging log_level.to_s
+                make_methods :get, :post, :put, :delete
             end
 
             def basic_auth(username, password)
@@ -28,6 +29,8 @@ module PuppetX
             def headers(params)
                 @headers = params
             end
+
+            private
 
             def request(method, path, params={})
                 uri = encode_path_params path, params
@@ -44,7 +47,15 @@ module PuppetX
                 JSON.parse(response.body)
             end
 
-            private
+            def make_methods(*verbs)
+                verbs.each do |v|
+                    # this call is a bit funky because we're called from
+                    # `initialize` and `define_method` isn't within scope.
+                    self.class.send(:define_method, v) do |path, params={}|
+                        request v, path, params
+                    end
+                end
+            end
 
             def encode_path_params(path, params)
                 encoded = URI.encode_www_form params
@@ -83,18 +94,18 @@ module PuppetX
                 # list of checks
                 @checks ||= begin
                     params = { :include_tags => true, :tags => filter_tags.join(',') }
-                    response = @api.request :get, @@endpoint[:checks], params
+                    response = @api.get @@endpoint[:checks], params
                     response['checks']
                 end
             end
 
             def get_check_details(check)
-                response = @api.request :get, "#{@@endpoint[:checks]}/#{check['id']}"
+                response = @api.get "#{@@endpoint[:checks]}/#{check['id']}"
                 response['check']
             end
 
             def create_check(params)
-                response = @api.request :post, @@endpoint[:checks], params
+                response = @api.post @@endpoint[:checks], params
                 response['check']
             end
 
@@ -105,11 +116,11 @@ module PuppetX
             end
 
             def modify_check(check, params)
-                @api.request :put, "#{@@endpoint[:checks]}/#{check['id']}", params
+                @api.put "#{@@endpoint[:checks]}/#{check['id']}", params
             end
 
             def delete_check(check)
-                response = @api.request :delete, @@endpoint[:checks], {
+                response = @api.delete @@endpoint[:checks], {
                     :delcheckids => check['id'].to_s
                 }
             end
@@ -120,13 +131,13 @@ module PuppetX
             def teams
                 # list of teams
                 @teams ||= begin
-                    response = @api.request :get, @@endpoint[:teams]
+                    response = @api.get @@endpoint[:teams]
                     response['teams']
                 end
             end
 
             def create_team(params)
-                response = @api.request :post, @@endpoint[:teams], params
+                response = @api.post @@endpoint[:teams], params
                 response['team']
             end
 
@@ -136,11 +147,11 @@ module PuppetX
             end
 
             def modify_team(team, params)
-                @api.request :put, "#{@@endpoint[:teams]}/#{team['id']}", params
+                @api.put "#{@@endpoint[:teams]}/#{team['id']}", params
             end
 
             def delete_team(team)
-                @api.request :delete, @@endpoint[:teams], {
+                @api.delete @@endpoint[:teams], {
                     :delteamids => team['id'].to_s
                 }
             end
@@ -151,7 +162,7 @@ module PuppetX
             def users
                 # list of users
                 @users ||= begin
-                    response = @api.request :get, @@endpoint[:users]
+                    response = @api.get @@endpoint[:users]
                     response['users']
                 end
             end
@@ -163,7 +174,7 @@ module PuppetX
 
             def create_user(params)
                 # params should only contain :name as of 2.1
-                response = @api.request :post, @@endpoint[:users], params
+                response = @api.post @@endpoint[:users], params
                 response['user']
             end
 
@@ -177,7 +188,7 @@ module PuppetX
                 old_contacts = params.fetch(:old_contact_targets, [])
                 params.delete :contact_targets
                 params.delete :old_contact_targets
-                response = @api.request :put, "#{@@endpoint[:users]}/#{user['id']}", params
+                response = @api.put "#{@@endpoint[:users]}/#{user['id']}", params
 
                 if !contacts.empty?
                     old_contacts.each do |contact|
@@ -191,19 +202,19 @@ module PuppetX
             end
 
             def delete_user(user)
-                @api.request :delete, "#{@@endpoint[:users]}/#{user['id']}"
+                @api.delete "#{@@endpoint[:users]}/#{user['id']}"
             end
 
             def create_contact_target(user, contact)
-                @api.request :post, "#{@@endpoint[:users]}/#{user['id']}", contact
+                @api.post "#{@@endpoint[:users]}/#{user['id']}", contact
             end
 
             def modify_contact_target(user, contact)
-                @api.request :put, "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}", contact
+                @api.put "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}", contact
             end
 
             def delete_contact_target(user, contact)
-                @api.request :delete, "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
+                @api.delete "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
             end
         end
     end
