@@ -25,8 +25,7 @@ Pingdom_user {
     account_email => Sensitive($pingdom_account_email),
     user_email    => Sensitive($pingdom_user_email),
     password      => Sensitive($pingdom_password),
-    appkey        => $pingdom_appkey,
-    paused        => true
+    appkey        => $pingdom_appkey
 }
 
 Pingdom_check {
@@ -35,8 +34,7 @@ Pingdom_check {
     password      => Sensitive($pingdom_password),
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
-    contacts      => ['DevOps', 'DevOps Pager'],
-    paused        => true
+    contacts      => ['DevOps', 'DevOps Pager']
 }
 ```
 
@@ -53,8 +51,8 @@ pingdom_user { 'DevOps':
 pingdom_user { 'DevOps Pager':
     ensure          => present,
     contact_targets => [
-        { email  => 'devops-pager@domain.com', severity => 'HIGH' },
-        { number => '555-123-1213', countrycode => '1', severity => 'HIGH' }
+        { email  => 'devops-pager@domain.com' },
+        { number => '555-123-1213', countrycode => '1' }
     ]
 }
 ```
