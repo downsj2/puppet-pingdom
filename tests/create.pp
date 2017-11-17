@@ -19,6 +19,10 @@ Pingdom_user {
     paused           => true
 }
 
+Pingdom_team {
+    credentials_file => '~/.pingdom_credentials'
+}
+
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials',
     paused           => true,
@@ -35,6 +39,11 @@ pingdom_user { 'SRE PagerDuty':
         { email  => 'pagerduty@domain.com' },
         { number => '555-123-1212', countrycode => '1' }
     ]
+}
+
+pingdom_team { 'SRE':
+    ensure => present,
+    users  => ['SRE PagerDuty']
 }
 
 pingdom_check { "http://${facts['fqdn']}/check":

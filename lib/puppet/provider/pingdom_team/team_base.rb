@@ -1,8 +1,8 @@
 #
-# Base class for all Contact providers.
+# Base class for all team providers.
 #
 # Provider must:
-# - have `:parent => :contact_base` in their declaration.
+# - have `:parent => :team_base` in their declaration.
 # - declare any new properties as features using `has_features`.
 # - create setters/getters for provider-specific properties
 #   that require special handling (optional).
@@ -53,7 +53,7 @@ Puppet::Type.type(:pingdom_team).provide(:team_base) do
     end
 
     def exists?
-        @contact ||= api.find_contact @resource[:name]
+        @team ||= api.find_team @resource[:name]
     end
 
     def create
@@ -62,7 +62,7 @@ Puppet::Type.type(:pingdom_team).provide(:team_base) do
 
     def flush
         if @resource[:ensure] == :absent
-            api.delete_contact @contact if @contact
+            api.delete_team @team if @team
             return
         end
 
@@ -72,15 +72,38 @@ Puppet::Type.type(:pingdom_team).provide(:team_base) do
         end
         @property_hash[:name] = @resource[:name]
 
-        if @contact
-            api.modify_contact @contact, @property_hash
+        if @team
+            api.modify_team @team, @property_hash
         else
-            api.create_contact @property_hash
+            api.create_team @property_hash
         end
     end
 
     def destroy
         @resource[:ensure] = :absent
+    end
+
+    #
+    # custom getters/setters
+    #
+    def users
+        # accepts list of ids, returns list of names
+        ids = @team.fetch('users', {}).map { |i| i['id'].to_i }
+        user = api.select_users(ids, search='id') if ids
+        if user.respond_to? :map
+            user.map { |u| u['name'] }
+        else
+            :absent
+        end
+    end
+
+    def users=(value)
+        # accepts list of names, returns list of ids
+        users = api.select_users(value, search='name')
+        raise 'Unknown user in list' unless users.size == value.size
+        ids = users.map { |u| u['id'] }
+        newvalue = ids.join(',') if ids.respond_to? :join
+        @property_hash[:userids] = newvalue
     end
 
     #
@@ -96,7 +119,7 @@ Puppet::Type.type(:pingdom_team).provide(:team_base) do
         # define every single getter/setter).
 
         [ resource_type.validproperties, resource_type.parameters ].flatten.each do |prop|
-            # It should be noted that this loops over all properties for all contact providers.
+            # It should be noted that this loops over all properties for all team providers.
             # This is unfortunate, but we are protected against invalid properties by the
             # `required_features` defined on each property in the type declarations.
             prop = prop.to_sym
@@ -104,7 +127,7 @@ Puppet::Type.type(:pingdom_team).provide(:team_base) do
 
             if !method_defined?(prop)
                 define_method(prop) do
-                    @contact.fetch(prop.to_s, :absent)
+                    @team.fetch(prop.to_s, :absent)
                 end
             end
 

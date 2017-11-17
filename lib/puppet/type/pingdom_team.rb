@@ -42,7 +42,23 @@ Puppet::Type.newtype(:pingdom_team) do
     #
     # common properties
     #
-    newproperty(:users) do
-        desc 'User [List of Strings].'
+    newproperty(:users, :array_matching=>:all) do
+        desc 'User names [list of strings].'
+
+        def insync?(is)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
+            end
+        end
+    end
+
+    #
+    # autorequires
+    #
+    autorequire(:pingdom_user) do
+        self[:users]
     end
 end

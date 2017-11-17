@@ -42,9 +42,10 @@ module PuppetX
                 end
                 response = @http.request request
                 @logger.info "#{response.code} #{method.upcase} #{uri}"
-                @logger.debug response.body
                 raise "Got an HTTP error: #{response.code}" unless response.code == '200'
-                JSON.parse(response.body)
+                data = JSON.parse(response.body)
+                @logger.debug data
+                data
             end
 
             def make_methods(*verbs)
@@ -153,9 +154,7 @@ module PuppetX
             end
 
             def delete_team(team)
-                @api.delete @@endpoint[:teams], {
-                    :delteamids => team['id'].to_s
-                }
+                @api.delete "#{@@endpoint[:teams]}/#{team['id']}"
             end
 
             #

@@ -19,6 +19,10 @@ Pingdom_user {
     paused           => true
 }
 
+Pingdom_team {
+    credentials_file => '~/.pingdom_credentials'
+}
+
 Pingdom_check {
     credentials_file => '~/.pingdom_credentials',
     paused           => true,
@@ -43,6 +47,15 @@ pingdom_user { 'DevOps Pager':
     contact_targets => [
         { email  => 'devops-pager@domain.com', severity => 'HIGH' },
         { number => '555-123-1234', countrycode => '1', severity => 'HIGH' }
+    ]
+}
+
+pingdom_team { 'SRE':
+    ensure => present,
+    users => [
+        'SRE PagerDuty',
+        'DevOps',
+        'DevOps Pager'
     ]
 }
 

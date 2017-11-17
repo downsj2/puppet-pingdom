@@ -34,6 +34,14 @@ pingdom_check { $checks:
     ensure => absent
 }
 
+Pingdom_team {
+    credentials_file => '~/.pingdom_credentials'
+}
+$teams = ['SRE']
+pingdom_team { $teams:
+    ensure => absent
+}
+
 Pingdom_user {
     credentials_file => '~/.pingdom_credentials'
 }

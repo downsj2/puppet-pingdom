@@ -11,7 +11,7 @@ Please consider helping by submitting [bug reports](https://github.com/cwells/pu
 ---
 
 #### Types
-[`pingdom_check`][pingdom_check_properties] [`pingdom_user`][pingdom_user_properties]
+[`pingdom_check`][pingdom_check_properties] [`pingdom_team`][pingdom_team_properties] [`pingdom_user`][pingdom_user_properties]
 
 #### Check providers
 `dns` `http` `httpcustom` `imap` `ping` `pop3` `smtp` `tcp` `udp`
@@ -21,6 +21,13 @@ Please consider helping by submitting [bug reports](https://github.com/cwells/pu
 #### Example usage
 ###### Defaults:
 ```puppet
+Pingdom_team {
+    account_email => Sensitive($pingdom_account_email),
+    user_email    => Sensitive($pingdom_user_email),
+    password      => Sensitive($pingdom_password),
+    appkey        => $pingdom_appkey
+}
+
 Pingdom_user {
     account_email => Sensitive($pingdom_account_email),
     user_email    => Sensitive($pingdom_user_email),
@@ -52,6 +59,17 @@ pingdom_user { 'DevOps Pager':
     ensure          => present,
     contact_targets => [
         { number => '555-123-1213', countrycode => '1' }
+    ]
+}
+```
+
+###### Teams:
+```puppet
+pingdom_team { 'DevOps':
+    ensure => present,
+    users  => [
+        'DevOps',
+        'DevOps Pager'
     ]
 }
 ```
@@ -164,7 +182,7 @@ To get around this, and have your existing checks tagged, set `autofilter => 'bo
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - Users API is incomplete (can only manage contacts, not admins).
-- Teams API is unimplemented.
 
 [pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
+[pingdom_team_properties]: https://github.com/cwells/puppet-pingdom/wiki/Team-properties
 [pingdom_user_properties]: https://github.com/cwells/puppet-pingdom/wiki/User-properties
