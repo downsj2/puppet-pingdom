@@ -65,6 +65,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
     host           => $facts['fqdn'],
     url            => '/check',
     auth           => Sensitive("admin:p@ssw0rd"),
+    resolution     => 5,
     requestheaders => {
         'Accept' => 'x-application/json'
     },
@@ -72,7 +73,6 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_key'  => 'abcdef1234567890abcdef1234567890',
         'api_user' => 'automation'
     }),
-    resolution     => 5,
     tags           => ['http']
 }
 ```
