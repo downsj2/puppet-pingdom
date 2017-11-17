@@ -5,12 +5,11 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
-require 'json'
-
 module PuppetX
     module PuppetX::Pingdom
         class PuppetX::Pingdom::Http
             require 'net/https'
+            require 'json'
 
             def initialize(host, log_level=:error)
                 uri = URI.parse(host)
@@ -42,7 +41,7 @@ module PuppetX
                 @logger.info "#{response.code} #{method.upcase} #{uri}"
                 @logger.debug response.body
                 raise "Got an HTTP error: #{response.code}" unless response.code == '200'
-                response
+                JSON.parse(response.body)
             end
 
             private
@@ -85,21 +84,18 @@ module PuppetX
                 @checks ||= begin
                     params = { :include_tags => true, :tags => filter_tags.join(',') }
                     response = @api.request :get, @@endpoint[:checks], params
-                    body = JSON.parse(response.body)
-                    body['checks']
+                    response['checks']
                 end
             end
 
             def get_check_details(check)
                 response = @api.request :get, "#{@@endpoint[:checks]}/#{check['id']}"
-                body = JSON.parse(response.body)
-                body['check']
+                response['check']
             end
 
             def create_check(params)
                 response = @api.request :post, @@endpoint[:checks], params
-                body = JSON.parse(response.body)
-                body['check']
+                response['check']
             end
 
             def find_check(name, filter_tags)
@@ -109,15 +105,13 @@ module PuppetX
             end
 
             def modify_check(check, params)
-                response = @api.request :put, "#{@@endpoint[:checks]}/#{check['id']}", params
-                body = JSON.parse(response.body)
+                @api.request :put, "#{@@endpoint[:checks]}/#{check['id']}", params
             end
 
             def delete_check(check)
                 response = @api.request :delete, @@endpoint[:checks], {
                     :delcheckids => check['id'].to_s
                 }
-                body = JSON.parse(response.body)
             end
 
             #
@@ -127,15 +121,13 @@ module PuppetX
                 # list of teams
                 @teams ||= begin
                     response = @api.request :get, @@endpoint[:teams]
-                    body = JSON.parse(response.body)
-                    body['teams']
+                    response['teams']
                 end
             end
 
             def create_team(params)
                 response = @api.request :post, @@endpoint[:teams], params
-                body = JSON.parse(response.body)
-                body['team']
+                response['team']
             end
 
             def find_team(name)
@@ -144,15 +136,13 @@ module PuppetX
             end
 
             def modify_team(team, params)
-                response = @api.request :put, "#{@@endpoint[:teams]}/#{team['id']}", params
-                body = JSON.parse(response.body)
+                @api.request :put, "#{@@endpoint[:teams]}/#{team['id']}", params
             end
 
             def delete_team(team)
-                response = @api.request :delete, @@endpoint[:teams], {
+                @api.request :delete, @@endpoint[:teams], {
                     :delteamids => team['id'].to_s
                 }
-                body = JSON.parse(response.body)
             end
 
             #
@@ -162,8 +152,7 @@ module PuppetX
                 # list of users
                 @users ||= begin
                     response = @api.request :get, @@endpoint[:users]
-                    body = JSON.parse(response.body)
-                    body['users']
+                    response['users']
                 end
             end
 
@@ -175,8 +164,7 @@ module PuppetX
             def create_user(params)
                 # params should only contain :name as of 2.1
                 response = @api.request :post, @@endpoint[:users], params
-                body = JSON.parse(response.body)
-                body['user']
+                response['user']
             end
 
             def find_user(name)
@@ -190,7 +178,6 @@ module PuppetX
                 params.delete :contact_targets
                 params.delete :old_contact_targets
                 response = @api.request :put, "#{@@endpoint[:users]}/#{user['id']}", params
-                body = JSON.parse(response.body)
 
                 if !contacts.empty?
                     old_contacts.each do |contact|
@@ -204,23 +191,19 @@ module PuppetX
             end
 
             def delete_user(user)
-                response = @api.request :delete, "#{@@endpoint[:users]}/#{user['id']}"
-                body = JSON.parse(response.body)
+                @api.request :delete, "#{@@endpoint[:users]}/#{user['id']}"
             end
 
             def create_contact_target(user, contact)
-                response = @api.request :post, "#{@@endpoint[:users]}/#{user['id']}", contact
-                body = JSON.parse(response.body)
+                @api.request :post, "#{@@endpoint[:users]}/#{user['id']}", contact
             end
 
             def modify_contact_target(user, contact)
-                response = @api.request :put, "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}", contact
-                body = JSON.parse(response.body)
+                @api.request :put, "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}", contact
             end
 
             def delete_contact_target(user, contact)
-                response = @api.request :delete, "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
-                body = JSON.parse(response.body)
+                @api.request :delete, "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
             end
         end
     end
