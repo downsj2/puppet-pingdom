@@ -126,22 +126,20 @@ pingdom::checks:
     provider: http
     host: "%{facts.fqdn}"
     url: /status
-    tags:
-    - http
-    paused: true
     contacts:
     - DevOps
     - DevOps Pager
+    tags:
+    - http
 
   "ping://%{facts.fqdn}":
     provider: ping
     host: "%{facts.fqdn}"
-    tags:
-    - ping
-    paused: true
     contacts:
     - DevOps
     - DevOps Pager
+    tags:
+    - ping
 ```
 
 After configuring Hiera, simply `include pingdom` in your manifest.
