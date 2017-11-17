@@ -51,7 +51,6 @@ pingdom_user { 'DevOps':
 pingdom_user { 'DevOps Pager':
     ensure          => present,
     contact_targets => [
-        { email  => 'devops-pager@domain.com' },
         { number => '555-123-1213', countrycode => '1' }
     ]
 }
