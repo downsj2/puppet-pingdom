@@ -9,7 +9,6 @@ require 'json'
 
 module PuppetX
     module PuppetX::Pingdom
-
         class PuppetX::Pingdom::Http
             require 'net/https'
 
@@ -18,15 +17,9 @@ module PuppetX
                 @http = Net::HTTP.new(uri.host, 443)
                 @http.use_ssl = true
                 @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-                @http.set_debug_output($stderr) if loglevel
                 @headers = {}
                 @basic_auth = nil
-            end
-
-            def logging_stuff_TBD(level)
-                require 'logger'
-                logger = Logger.new $stderr
-                logger.level = Logger.const_get(level.upcase)
+                enable_logging if loglevel
             end
 
             def basic_auth(username, password)
@@ -54,6 +47,10 @@ module PuppetX
             def encode_path_params(path, params)
                 encoded = URI.encode_www_form params
                 [path, encoded].join '?'
+            end
+
+            def enable_logging
+                @http.set_debug_output $stderr
             end
         end
 
