@@ -115,6 +115,7 @@ pingdom::users:
     - email: devops@company.com
     - number: 555-123-1234
       countrycode: 1
+
   'DevOps Pager':
     contact_targets:
     - number: 555-123-3214
