@@ -22,7 +22,7 @@ publish:
 	git push
 
 	git tag -d ${VERSION} || echo ""
-	git push origin :refs/tags/${VERSION}
+	git push origin ":refs/tags/${VERSION}"
 
 	@git tag -a ${VERSION} -m "Release ${VERSION}"
 	@git push origin ${VERSION}
