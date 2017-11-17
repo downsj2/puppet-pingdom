@@ -103,7 +103,9 @@ module PuppetX
             end
 
             def get_check_details(check)
-                response = @api.get "#{@@endpoint[:checks]}/#{check['id']}"
+                response = @api.get "#{@@endpoint[:checks]}/#{check['id']}", {
+                    :include_teams => true
+                }
                 response['check']
             end
 
@@ -137,6 +139,11 @@ module PuppetX
                     response = @api.get @@endpoint[:teams]
                     response['teams']
                 end
+            end
+
+            def select_teams(values, search='id')
+                # returns list of teams or nil
+                teams.select { |team| values.include? team[search] }
             end
 
             def create_team(params)

@@ -160,6 +160,19 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
+    newproperty(:teams, :array_matching=>:all) do
+        desc 'Team names to contact [list of strings].'
+
+        def insync?(is)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
+            end
+        end
+    end
+
     #
     # provider-specific properties
     #
@@ -268,5 +281,9 @@ Puppet::Type.newtype(:pingdom_check) do
     #
     autorequire(:pingdom_user) do
         self[:contacts]
+    end
+
+    autorequire(:pingdom_team) do
+        self[:teams]
     end
 end

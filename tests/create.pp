@@ -63,7 +63,8 @@ pingdom_check { "http://${facts['fqdn']}/check":
     port             => 80,
     auth             => "admin:password",
     encryption       => false,
-    tags             => ['http']
+    tags             => ['http'],
+    teams            => ['SRE']
 }
 
 pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
