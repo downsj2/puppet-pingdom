@@ -47,10 +47,10 @@ Pingdom_check {
 
 ###### Contacts:
 ```puppet
-pingdom_user { 'DevOps':
+pingdom_user { 'Steve Smith':
     ensure          => present,
     contact_targets => [
-        { email  => 'devops@domain.com' },
+        { email  => 'ssmith@domain.com' },
         { number => '555-123-1212', countrycode => '1' }
     ]
 }
@@ -68,7 +68,7 @@ pingdom_user { 'DevOps Pager':
 pingdom_team { 'DevOps':
     ensure => present,
     users  => [
-        'DevOps',
+        'Steve Smith',
         'DevOps Pager'
     ]
 }
@@ -125,7 +125,7 @@ pingdom::password: ENC[PKCS7,EYAMLENCODEDPASSWORD]
 pingdom::appkey: ABCDEF1234567890FEDCBA
 
 pingdom::users:
-  'DevOps':
+  'Steve Smith':
     contact_targets:
     - email: devops@company.com
     - number: 555-123-1234
@@ -135,6 +135,12 @@ pingdom::users:
     contact_targets:
     - number: 555-123-3214
       countrycode: 1
+
+pingdom::teams:
+  'DevOps':
+    users:
+      - Steve Smith
+      - DevOps Pager
 
 pingdom::checks:
   "http://%{facts.fqdn}/status":
