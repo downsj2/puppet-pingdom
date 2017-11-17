@@ -18,10 +18,10 @@ Please consider helping by submitting [bug reports](https://github.com/cwells/pu
 #### Types
 [`pingdom_check`][pingdom_check_properties] [`pingdom_user`][pingdom_user_properties] [`pingdom_team`][pingdom_team_properties] <sup>[1]</sup>
 
-<sup>[1]</sup> Team accounts only.
-
 #### Check providers
 `dns` `http` `httpcustom` `imap` `ping` `pop3` `smtp` `tcp` `udp`
+
+<sup>[1]</sup> Team accounts only.
 
 ---
 
