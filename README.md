@@ -8,6 +8,9 @@ As of [0.7.0](https://github.com/cwells/puppet-pingdom/releases/tag/0.7.0), this
 
 Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
+###### Attention
+[0.9.0](https://github.com/cwells/puppet-pingdom/releases/tag/0.9.0) introduces a breaking change. `Pingdom_check.contacts` has been renamed to `Pingdom_check.users` to be consistent with naming conventions.
+
 ---
 
 #### Types
