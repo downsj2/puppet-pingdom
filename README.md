@@ -102,10 +102,10 @@ pingdom_check { "ping://${facts['fqdn']}":
 ###### Hiera:
 
 ```yaml
-pingdom::account_email: 'support@company.com'
-pingdom::user_email: 'puppet@company.com'
+pingdom::account_email: support@company.com
+pingdom::user_email: puppet@company.com
 pingdom::password: ENC[PKCS7,EYAMLENCODEDPASSWORD]
-pingdom::appkey: '1348934113454334'
+pingdom::appkey: ABCDEF1234567890FEDCBA
 
 pingdom::users:
   'DevOps':
