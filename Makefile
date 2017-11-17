@@ -21,7 +21,7 @@ publish:
 	@(git add . && git commit -m "Publishing ${VERSION}") || echo "Nothing to commit"
 	@git push
 
-	@git tag -d ${VERSION} || echo
+	@git tag -d ${VERSION} || echo ""
 	@git push origin :refs/tags/${VERSION}
 
 	@git tag -a ${VERSION} -m "Release ${VERSION}"
