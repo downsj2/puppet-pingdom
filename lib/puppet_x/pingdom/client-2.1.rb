@@ -33,7 +33,7 @@ module PuppetX
             private
 
             def request(method, path, params={})
-                uri = encode_path_params path, params
+                uri = encode_uri path, params
                 request = Net::HTTP.const_get(method.capitalize).new uri
                 request.basic_auth *@basic_auth if @basic_auth
                 @headers.each do |k, v|
@@ -57,7 +57,7 @@ module PuppetX
                 end
             end
 
-            def encode_path_params(path, params)
+            def encode_uri(path, params)
                 encoded = URI.encode_www_form params
                 [path, encoded].join '?'
             end

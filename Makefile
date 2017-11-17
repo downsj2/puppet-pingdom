@@ -2,7 +2,7 @@ VERSION=$(shell jq -r '.version' metadata.json)
 
 test: export RUBYLIB=${PWD}/lib
 test:
-	@echo "Deleting..."
+	@echo "===> Deleting..."
 	@puppet apply tests/delete.pp
 	@echo "===> Creating (expect changes)"
 	@puppet apply tests/create.pp
