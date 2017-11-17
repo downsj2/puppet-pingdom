@@ -115,24 +115,32 @@ pingdom::users:
     - email: devops@company.com
     - number: 555-123-1234
       countrycode: 1
+  'DevOps Pager':
+    contact_targets:
+    - number: 555-123-3214
+      countrycode: 1
 
 pingdom::checks:
   "http://%{facts.fqdn}/status":
     provider: http
     host: "%{facts.fqdn}"
-    url: '/status'
-    tags: [ http ]
+    url: /status
+    tags:
+    - http
     paused: true
     contacts:
-    - 'DevOps'
+    - DevOps
+    - DevOps Pager
 
   "ping://%{facts.fqdn}":
     provider: ping
     host: "%{facts.fqdn}"
-    tags: [ ping ]
+    tags:
+    - ping
     paused: true
     contacts:
-    - 'DevOps'
+    - DevOps
+    - DevOps Pager
 ```
 
 After configuring Hiera, simply `include pingdom` in your manifest.
