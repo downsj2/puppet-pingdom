@@ -16,13 +16,13 @@ test:
 	@puppet apply tests/delete.pp
 
 publish:
-	@echo "Publishing version ${VERSION}"
-	@git pull || echo "Nothing to pull"
-	@(git add . && git commit -m "Publishing ${VERSION}") || echo "Nothing to commit"
-	@git push
+	echo "Publishing version ${VERSION}"
+	git pull || echo "Nothing to pull"
+	(git add . && git commit -m "Publishing ${VERSION}") || echo "Nothing to commit"
+	git push
 
-	@git tag -d ${VERSION} || echo ""
-	@git push origin :refs/tags/${VERSION}
+	git tag -d ${VERSION} || echo ""
+	git push origin :refs/tags/${VERSION}
 
 	@git tag -a ${VERSION} -m "Release ${VERSION}"
 	@git push origin ${VERSION}
