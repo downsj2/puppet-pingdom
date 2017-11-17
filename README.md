@@ -104,7 +104,7 @@ pingdom_check { "ping://${facts['fqdn']}":
 ```yaml
 pingdom::account_email: 'support@company.com'
 pingdom::user_email: 'puppet@company.com'
-pingdom::password: 's3cr3ts4uc3'
+pingdom::password: ENC[PKCS7,EYAMLENCODEDPASSWORD]
 pingdom::appkey: '1348934113454334'
 
 pingdom::users:
