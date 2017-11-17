@@ -101,7 +101,7 @@ pingdom_check { "ping://${facts['fqdn']}":
 }
 ```
 
-###### Via Hiera:
+###### Hiera:
 
 ```yaml
 pingdom::account_email: 'support@company.com'
@@ -142,7 +142,13 @@ pingdom::checks:
     - ping
 ```
 
-After configuring Hiera, simply `include pingdom` in your manifest.
+After configuring Hiera, simply `include pingdom` in your manifest:
+
+```puppet
+class myclass {
+    include pingdom
+}
+```
 
 ---
 
