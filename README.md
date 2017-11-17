@@ -41,7 +41,7 @@ Pingdom_check {
     password      => Sensitive($pingdom_password),
     appkey        => $pingdom_appkey,
     probe_filters => ['NA'],
-    contacts      => ['DevOps', 'DevOps Pager']
+    users         => ['DevOps', 'DevOps Pager']
 }
 ```
 
@@ -147,7 +147,7 @@ pingdom::checks:
     provider: http
     host: "%{facts.fqdn}"
     url: /status
-    contacts:
+    users:
     - DevOps
     - DevOps Pager
     tags:
@@ -156,7 +156,7 @@ pingdom::checks:
   "ping://%{facts.fqdn}":
     provider: ping
     host: "%{facts.fqdn}"
-    contacts:
+    users:
     - DevOps
     - DevOps Pager
     tags:

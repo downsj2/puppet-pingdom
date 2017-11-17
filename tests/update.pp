@@ -28,7 +28,7 @@ Pingdom_check {
     paused           => true,
     ipv6             => false,
     resolution       => 30,
-    contacts         => [
+    users            => [
         'DevOps',
         'DevOps Pager'
     ]

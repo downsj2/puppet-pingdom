@@ -74,9 +74,9 @@ module PuppetX
             @@api_host = 'https://api.pingdom.com'
             @@api_base = '/api/2.1'
             @@endpoint = {
-                :checks  => "#{@@api_base}/checks",
-                :teams   => "#{@@api_base}/teams",
-                :users   => "#{@@api_base}/users"
+                :checks => "#{@@api_base}/checks",
+                :teams  => "#{@@api_base}/teams",
+                :users  => "#{@@api_base}/users"
             }
 
             def initialize(account_email, user_email, password, appkey, log_level=:error)
@@ -224,6 +224,40 @@ module PuppetX
             def delete_contact_target(user, contact)
                 @api.delete "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
             end
+
+            # #
+            # # Integrations API (TBD)
+            # #
+            # def integrations
+            #     # list of integrations
+            #     @integrations ||= begin
+            #         response = @api.get @@endpoint[:integrations]
+            #         response['integrations']
+            #     end
+            # end
+
+            # def select_integrations(values, search='id')
+            #     # returns list of integrations or nil
+            #     integrations.select { |integration| values.include? integration[search] }
+            # end
+
+            # def create_integration(params)
+            #     response = @api.post @@endpoint[:integrations], params
+            #     response['integration']
+            # end
+
+            # def find_integration(name)
+            #     # returns integration or nil
+            #     integrations.select { |integration| integration['name'] == name } [0]
+            # end
+
+            # def modify_integration(integration, params)
+            #     @api.put "#{@@endpoint[:integrations]}/#{integration['id']}", params
+            # end
+
+            # def delete_integration(integration)
+            #     @api.delete "#{@@endpoint[:integrations]}/#{integration['id']}"
+            # end
         end
     end
 end
