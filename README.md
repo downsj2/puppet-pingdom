@@ -43,8 +43,7 @@ Pingdom_check {
     user_email    => Sensitive($pingdom_user_email),
     password      => Sensitive($pingdom_password),
     appkey        => $pingdom_appkey,
-    probe_filters => ['NA'],
-    users         => ['DevOps', 'DevOps Pager']
+    probe_filters => ['NA']
 }
 ```
 
@@ -93,6 +92,7 @@ pingdom_check { "http://${facts['fqdn']}/check":
         'api_key'  => 'abcdef1234567890abcdef1234567890',
         'api_user' => 'automation'
     }),
+    teams          => ['DevOps'],
     tags           => ['http']
 }
 ```
@@ -105,6 +105,7 @@ pingdom_check { "dns://${facts['fqdn']}":
     host       => $facts['fqdn'],
     expectedip => '1.2.3.4',
     nameserver => '8.8.8.8',
+    users      => ['DevOps Pager'],
     tags       => ['dns']
 }
 ```
@@ -150,9 +151,8 @@ pingdom::checks:
     provider: http
     host: "%{facts.fqdn}"
     url: /status
-    users:
+    teams:
     - DevOps
-    - DevOps Pager
     tags:
     - http
 
@@ -160,7 +160,6 @@ pingdom::checks:
     provider: ping
     host: "%{facts.fqdn}"
     users:
-    - DevOps
     - DevOps Pager
     tags:
     - ping
