@@ -41,11 +41,11 @@ module PuppetX
                     @logger.debug "#{k}: #{v}"
                 end
                 response = @http.request request
+                data = JSON.parse response.body
                 @logger.info "#{response.code} #{method.upcase} #{uri}"
-                raise "Got an HTTP error: #{response.code}" unless response.code == '200'
-                data = JSON.parse(response.body)
                 @logger.debug data
-                data
+                return data if response.code == '200'
+                raise "Error #{response.code}: #{data['statusdesc']}"
             end
 
             def make_methods(*verbs)
