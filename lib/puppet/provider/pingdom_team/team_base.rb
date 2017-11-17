@@ -48,7 +48,7 @@ Puppet::Type.type(:pingdom_team).provide(:team_base) do
                 account_email, user_email, password, appkey =
                     @resource[:account_email], @resource[:user_email], @resource[:password], @resource[:appkey]
             end
-            PuppetX::Pingdom::Client.new(account_email, user_email, password, appkey, @resource[:logging])
+            PuppetX::Pingdom::Client.new(account_email, user_email, password, appkey, @resource[:log_level])
         end
     end
 

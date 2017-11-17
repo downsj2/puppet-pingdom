@@ -12,14 +12,14 @@ module PuppetX
         class PuppetX::Pingdom::Http
             require 'net/https'
 
-            def initialize(host, loglevel=nil)
+            def initialize(host, log_level=:error)
                 uri = URI.parse(host)
                 @http = Net::HTTP.new(uri.host, 443)
                 @http.use_ssl = true
                 @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
                 @headers = {}
                 @basic_auth = nil
-                enable_logging if loglevel
+                enable_logging log_level.to_s
             end
 
             def basic_auth(username, password)
@@ -31,14 +31,17 @@ module PuppetX
             end
 
             def request(method, path, params={})
-                full_path = encode_path_params path, params
-                request = Net::HTTP.const_get(method.capitalize).new full_path
+                uri = encode_path_params path, params
+                request = Net::HTTP.const_get(method.capitalize).new uri
                 request.basic_auth *@basic_auth if @basic_auth
                 @headers.each do |k, v|
                     request[k] = v
+                    @logger.debug "#{k}: #{v}"
                 end
                 response = @http.request request
-                raise "Got an HTTP error: #{response.code}" unless [200].include? response.code.to_i
+                @logger.info "#{response.code} #{method.upcase} #{uri}"
+                @logger.debug response.body
+                raise "Got an HTTP error: #{response.code}" unless response.code == '200'
                 response
             end
 
@@ -49,8 +52,10 @@ module PuppetX
                 [path, encoded].join '?'
             end
 
-            def enable_logging
-                @http.set_debug_output $stderr
+            def enable_logging(level)
+                require 'logger'
+                @logger = Logger.new $stderr
+                @logger.level = Logger.const_get(level.upcase)
             end
         end
 
@@ -63,8 +68,8 @@ module PuppetX
                 :users   => "#{@@api_base}/users"
             }
 
-            def initialize(account_email, user_email, password, appkey, logging=nil)
-                @api = PuppetX::Pingdom::Http.new @@api_host, logging
+            def initialize(account_email, user_email, password, appkey, log_level=:error)
+                @api = PuppetX::Pingdom::Http.new @@api_host, log_level
                 @api.basic_auth(user_email, password)
                 @api.headers({
                     'App-Key' => appkey,

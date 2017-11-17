@@ -38,9 +38,10 @@ Puppet::Type.newtype(:pingdom_user) do
         desc 'YAML file containing Pingdom credentials [string]'
     end
 
-    newparam(:logging) do
+    newparam(:log_level) do
         desc 'Logging level for API requests [String (ERROR, WARN, INFO, DEBUG)]'
-        newvalues(:ERROR, :WARN, :INFO, :DEBUG)
+        newvalues(:error, :warn, :info, :debug)
+        defaultto :error
     end
 
     #
