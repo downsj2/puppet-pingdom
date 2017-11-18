@@ -109,6 +109,19 @@ Puppet::Type.newtype(:pingdom_check) do
         end
     end
 
+    newproperty(:notifyagainevery) do
+        desc 'Notify again every n result [integer]'
+    end
+
+    newproperty(:notifywhenbackup) do
+        desc 'Notify when back up again [boolean]'
+        newvalues(:true, :false)
+
+        def insync?(is)
+            should.nil? or is.to_s == should.to_s
+        end
+    end
+
     newproperty(:paused) do
         desc 'Paused [boolean]'
         newvalues(:true, :false)
@@ -139,6 +152,11 @@ Puppet::Type.newtype(:pingdom_check) do
         def insync?(is)
             should.nil? or is.to_s == should.to_s
         end
+    end
+
+    newproperty(:responsetime_threshold) do
+        desc %q(Triggers a down alert if the response time exceeds
+                threshold specified in ms [integer])
     end
 
     newproperty(:tags, :array_matching=>:all) do

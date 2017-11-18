@@ -45,7 +45,8 @@ module PuppetX
                 @logger.info "#{response.code} #{method.upcase} #{uri}"
                 @logger.debug data
                 return data if response.code == '200'
-                raise "Error #{response.code}: #{data['statusdesc']}"
+                @logger.error "HTTP response error #{response.code}: #{data['error']['errormessage']}"
+                raise data['error']['errormessage']
             end
 
             def make_methods(*verbs)
