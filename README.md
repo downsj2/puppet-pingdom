@@ -2,7 +2,7 @@
 Puppet type and provider for the Pingdom API.
 
 #### Status
-Currently supports the [Pingdom 2.1 API](www.pingdom.com/resources/api/2.1).
+Currently supports the [Pingdom 2.1 API](http://www.pingdom.com/resources/api/2.1).
 
 This module has no external dependencies, and should be widely-compatible and simple to install.
 
