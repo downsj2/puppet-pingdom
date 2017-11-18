@@ -4,11 +4,11 @@ Puppet type and provider for the Pingdom API.
 #### Status
 Currently supports the Pingdom v2.1 API.
 
-As of [0.7.0](https://github.com/cwells/puppet-pingdom/releases/tag/0.7.0), this module no longer depends on the 3rd-party `faraday` gem. This should simplify installation.
+This module has no external dependencies, and as such, should be widely-compatible and simple to install.
 
 Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
-#### Attention
+#### Warning
 <div width="100" height="50">
   <img align="left" src="https://image.flaticon.com/icons/svg/159/159469.svg" width="50" height="50" />
 </div>
