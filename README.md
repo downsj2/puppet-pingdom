@@ -2,9 +2,9 @@
 Puppet type and provider for the Pingdom API.
 
 #### Status
-Currently supports the Pingdom v2.1 API.
+Currently supports the [Pingdom 2.1 API](www.pingdom.com/resources/api/2.1).
 
-This module has no external dependencies, and as such, should be widely-compatible and simple to install.
+This module has no external dependencies, and should be widely-compatible and simple to install.
 
 Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
