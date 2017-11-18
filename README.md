@@ -20,7 +20,7 @@ Please consider helping by submitting [bug reports](https://github.com/cwells/pu
 #### Types
 [`pingdom_check`][pingdom_check_properties] [`pingdom_user`][pingdom_user_properties] [`pingdom_team`][pingdom_team_properties] <sup>[1]</sup>
 
-<sup>[1]</sup> Team accounts only.
+<sup>[1]</sup> Multi-user accounts only.
 
 #### Check providers
 `dns` `http` `httpcustom` `imap` `ping` `pop3` `smtp` `tcp` `udp`
@@ -196,6 +196,7 @@ To get around this, and have your existing checks tagged, set `autofilter => 'bo
 #### Known issues
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - Users API is incomplete (can only manage contacts, not admins).
+- There's a difference in login requirements for _Starter_ and _Standard_ plans (specifically, these two levels lack multi-user login). I'm currently only able to test against _Enterprise_. If you have a _Starter_ or _Standard_ plan and have issues authenticating to Pingdom, reach out to me and we can get it working.
 
 [pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
 [pingdom_user_properties]: https://github.com/cwells/puppet-pingdom/wiki/User-properties
