@@ -9,9 +9,7 @@ This module has no external dependencies, and should be widely-compatible and si
 Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
 #### Warning
-<div width="100" height="50">
-  <img align="left" src="https://image.flaticon.com/icons/svg/159/159469.svg" width="50" height="50" />
-</div>
+<img align="left" src="https://image.flaticon.com/icons/svg/159/159469.svg" width="50" height="50" />
 
 [0.9.0](https://github.com/cwells/puppet-pingdom/releases/tag/0.9.0) introduces a breaking change. `Pingdom_check.contacts` has been renamed to `Pingdom_check.users` to be consistent with naming conventions.
 
@@ -197,6 +195,7 @@ To get around this, and have your existing checks tagged, set `autofilter => 'bo
 - `puppet resource pingdom_check` command will likely never work, since `self.instances` is a class method and doesn't have access to instantiation-time parameters such as credentials.
 - Users API is incomplete (can only manage contacts, not admins).
 - There's a difference in login requirements for _Starter_ and _Standard_ plans (specifically, these two levels lack multi-user login). I'm currently only able to test against _Enterprise_. If you have a _Starter_ or _Standard_ plan and have issues authenticating to Pingdom, reach out to me and we can get it working.
+- The Integrations API isn't documented, so we can't manage integrations yet.
 
 [pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
 [pingdom_user_properties]: https://github.com/cwells/puppet-pingdom/wiki/User-properties
