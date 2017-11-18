@@ -147,8 +147,8 @@ pingdom::users:
 pingdom::teams:
   'DevOps':
     users:
-      - Steve Smith
-      - DevOps Pager
+    - Steve Smith
+    - DevOps Pager
 
 pingdom::checks:
   "http://%{facts.fqdn}/status":
