@@ -69,19 +69,6 @@ Puppet::Type.newtype(:pingdom_check) do
     #
     # common properties
     #
-    newproperty(:users, :array_matching=>:all) do
-        desc 'User names [list of strings].'
-
-        def insync?(is)
-            case is
-                when :absent
-                    should.nil?
-                else
-                    should.nil? or is.sort == should.sort
-            end
-        end
-    end
-
     newproperty(:host) do
         desc 'HTTP hostname or IP to check [string]'
     end
@@ -180,6 +167,19 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:teams, :array_matching=>:all) do
         desc 'Team names to contact [list of strings].'
+
+        def insync?(is)
+            case is
+                when :absent
+                    should.nil?
+                else
+                    should.nil? or is.sort == should.sort
+            end
+        end
+    end
+
+    newproperty(:users, :array_matching=>:all) do
+        desc 'User names [list of strings].'
 
         def insync?(is)
             case is

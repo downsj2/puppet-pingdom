@@ -1,13 +1,27 @@
 class pingdom {
-    $defaults = {
-        'account_email' => hiera_hash('pingdom::account_email'),
-        'user_email'    => hiera_hash('pingdom::user_email'),
-        'password'      => hiera_hash('pingdom::password'),
-        'appkey'        => hiera_hash('pingdom::appkey')
+    $account_email = lookup('pingdom::account_email', String, 'hash', false)
+
+    $common = {
+        'user_email' => lookup('pingdom::user_email', String, 'hash'),
+        'password'   => lookup('pingdom::password', String, 'hash'),
+        'appkey'     => lookup('pingdom::appkey', String, 'hash')
     }
 
-    create_resources('pingdom_user',  hiera_hash('pingdom::users', {}),  $defaults)
-    create_resources('pingdom_team',  hiera_hash('pingdom::teams', {}),  $defaults)
-    create_resources('pingdom_check', hiera_hash('pingdom::checks', {}), $defaults)
+    $defaults = $account_email ? {
+        default => merge($common, {'account_email' => $account_email}),
+        false   => $common
+    }
+
+    $users = lookup('pingdom::users', Hash, 'hash', {})
+    $teams = lookup('pingdom::teams', Hash, 'hash', {})
+    $checks = lookup('pingdom::checks', Hash, 'hash', {})
+
+    # notify { "${users}": }
+    # notify { "${teams}": }
+    # notify { "${checks}": }
+
+    create_resources('pingdom_user', $users, $defaults)
+    create_resources('pingdom_team', $teams, $defaults)
+    # create_resources('pingdom_check', $checks, $defaults)
 }
 

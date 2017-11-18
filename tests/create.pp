@@ -65,7 +65,8 @@ pingdom_check { "http://${facts['fqdn']}/check":
     auth             => "admin:password",
     encryption       => false,
     tags             => ['http'],
-    teams            => ['SRE']
+    teams            => ['SRE'],
+    users            => ['SRE PagerDuty']
 }
 
 pingdom_check { "httpcustom://${facts['fqdn']}/status/pingdom.xml":
