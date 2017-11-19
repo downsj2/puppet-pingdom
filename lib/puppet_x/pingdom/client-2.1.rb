@@ -103,7 +103,10 @@ module PuppetX
                 end
             end
 
-            def get_check_details(check)
+            def find_check(name, filter_tags)
+                # returns check or nil
+                check = checks(filter_tags).select { |check| check['name'] == name } [0]
+                return nil if not check
                 response = @api.get "#{@@endpoint[:checks]}/#{check['id']}", {
                     :include_teams => true
                 }
@@ -113,12 +116,6 @@ module PuppetX
             def create_check(params)
                 response = @api.post @@endpoint[:checks], params
                 response['check']
-            end
-
-            def find_check(name, filter_tags)
-                # returns check or nil
-                check = checks(filter_tags).select { |check| check['name'] == name } [0]
-                get_check_details(check) if check
             end
 
             def modify_check(check, params)
@@ -142,6 +139,11 @@ module PuppetX
                 end
             end
 
+            def find_team(name)
+                # returns team or nil
+                teams.select { |team| team['name'] == name } [0]
+            end
+
             def select_teams(values, search='id')
                 # returns list of teams or nil
                 teams.select { |team| values.include? team[search] }
@@ -150,11 +152,6 @@ module PuppetX
             def create_team(params)
                 response = @api.post @@endpoint[:teams], params
                 response['team']
-            end
-
-            def find_team(name)
-                # returns team or nil
-                teams.select { |team| team['name'] == name } [0]
             end
 
             def modify_team(team, params)
@@ -176,6 +173,11 @@ module PuppetX
                 end
             end
 
+            def find_user(name)
+                # returns user or nil
+                users.select { |user| user['name'] == name } [0]
+            end
+
             def select_users(values, search='id')
                 # returns list of users or nil
                 users.select { |user| values.include? user[search] }
@@ -185,11 +187,6 @@ module PuppetX
                 # params should only contain :name as of 2.1
                 response = @api.post @@endpoint[:users], params
                 response['user']
-            end
-
-            def find_user(name)
-                # returns user or nil
-                users.select { |user| user['name'] == name } [0]
             end
 
             def modify_user(user, params)
