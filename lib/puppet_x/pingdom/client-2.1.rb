@@ -12,8 +12,8 @@ module PuppetX
             require 'json'
 
             def initialize(host, log_level=:error)
-                uri = URI.parse(host)
-                @http = Net::HTTP.new(uri.host, 443)
+                uri = URI.parse host
+                @http = Net::HTTP.new uri.host, 443
                 @http.use_ssl = true
                 @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
                 @headers = {}
@@ -67,7 +67,7 @@ module PuppetX
             def enable_logging(level)
                 require 'logger'
                 @logger = Logger.new $stderr
-                @logger.level = Logger.const_get(level.upcase)
+                @logger.level = Logger.const_get level.upcase
             end
         end
 
@@ -201,7 +201,7 @@ module PuppetX
 
                 if !contacts.empty?
                     old_contacts.each do |contact|
-                        delete_contact_target user, contact if contact.include? 'id'
+                        delete_contact_target(user, contact) if contact.include? 'id'
                     end
                     contacts.each do |contact|
                         create_contact_target user, contact
