@@ -64,7 +64,7 @@ Puppet::Type.newtype(:pingdom_user) do
                 i = i.first
                 s['severity'] ||= i['severity']
                 return false if s['severity'] != i['severity']
-                return false if (s['countrycode'] != i['countrycode'] && type == 'number')
+                return false if (type == 'number' && s['countrycode'] != i['countrycode'])
             end
 
             true
