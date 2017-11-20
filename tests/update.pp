@@ -24,14 +24,14 @@ Pingdom_team {
 }
 
 Pingdom_check {
-    credentials_file => '~/.pingdom_credentials',
-    paused           => true,
-    ipv6                     => true,
-    resolution               => 60,
-    notifyagainevery         => 15,
-    notifywhenbackup         => true,
-    responsetime_threshold   => 30,
-    users            => [
+    credentials_file       => '~/.pingdom_credentials',
+    paused                 => true,
+    ipv6                   => true,
+    resolution             => 60,
+    notifyagainevery       => 15,
+    notifywhenbackup       => true,
+    responsetime_threshold => 30,
+    users                  => [
         'DevOps',
         'DevOps Pager'
     ]

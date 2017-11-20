@@ -154,7 +154,6 @@ Puppet::Type.newtype(:pingdom_check) do
 
     newproperty(:teams, :array_matching=>:all) do
         desc 'Team names [list of strings].'
-        defaultto []
 
         def insync?(is)
             case is
