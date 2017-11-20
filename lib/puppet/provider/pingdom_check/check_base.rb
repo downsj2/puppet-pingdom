@@ -69,6 +69,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     def exists?
         if [:true, :bootstrap].include? @resource[:autofilter]
             @autotag ||= 'puppet-' + Digest::SHA1.hexdigest(@resource[:name])[0..5]
+            @resource[:filter_tags] ||= []
             @resource[:filter_tags] << @autotag if @resource[:autofilter] != :bootstrap
         else
             @autotag = nil
