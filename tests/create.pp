@@ -34,6 +34,11 @@ Pingdom_check {
     users                    => [ 'SRE PagerDuty' ]
 }
 
+pingdom_settings { 'Pingdom Settings':
+    credentials_file => '~/.pingdom_credentials',
+    company          => 'Company, Inc.'
+}
+
 pingdom_user { 'SRE PagerDuty':
     ensure          => present,
     contact_targets => [

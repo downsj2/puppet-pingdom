@@ -75,9 +75,10 @@ module PuppetX
             @@api_host = 'https://api.pingdom.com'
             @@api_base = '/api/2.1'
             @@endpoint = {
-                :checks => "#{@@api_base}/checks",
-                :teams  => "#{@@api_base}/teams",
-                :users  => "#{@@api_base}/users"
+                :checks   => "#{@@api_base}/checks",
+                :teams    => "#{@@api_base}/teams",
+                :users    => "#{@@api_base}/users",
+                :settings => "#{@@api_base}/settings"
             }
 
             def initialize(account_email, user_email, password, appkey, log_level=:error)
@@ -221,6 +222,21 @@ module PuppetX
 
             def delete_contact_target(user, contact)
                 @api.delete "#{@@endpoint[:users]}/#{user['id']}/#{contact['id']}"
+            end
+
+            #
+            # Settings API
+            #
+            def settings
+                # all settings
+                @settings ||= begin
+                    response = @api.get @@endpoint[:settings]
+                    response['settings']
+                end
+            end
+
+            def modify_settings(params)
+                @api.put "#{@@endpoint[:settings]}", params
             end
         end
     end
