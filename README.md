@@ -127,11 +127,12 @@ pingdom_check { "ping://${facts['fqdn']}":
 ###### Settings:
 ```puppet
 pingdom_settings { 'Pingdom Settings':
-    firstname => 'Brad',
-    lastname  => 'Brown',
-    company   => 'Company, Inc.',
-    email     => 'bbrown@company.com',
-    cellphone => '555-123-3333'
+    firstname   => 'Brad',
+    lastname    => 'Brown',
+    company     => 'Company, Inc.',
+    email       => 'bbrown@company.com',
+    cellphone   => '555-123-3333',
+    description => 'This account is managed by Puppet.'
 }
 ```
 
@@ -150,6 +151,7 @@ pingdom::settings:
     company: Company, Inc.
     email: bbrown@company.com
     cellphone: 555-123-3333
+    description: This account is managed by Puppet.
 
 pingdom::users:
   'Steve Smith':
