@@ -16,7 +16,7 @@ Please consider helping by submitting [bug reports](https://github.com/cwells/pu
 ---
 
 #### Types
-[`pingdom_check`][pingdom_check_properties] [`pingdom_user`][pingdom_user_properties] [`pingdom_team`][pingdom_team_properties] <sup>[1]</sup>
+[`pingdom_check`][pingdom_check_properties] [`pingdom_user`][pingdom_user_properties] [`pingdom_team`][pingdom_team_properties] <sup>[1]</sup> [`pingdom_settings`][pingdom_settings_properties]
 
 <sup>[1]</sup> Multi-user accounts only.
 
@@ -124,6 +124,17 @@ pingdom_check { "ping://${facts['fqdn']}":
 }
 ```
 
+###### Settings:
+```puppet
+pingdom_settings { 'Pingdom Settings':
+    firstname => 'Brad',
+    lastname  => 'Brown',
+    company   => 'Company, Inc.',
+    email     => 'bbrown@company.com',
+    cellphone => '555-123-3333'
+}
+```
+
 ###### Hiera:
 
 ```yaml
@@ -131,6 +142,14 @@ pingdom::account_email: support@company.com
 pingdom::user_email: puppet@company.com
 pingdom::password: ENC[PKCS7,EYAMLENCODEDPASSWORD]
 pingdom::appkey: ABCDEF1234567890FEDCBA
+
+pingdom::settings:
+  'Pingdom Settings':
+    firstname: Brad
+    lastname: Brown
+    company: Company, Inc.
+    email: bbrown@company.com
+    cellphone: 555-123-3333
 
 pingdom::users:
   'Steve Smith':
@@ -200,3 +219,4 @@ To get around this, and have your existing checks tagged, set `autofilter => 'bo
 [pingdom_check_properties]: https://github.com/cwells/puppet-pingdom/wiki/Check-properties
 [pingdom_user_properties]: https://github.com/cwells/puppet-pingdom/wiki/User-properties
 [pingdom_team_properties]: https://github.com/cwells/puppet-pingdom/wiki/Team-properties
+[pingdom_settings_properties]: https://github.com/cwells/puppet-pingdom/wiki/Settings-properties
