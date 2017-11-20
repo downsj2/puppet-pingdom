@@ -13,6 +13,20 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
+require 'digest'
+
+begin # require PuppetX module
+    require File.expand_path( # yes, this is the recommended way :P
+        File.join(
+            File.dirname(__FILE__), '..', '..', '..',
+            'puppet_x', 'pingdom', 'client-2.1.rb'
+        )
+    )
+    has_pingdom_api = true
+rescue LoadError
+    has_pingdom_api = false
+end
+
 begin # require PuppetX module
     require File.expand_path( # yes, this is the recommended way :P
         File.join(
@@ -44,7 +58,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
                     @resource[:user_email],
                     @resource[:password],
                     @resource[:appkey]
-                ].include? nil and @resource[:credentials_file].is_nil?
+                ].include? nil and @resource[:credentials_file].nil?
                 account_email, user_email, password, appkey =
                     @resource[:account_email], @resource[:user_email], @resource[:password], @resource[:appkey]
             end
@@ -56,7 +70,6 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         if [:true, :bootstrap].include? @resource[:autofilter]
             @autotag ||= 'puppet-' + Digest::SHA1.hexdigest(@resource[:name])[0..5]
             @resource[:filter_tags] = [@autotag] if @resource[:autofilter] != :bootstrap
-            @property_hash[:tags] = [@autotag]
         else
             @autotag = nil
         end
@@ -75,8 +88,8 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         end
 
         @resource.eachproperty do |prop|
-            prop = prop.to_s.to_sym
-            self.method("#{prop}=").call @resource[prop] if prop != :ensure
+             prop = prop.to_s.to_sym
+             self.method("#{prop}=").call @resource[prop] if prop != :ensure
         end
         @property_hash[:name] = @resource[:name]
 
@@ -93,30 +106,10 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     #
-    # custom getters/setters
+    # common accessors
     #
-    def users
-        # accepts list of ids, returns list of names
-        ids = @check.fetch('userids', nil)
-        user = api.select_users(ids, search='id') if ids
-        if user.respond_to? :map
-            user.map { |u| u['name'] }
-        else
-            :absent
-        end
-    end
-
-    def users=(value)
-        # accepts list of names, returns list of ids
-        found = api.select_users(value, search='name')
-        raise 'Unknown user in list' unless found.size == value.size
-        ids = found.map { |u| u['id'] }
-        newvalue = ids.join(',') if ids.respond_to? :join
-        @property_hash[:userids] = newvalue
-    end
-
     def filter_tags=(value)
-        @property_hash[:tags] = [@property_hash[:tags], value].join(',')
+        # @property_hash[:tags] = @property_hash[:tags] + value
     end
 
     def host
@@ -139,18 +132,15 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
     end
 
     def tags=(value)
-        @property_hash[:tags] = (@property_hash[:tags] + value).join(',')
+        value << @autotag
+        @property_hash[:tags] = value.join ','
     end
 
     def teams
-        # accepts list of ids, returns list of names
-        ids = @check.fetch('teams', nil).map { |i| i['id'].to_s }
+        # retrieves list of ids, returns list of names
+        ids = @check.fetch('teams', []).map { |i| i['id'].to_s }
         team = api.select_teams(ids, search='id') if ids
-        if team.respond_to? :map
-            team.map { |u| u['name'] }
-        else
-            :absent
-        end
+        team.map { |u| u['name'] }
     end
 
     def teams=(value)
@@ -158,8 +148,26 @@ Puppet::Type.type(:pingdom_check).provide(:check_base) do
         teams = api.select_teams(value, search='name')
         raise 'Unknown team in list' unless teams.size == value.size
         ids = teams.map { |u| u['id'] }
-        newvalue = ids.join(',') if ids.respond_to? :join
-        @property_hash[:teamids] = newvalue
+        @property_hash[:teamids] = ids
+    end
+
+    def users
+        # retrieves list of ids, returns list of names
+        ids = @check.fetch('userids', nil)
+        user = api.select_users(ids, search='id') if ids
+        if user.respond_to? :map
+            user.map { |u| u['name'] }
+        else
+            :absent
+        end
+    end
+
+    def users=(value)
+        # accepts list of names, returns list of ids
+        found = api.select_users(value, search='name')
+        raise 'Unknown user in list' unless found.size == value.size
+        ids = found.map { |u| u['id'] }
+        @property_hash[:userids] = ids.join ','
     end
 
     #

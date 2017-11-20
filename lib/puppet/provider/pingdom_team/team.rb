@@ -36,7 +36,7 @@ Puppet::Type.type(:pingdom_team).provide(:team) do
                     @resource[:user_email],
                     @resource[:password],
                     @resource[:appkey]
-                ].include? nil and @resource[:credentials_file].is_nil?
+                ].include? nil and @resource[:credentials_file].nil?
                 account_email, user_email, password, appkey =
                     @resource[:account_email], @resource[:user_email], @resource[:password], @resource[:appkey]
             end

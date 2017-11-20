@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '.', 'check_base.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'check_base.rb'))
 
 Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check_base) do
     has_features :port, :stringtosend, :stringtoexpect

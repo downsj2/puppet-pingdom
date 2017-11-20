@@ -99,23 +99,23 @@ module PuppetX
                         :include_tags => true,
                         :tags => filter_tags.join(',')
                     }
-                    response['checks']
+                    response.fetch('checks', [])
                 end
             end
 
             def find_check(name, filter_tags)
                 # returns check or nil
-                check = checks(filter_tags).select { |check| check['name'] == name } [0]
-                return nil if not check
+                check = checks(filter_tags).select { |check| check['name'] == name }
+                return nil if check.empty?
+                check = check.first
                 response = @api.get "#{@@endpoint[:checks]}/#{check['id']}", {
-                    :include_teams => true
+                     :include_teams => true
                 }
                 response['check']
             end
 
             def create_check(params)
-                response = @api.post @@endpoint[:checks], params
-                response['check']
+                @api.post @@endpoint[:checks], params
             end
 
             def modify_check(check, params)

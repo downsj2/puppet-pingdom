@@ -39,7 +39,7 @@ Puppet::Type.newtype(:pingdom_user) do
     end
 
     newparam(:log_level) do
-        desc 'Logging level for API requests [String (ERROR, WARN, INFO, DEBUG)]'
+        desc 'Logging level for API requests [String (error, warn, info, debug)]'
         newvalues(:error, :warn, :info, :debug)
         defaultto :error
     end
