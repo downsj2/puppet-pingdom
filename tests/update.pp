@@ -118,6 +118,7 @@ pingdom_check { "ping://${facts['fqdn']}":
     ensure           => present,
     provider         => 'ping',
     host             => '8.8.8.8',
+    ipv6             => false,
     tags             => ['ping']
 }
 
