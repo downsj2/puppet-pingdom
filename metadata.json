@@ -1,10 +1,10 @@
 {
   "name": "cwells-pingdom",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "author": "Cliff Wells <cliff.wells@protonmail.com>",
   "license": "Apache-2.0",
   "summary": "Puppet Pingdom module.",
-  "description": "Manage Pingdom checks using Puppet.",
+  "description": "Manage Pingdom resources using Puppet.",
   "source": "https://github.com/cwells/puppet-pingdom",
   "project_page": "https://github.com/cwells/puppet-pingdom",
   "issues_url": "https://github.com/cwells/puppet-pingdom/issues",
