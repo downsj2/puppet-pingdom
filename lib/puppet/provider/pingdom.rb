@@ -8,30 +8,20 @@ class Puppet::Provider::Pingdom < Puppet::Provider
 
     def api
         @api ||= begin
-            if @resource[:credentials_file]
+            args = if @resource[:credentials_file]
                 require 'yaml'
                 creds = YAML.load_file(
                     File.expand_path @resource[:credentials_file]
                 )
-                args = [
-                    creds['account_email'],
-                    creds['user_email'],
-                    creds['password'],
-                    creds['appkey']
-                ]
+                creds['account_email'], creds['user_email'], creds['password'], creds['appkey']
             else
                 raise 'Missing API credentials' if [
                     @resource[:account_email],
                     @resource[:user_email],
                     @resource[:password],
                     @resource[:appkey]
-                ].include? nil and @resource[:credentials_file].nil?
-                args = [
-                    @resource[:account_email],
-                    @resource[:user_email],
-                    @resource[:password],
-                    @resource[:appkey]
-                ]
+                ].include? nil
+                @resource[:account_email], @resource[:user_email], @resource[:password], @resource[:appkey]
             end
 
             args << @resource[:log_level]
