@@ -58,10 +58,6 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
     #
     # common accessors
     #
-    def filter_tags=(value)
-        # @property_hash[:tags] = @property_hash[:tags] + value
-    end
-
     def host
         @check.fetch('hostname', :absent)
     end

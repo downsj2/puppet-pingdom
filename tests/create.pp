@@ -24,14 +24,14 @@ Pingdom_team {
 }
 
 Pingdom_check {
-    credentials_file         => '~/.pingdom_credentials',
-    paused                   => true,
-    ipv6                     => false,
-    resolution               => 30,
-    notifyagainevery         => 5,
-    notifywhenbackup         => false,
-    responsetime_threshold   => 10,
-    users                    => [ 'SRE PagerDuty' ]
+    credentials_file       => '~/.pingdom_credentials',
+    paused                 => true,
+    ipv6                   => false,
+    resolution             => 30,
+    notifyagainevery       => 5,
+    notifywhenbackup       => false,
+    responsetime_threshold => 10,
+    users                  => [ 'SRE PagerDuty' ]
 }
 
 pingdom_settings { 'Pingdom Settings':
