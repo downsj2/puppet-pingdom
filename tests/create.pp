@@ -43,7 +43,7 @@ pingdom_user { 'SRE PagerDuty':
     ensure          => present,
     contact_targets => [
         { email  => 'pagerduty@domain.com' },
-        { number => '555-123-1212', countrycode => '1' }
+        { number => '555-123-1212', countrycode => '1', provider => 'BULKSMS' }
     ]
 }
 

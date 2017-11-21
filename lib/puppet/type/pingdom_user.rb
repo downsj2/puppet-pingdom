@@ -82,7 +82,7 @@ Puppet::Type.newtype(:pingdom_user) do
                 else
                     raise "Missing required parameter(s): #{(required - keyset).to_a}"
                 end
-            elsif keyset.subset? Set['number', 'countrycode', 'severity']
+            elsif keyset.subset? Set['number', 'countrycode', 'provider', 'severity']
                 required = Set['number', 'countrycode']
                 if required.subset? keyset
                     return
