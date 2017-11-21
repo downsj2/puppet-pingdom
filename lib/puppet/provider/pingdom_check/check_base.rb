@@ -86,7 +86,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
     end
 
     def tags=(value)
-        value << @autotag
+        value << @autotag if @autotag
         @property_hash[:tags] = value.join ','
     end
 
