@@ -27,5 +27,5 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check_base) do
         end
     end
 
-    accessorize
+    accessorize :@check
 end

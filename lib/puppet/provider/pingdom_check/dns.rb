@@ -19,5 +19,5 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check_base) do
         end
     end
 
-    accessorize
+    accessorize :@check
 end

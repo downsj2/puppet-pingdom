@@ -27,5 +27,5 @@ Puppet::Type.type(:pingdom_check).provide(:pop3, :parent => :check_base) do
         end
     end
 
-    accessorize
+    accessorize :@check
 end

@@ -51,5 +51,5 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) d
         end
     end
 
-    accessorize
+    accessorize :@check
 end
