@@ -1,4 +1,5 @@
 class Puppet::Provider::Pingdom < Puppet::Provider
+
     require File.expand_path(File.join(File.dirname(__FILE__),
         '..', '..', 'puppet_x', 'pingdom', 'client-2.1.rb'
     ))
@@ -9,12 +10,15 @@ class Puppet::Provider::Pingdom < Puppet::Provider
         @api ||= begin
             if @resource[:credentials_file]
                 require 'yaml'
-                # just let any exception bubble up
                 creds = YAML.load_file(
                     File.expand_path @resource[:credentials_file]
                 )
-                account_email, user_email, password, appkey =
-                    creds['account_email'], creds['user_email'], creds['password'], creds['appkey']
+                args = [
+                    creds['account_email'],
+                    creds['user_email'],
+                    creds['password'],
+                    creds['appkey']
+                ]
             else
                 raise 'Missing API credentials' if [
                     @resource[:account_email],
@@ -22,10 +26,16 @@ class Puppet::Provider::Pingdom < Puppet::Provider
                     @resource[:password],
                     @resource[:appkey]
                 ].include? nil and @resource[:credentials_file].nil?
-                account_email, user_email, password, appkey =
-                    @resource[:account_email], @resource[:user_email], @resource[:password], @resource[:appkey]
+                args = [
+                    @resource[:account_email],
+                    @resource[:user_email],
+                    @resource[:password],
+                    @resource[:appkey]
+                ]
             end
-            PuppetX::Pingdom::Client.new(account_email, user_email, password, appkey, @resource[:log_level])
+
+            args << @resource[:log_level]
+            PuppetX::Pingdom::Client.new *args
         end
     end
 
@@ -33,6 +43,7 @@ class Puppet::Provider::Pingdom < Puppet::Provider
         # Provides automatic creation of missing getters/setters (accessors).
         #
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
+        # It also allows us to pass in the name of the resource hash to read from.
         # This allows us to have special cases explicitly defined, while still benefitting
         # from accessor auto-creation (which this class method provides).
         # Should be called at the end of every provider definition (unless you explicitly
