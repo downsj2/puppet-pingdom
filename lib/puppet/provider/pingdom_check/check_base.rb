@@ -31,10 +31,6 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
         @check ||= api.find_check @resource[:name], @resource[:filter_tags]
     end
 
-    def create
-        # Dummy method. Real work is done in `flush`.
-    end
-
     def flush
         if @resource[:ensure] == :absent
             api.delete_check @check if @check

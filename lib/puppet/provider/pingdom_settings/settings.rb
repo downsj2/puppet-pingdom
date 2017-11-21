@@ -12,18 +12,12 @@ Puppet::Type.type(:pingdom_settings).provide(:settings, :parent => Puppet::Provi
         @settings ||= api.settings
     end
 
-    def create
-    end
-
     def flush
         @resource.eachproperty do |prop|
             prop = prop.to_s.to_sym
             self.method("#{prop}=").call @resource[prop] if prop != :ensure
         end
         api.modify_settings @property_hash
-    end
-
-    def destroy
     end
 
     accessorize :@settings

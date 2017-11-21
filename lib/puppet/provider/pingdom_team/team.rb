@@ -12,10 +12,6 @@ Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pin
         @team ||= api.find_team @resource[:name]
     end
 
-    def create
-        # Dummy method. Real work is done in `flush`.
-    end
-
     def flush
         if @resource[:ensure] == :absent
             api.delete_team @team if @team

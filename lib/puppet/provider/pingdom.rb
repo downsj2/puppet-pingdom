@@ -59,4 +59,10 @@ class Puppet::Provider::Pingdom < Puppet::Provider
             end
         end
     end
+
+    def create
+    end
+
+    def destroy
+    end
 end
