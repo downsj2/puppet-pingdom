@@ -72,9 +72,9 @@ Puppet::Type.type(:pingdom_check).provide(:check, :parent => Puppet::Provider::P
     end
 
     def tags
-        usertags = @current.fetch('tags', []).map { |tag| tag['name'] if tag['type'] == 'u' }
-        usertags.delete @autotag
-        usertags
+        @current.fetch('tags', []).select { |tag|
+            tag['type'] == 'u' && tag['name'] != @autotag
+        }.map { |tag| tag['name'] }
     end
 
     def tags=(value)
