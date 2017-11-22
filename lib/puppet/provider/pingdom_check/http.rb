@@ -13,7 +13,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
             username = @current['type']['http']['username']
             password = @current['type']['http']['password']
             "#{username}:#{password}"
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -21,7 +21,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     def encryption
         begin
             @current['type']['http']['encryption']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -29,7 +29,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     def port
         begin
             @current['type']['http']['port']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -37,7 +37,7 @@ Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     def postdata
         begin
             URI.decode_www_form(@current['type']['http']['postdata']).to_h
-        rescue => exception
+        rescue
             :absent
         end
     end

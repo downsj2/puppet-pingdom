@@ -6,7 +6,7 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check) do
     def port
         begin
             @current['type']['tcp']['port']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -14,7 +14,7 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check) do
     def stringtoexpect
         begin
             @current['type']['tcp']['stringtoexpect']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -22,7 +22,7 @@ Puppet::Type.type(:pingdom_check).provide(:tcp, :parent => :check) do
     def stringtosend
         begin
             @current['type']['tcp']['stringtosend']
-        rescue => exception
+        rescue
             :absent
         end
     end

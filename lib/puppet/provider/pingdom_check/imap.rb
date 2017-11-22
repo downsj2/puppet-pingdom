@@ -6,7 +6,7 @@ Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :check) do
     def encryption
         begin
             @current['type']['imap']['encryption']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -14,7 +14,7 @@ Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :check) do
     def port
         begin
             @current['type']['imap']['port']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -22,7 +22,7 @@ Puppet::Type.type(:pingdom_check).provide(:imap, :parent => :check) do
     def stringtoexpect
         begin
             @current['type']['imap']['stringtoexpect']
-        rescue => exception
+        rescue
             :absent
         end
     end

@@ -8,7 +8,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
             username = @current['type']['smtp']['username']
             password = @current['type']['smtp']['password']
             "#{username}:#{password}"
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -16,7 +16,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     def encryption
         begin
             @current['type']['smtp']['encryption']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -24,7 +24,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     def port
         begin
             @current['type']['smtp']['port']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -32,7 +32,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     def stringtoexpect
         begin
             @current['type']['smtp']['stringtoexpect']
-        rescue => exception
+        rescue
             :absent
         end
     end

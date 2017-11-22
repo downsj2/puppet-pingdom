@@ -6,7 +6,7 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
     def expectedip
         begin
             @current['type']['dns']['expectedip']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -14,7 +14,7 @@ Puppet::Type.type(:pingdom_check).provide(:dns, :parent => :check) do
     def nameserver
         begin
             @current['type']['dns']['nameserver']
-        rescue => exception
+        rescue
             :absent
         end
     end

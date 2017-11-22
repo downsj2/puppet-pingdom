@@ -8,7 +8,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check) do
     def additionalurls
         begin
             @current['type']['httpcustom']['additionalurls']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -22,7 +22,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check) do
             username = @current['type']['httpcustom']['username']
             password = @current['type']['httpcustom']['password']
             "#{username}:#{password}"
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -30,7 +30,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check) do
     def encryption
         begin
             @current['type']['httpcustom']['encryption']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -38,7 +38,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check) do
     def port
         begin
             @current['type']['httpcustom']['port']
-        rescue => exception
+        rescue
             :absent
         end
     end
@@ -46,7 +46,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check) do
     def url
         begin
             @current['type']['httpcustom']['url']
-        rescue => exception
+        rescue
             :absent
         end
     end
