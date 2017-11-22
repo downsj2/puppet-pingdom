@@ -1,6 +1,6 @@
 {
   "name": "cwells-pingdom",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "author": "Cliff Wells <cliff.wells@protonmail.com>",
   "license": "Apache-2.0",
   "summary": "Puppet Pingdom module.",
