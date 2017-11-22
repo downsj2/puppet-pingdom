@@ -31,11 +31,10 @@ class Puppet::Provider::Pingdom < Puppet::Provider
         end
     end
 
-    def self.accessorize(resource)
+    def self.accessorize
         # Provides automatic creation of missing getters/setters (accessors).
         #
         # Similar to mk_resource_methods, but doesn't clobber existing methods, thank you.
-        # It also allows us to pass in the name of the resource hash to read from.
         # This allows us to have special cases explicitly defined, while still benefitting
         # from accessor auto-creation (which this class method provides).
         # Should be called at the end of every provider definition (unless you explicitly
@@ -50,7 +49,7 @@ class Puppet::Provider::Pingdom < Puppet::Provider
 
             if !method_defined?(prop)
                 define_method(prop) do
-                    instance_variable_get(resource).fetch(prop.to_s, :absent)
+                    @current.fetch(prop.to_s, :absent)
                 end
             end
 

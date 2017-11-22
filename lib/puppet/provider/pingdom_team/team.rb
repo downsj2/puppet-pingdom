@@ -9,12 +9,12 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'pingdom.rb'))
 Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pingdom) do
 
     def exists?
-        @team ||= api.find_team @resource[:name]
+        @current ||= api.find_team @resource[:name]
     end
 
     def flush
         if @resource[:ensure] == :absent
-            api.delete_team @team if @team
+            api.delete_team @current if @current
             return
         end
 
@@ -24,8 +24,8 @@ Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pin
         end
         @property_hash[:name] = @resource[:name]
 
-        if @team
-            api.modify_team @team, @property_hash
+        if @current
+            api.modify_team @current, @property_hash
         else
             api.create_team @property_hash
         end
@@ -40,7 +40,7 @@ Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pin
     #
     def users
         # accepts list of ids, returns list of names
-        ids = @team.fetch('users', {}).map { |i| i['id'].to_i }
+        ids = @current.fetch('users', {}).map { |i| i['id'].to_i }
         user = api.select_users(ids, search='id') if ids
         if user.respond_to? :map
             user.map { |u| u['name'] }
@@ -58,5 +58,5 @@ Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pin
         @property_hash[:userids] = newvalue
     end
 
-    accessorize :@team
+    accessorize
 end

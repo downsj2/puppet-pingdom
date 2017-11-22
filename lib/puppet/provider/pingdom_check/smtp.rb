@@ -1,12 +1,12 @@
-require File.expand_path(File.join(File.dirname(__FILE__), 'check_base.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'check.rb'))
 
-Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check_base) do
+Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check) do
     has_features :port, :auth, :stringtoexpect, :encryption
 
     def auth
         begin
-            username = @check['type']['smtp']['username']
-            password = @check['type']['smtp']['password']
+            username = @current['type']['smtp']['username']
+            password = @current['type']['smtp']['password']
             "#{username}:#{password}"
         rescue => exception
             :absent
@@ -15,7 +15,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check_base) do
 
     def encryption
         begin
-            @check['type']['smtp']['encryption']
+            @current['type']['smtp']['encryption']
         rescue => exception
             :absent
         end
@@ -23,7 +23,7 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check_base) do
 
     def port
         begin
-            @check['type']['smtp']['port']
+            @current['type']['smtp']['port']
         rescue => exception
             :absent
         end
@@ -31,11 +31,11 @@ Puppet::Type.type(:pingdom_check).provide(:smtp, :parent => :check_base) do
 
     def stringtoexpect
         begin
-            @check['type']['smtp']['stringtoexpect']
+            @current['type']['smtp']['stringtoexpect']
         rescue => exception
             :absent
         end
     end
 
-    accessorize :@check
+    accessorize
 end

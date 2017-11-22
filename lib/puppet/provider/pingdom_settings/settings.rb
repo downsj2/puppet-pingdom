@@ -9,7 +9,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'pingdom.rb'))
 Puppet::Type.type(:pingdom_settings).provide(:settings, :parent => Puppet::Provider::Pingdom) do
 
     def exists?
-        @settings ||= api.settings
+        @current ||= api.settings
     end
 
     def flush
@@ -20,5 +20,5 @@ Puppet::Type.type(:pingdom_settings).provide(:settings, :parent => Puppet::Provi
         api.modify_settings @property_hash
     end
 
-    accessorize :@settings
+    accessorize
 end

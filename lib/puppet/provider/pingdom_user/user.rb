@@ -9,7 +9,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'pingdom.rb'))
 Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pingdom) do
 
     def exists?
-        @user ||= api.find_user @resource[:name]
+        @current ||= api.find_user @resource[:name]
     end
 
     def create
@@ -17,13 +17,13 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
         # a two-phase process in 2.1. So we can only pass the `name`
         # when creating a user, and have to modify the user
         # in a second API call.
-        @user = api.create_user :name => @resource[:name]
-        @user[:name] = @resource[:name]
+        @current = api.create_user :name => @resource[:name]
+        @current[:name] = @resource[:name]
     end
 
     def flush
         if @resource[:ensure] == :absent
-            api.delete_user @user if @user
+            api.delete_user @current if @current
             return
         end
 
@@ -33,7 +33,7 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
         end
         @property_hash[:name] = @resource[:name]
 
-        @user = api.modify_user @user, @property_hash
+        @current = api.modify_user @current, @property_hash
     end
 
     def destroy
@@ -45,22 +45,22 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
     #
     def contact_targets
         targets = []
-        @user['email'].each do |email|
+        @current['email'].each do |email|
             targets << {
                 'id' => email['id'],
                 'email' => email['address'],
                 'severity' => email['severity']
             }
-        end if @user['email'].respond_to? :each
+        end if @current['email'].respond_to? :each
 
-        @user['sms'].each do |sms|
+        @current['sms'].each do |sms|
             targets << {
                 'id' => sms['id'],
                 'number' => sms['number'],
                 'countrycode' => sms['country_code'],
                 'severity' => sms['severity']
             }
-        end if @user['sms'].respond_to? :each
+        end if @current['sms'].respond_to? :each
 
         @property_hash[:old_contact_targets] = targets
     end
@@ -73,8 +73,8 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
     end
 
     def paused
-        if @user.include? 'paused'
-            (@user['paused'] == 'YES').to_s.to_sym
+        if @current.include? 'paused'
+            (@current['paused'] == 'YES').to_s.to_sym
         else
             :absent
         end
@@ -85,8 +85,8 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
     end
 
     def primary
-        if @user.include? 'primary'
-            (@user['primary'] == 'YES').to_s.to_sym
+        if @current.include? 'primary'
+            (@current['primary'] == 'YES').to_s.to_sym
         else
             :absent
         end
@@ -96,5 +96,5 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
         @property_hash[:primary] = { :true => 'YES', :false => 'NO' }[value]
     end
 
-    accessorize :@user
+    accessorize
 end

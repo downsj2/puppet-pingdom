@@ -1,11 +1,11 @@
-require File.expand_path(File.join(File.dirname(__FILE__), 'check_base.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'check.rb'))
 
-Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
+Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check) do
     has_features :port, :stringtosend, :stringtoexpect
 
     def port
         begin
-            @check['type']['udp']['port']
+            @current['type']['udp']['port']
         rescue => exception
             :absent
         end
@@ -13,7 +13,7 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
 
     def stringtoexpect
         begin
-            @check['type']['udp']['stringtoexpect']
+            @current['type']['udp']['stringtoexpect']
         rescue => exception
             :absent
         end
@@ -21,11 +21,11 @@ Puppet::Type.type(:pingdom_check).provide(:udp, :parent => :check_base) do
 
     def stringtosend
         begin
-            @check['type']['udp']['stringtosend']
+            @current['type']['udp']['stringtosend']
         rescue => exception
             :absent
         end
     end
 
-    accessorize :@check
+    accessorize
 end

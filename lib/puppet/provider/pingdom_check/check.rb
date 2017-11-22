@@ -17,7 +17,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'pingdom.rb'))
 
 require 'digest'
 
-Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provider::Pingdom) do
+Puppet::Type.type(:pingdom_check).provide(:check, :parent => Puppet::Provider::Pingdom) do
 
     def exists?
         if [:true, :bootstrap].include? @resource[:autofilter]
@@ -28,12 +28,12 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
             @autotag = nil
         end
 
-        @check ||= api.find_check @resource[:name], @resource[:filter_tags]
+        @current ||= api.find_check @resource[:name], @resource[:filter_tags]
     end
 
     def flush
         if @resource[:ensure] == :absent
-            api.delete_check @check if @check
+            api.delete_check @current if @current
             return
         end
 
@@ -43,8 +43,8 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
         end
         @property_hash[:name] = @resource[:name]
 
-        if @check
-            api.modify_check @check, @property_hash
+        if @current
+            api.modify_check @current, @property_hash
         else
             @property_hash[:type] = @resource[:provider]
             api.create_check @property_hash
@@ -59,11 +59,11 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
     # common accessors
     #
     def host
-        @check.fetch('hostname', :absent)
+        @current.fetch('hostname', :absent)
     end
 
     def paused
-         @check.fetch('status', :absent) == 'paused'
+         @current.fetch('status', :absent) == 'paused'
     end
 
     def probe_filters=(value)
@@ -72,7 +72,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
     end
 
     def tags
-        usertags = @check.fetch('tags', []).map { |tag| tag['name'] if tag['type'] == 'u' }
+        usertags = @current.fetch('tags', []).map { |tag| tag['name'] if tag['type'] == 'u' }
         usertags.delete @autotag
         usertags
     end
@@ -84,7 +84,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
 
     def teams
         # retrieves list of ids, returns list of names
-        ids = @check.fetch('teams', []).map { |i| i['id'].to_s }
+        ids = @current.fetch('teams', []).map { |i| i['id'].to_s }
         team = api.select_teams(ids, search='id') if ids
         team.map { |u| u['name'] }
     end
@@ -99,7 +99,7 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
 
     def users
         # retrieves list of ids, returns list of names
-        ids = @check.fetch('userids', nil)
+        ids = @current.fetch('userids', nil)
         user = api.select_users(ids, search='id') if ids
         if user.respond_to? :map
             user.map { |u| u['name'] }
@@ -116,5 +116,5 @@ Puppet::Type.type(:pingdom_check).provide(:check_base, :parent => Puppet::Provid
         @property_hash[:userids] = ids.join ','
     end
 
-    accessorize :@check
+    accessorize
 end

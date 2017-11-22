@@ -1,13 +1,13 @@
-require File.expand_path(File.join(File.dirname(__FILE__), 'check_base.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'check.rb'))
 
 require 'uri'
 
-Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) do
+Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check) do
     has_features :port, :url, :auth, :encryption, :additionalurls
 
     def additionalurls
         begin
-            @check['type']['httpcustom']['additionalurls']
+            @current['type']['httpcustom']['additionalurls']
         rescue => exception
             :absent
         end
@@ -19,8 +19,8 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) d
 
     def auth
         begin
-            username = @check['type']['httpcustom']['username']
-            password = @check['type']['httpcustom']['password']
+            username = @current['type']['httpcustom']['username']
+            password = @current['type']['httpcustom']['password']
             "#{username}:#{password}"
         rescue => exception
             :absent
@@ -29,7 +29,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) d
 
     def encryption
         begin
-            @check['type']['httpcustom']['encryption']
+            @current['type']['httpcustom']['encryption']
         rescue => exception
             :absent
         end
@@ -37,7 +37,7 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) d
 
     def port
         begin
-            @check['type']['httpcustom']['port']
+            @current['type']['httpcustom']['port']
         rescue => exception
             :absent
         end
@@ -45,11 +45,11 @@ Puppet::Type.type(:pingdom_check).provide(:httpcustom, :parent => :check_base) d
 
     def url
         begin
-            @check['type']['httpcustom']['url']
+            @current['type']['httpcustom']['url']
         rescue => exception
             :absent
         end
     end
 
-    accessorize :@check
+    accessorize
 end

@@ -1,5 +1,5 @@
-require File.expand_path(File.join(File.dirname(__FILE__), 'check_base.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'check.rb'))
 
-Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check_base) do
-    accessorize :@check
+Puppet::Type.type(:pingdom_check).provide(:ping, :parent => :check) do
+    accessorize
 end
