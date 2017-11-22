@@ -8,6 +8,8 @@
 # Homepage: https://github.com/cwells/puppet-pingdom
 #
 
+require 'set'
+
 Puppet::Type.newtype(:pingdom_check) do
     @doc = 'Pingdom Checks API'
 
@@ -96,14 +98,18 @@ Puppet::Type.newtype(:pingdom_check) do
     newproperty(:probe_filters, :array_matching=>:all) do
         desc %q(Filters used for probe selections. Overwrites previous filters for check.
                 To remove all filters from a check, use an empty value.
-                Any string of [ 'NA', 'EU', 'APAC'].)
-        newvalues(:NA, :EU, :APAC)
+                [Array of string, any of ('NA', 'EU', 'APAC').)
 
         def insync?(is)
             if is == :absent
                 return should.nil?
             end
-            should.nil? or is.sort == should.map { |v| 'region: ' + v }
+            should.nil? or is.sort == should.sort
+        end
+
+        validate do |value|
+            allowed = 'NA', 'EU', 'APAC'
+            raise "Invalid probe_filters: #{value}" unless allowed.include? value
         end
     end
 

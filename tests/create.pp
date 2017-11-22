@@ -31,6 +31,7 @@ Pingdom_check {
     notifyagainevery       => 5,
     notifywhenbackup       => false,
     responsetime_threshold => 10,
+    probe_filters          => ['NA', 'APAC'],
     users                  => [ 'SRE PagerDuty' ]
 }
 

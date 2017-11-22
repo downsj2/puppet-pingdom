@@ -2,7 +2,7 @@
 # Base class for all Check providers.
 #
 # Provider must:
-# - have `:parent => :check_base` in their declaration.
+# - have `:parent => :check` in their declaration.
 # - declare any new properties as features using `has_features`.
 # - create setters/getters for provider-specific properties
 #   that require special handling (optional).
@@ -66,8 +66,14 @@ Puppet::Type.type(:pingdom_check).provide(:check, :parent => Puppet::Provider::P
          @current.fetch('status', :absent) == 'paused'
     end
 
+    def probe_filters
+        @current.fetch('probe_filters').map { |region|
+            region.split[1]
+        }
+    end
+
     def probe_filters=(value)
-        newvalue = value.map { |v| 'region: ' + v }.join(',') if value.respond_to? :map
+        newvalue = value.map { |v| 'region: ' + v }.join(',')
         @property_hash[:probe_filters] = newvalue
     end
 

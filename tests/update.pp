@@ -34,7 +34,8 @@ Pingdom_check {
     users                  => [
         'DevOps',
         'DevOps Pager'
-    ]
+    ],
+    probe_filters          => ['NA', 'EU']
 }
 
 pingdom_user { 'DevOps':
