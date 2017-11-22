@@ -20,10 +20,13 @@ require 'digest'
 Puppet::Type.type(:pingdom_check).provide(:check, :parent => Puppet::Provider::Pingdom) do
 
     def exists?
+        @property_hash[:tags] ||= []
+        @resource[:filter_tags] ||= []
+
         if [:true, :bootstrap].include? @resource[:autofilter]
             @autotag ||= 'puppet-' + Digest::SHA1.hexdigest(@resource[:name])[0..5]
-            @resource[:filter_tags] ||= []
             @resource[:filter_tags] << @autotag if @resource[:autofilter] != :bootstrap
+            @property_hash[:tags] << @autotag
         else
             @autotag = nil
         end
