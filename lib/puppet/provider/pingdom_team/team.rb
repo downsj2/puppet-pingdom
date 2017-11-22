@@ -36,7 +36,7 @@ Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pin
     end
 
     #
-    # custom getters/setters
+    # custom accessors
     #
     def users
         # accepts list of ids, returns list of names

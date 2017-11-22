@@ -2,12 +2,13 @@
 # Base class for all Check providers.
 #
 # Provider must:
+# - require this file
 # - have `:parent => :check` in their declaration.
 # - declare any new properties as features using `has_features`.
-# - create setters/getters for provider-specific properties
+# - create accessors for provider-specific properties
 #   that require special handling (optional).
-# - call `accessorize` at the end to create any setters/getters
-#   not already defined.
+# - call `accessorize` at the end of the declaration to create
+#   any accessors not already defined.
 #
 # Author: Cliff Wells <cliff.wells@protonmail.com>
 # Homepage: https://github.com/cwells/puppet-pingdom

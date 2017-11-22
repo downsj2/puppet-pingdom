@@ -41,7 +41,7 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
     end
 
     #
-    # custom getters/setters
+    # custom accessors
     #
     def contact_targets
         targets = []
