@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'check.rb'))
 
 require 'uri'
-require 'digest'
 
 Puppet::Type.type(:pingdom_check).provide(:http, :parent => :check) do
     has_features :port, :url, :auth, :encryption, :shouldcontain,
