@@ -18,7 +18,7 @@ module PuppetX
                 @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
                 @headers = {}
                 @basic_auth = nil
-                enable_logging log_level.to_s
+                enable_logging log_level
                 make_methods :get, :post, :put, :delete
             end
 
@@ -67,7 +67,7 @@ module PuppetX
             def enable_logging(level)
                 require 'logger'
                 @logger = Logger.new $stderr
-                @logger.level = Logger.const_get level.upcase
+                @logger.level = Logger.const_get level.to_s.upcase
             end
         end
 
