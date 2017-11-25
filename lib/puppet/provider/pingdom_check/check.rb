@@ -21,18 +21,20 @@ require 'digest'
 Puppet::Type.type(:pingdom_check).provide(:check, :parent => Puppet::Provider::Pingdom) do
 
     def exists?
-        @property_hash[:tags] ||= []
         @resource[:filter_tags] ||= []
 
         if [:true, :bootstrap].include? @resource[:autofilter]
             @autotag ||= 'puppet-' + Digest::SHA1.hexdigest(@resource[:name])[0..5]
             @resource[:filter_tags] << @autotag if @resource[:autofilter] != :bootstrap
-            @property_hash[:tags] << @autotag
         else
             @autotag = nil
         end
 
         @current ||= api.find_check @resource[:name], @resource[:filter_tags]
+        if !@current && @autotag
+            @property_hash[:tags] = @autotag
+        end
+        @current
     end
 
     def flush
@@ -41,16 +43,16 @@ Puppet::Type.type(:pingdom_check).provide(:check, :parent => Puppet::Provider::P
             return
         end
 
-        @resource.eachproperty do |prop|
-             prop = prop.to_s.to_sym
-             self.method("#{prop}=").call @resource[prop] if prop != :ensure
-        end
-        @property_hash[:name] = @resource[:name]
-
         if @current
             api.modify_check @current, @property_hash
         else
+            @resource.eachproperty do |prop|
+                prop = prop.to_s.to_sym
+                self.method("#{prop}=").call @resource[prop] if prop != :ensure
+            end
+            @property_hash[:name] = @resource[:name]
             @property_hash[:type] = @resource[:provider]
+
             api.create_check @property_hash
         end
     end

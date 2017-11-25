@@ -18,15 +18,15 @@ Puppet::Type.type(:pingdom_team).provide(:team, :parent => Puppet::Provider::Pin
             return
         end
 
-        @resource.eachproperty do |prop|
-            prop = prop.to_s.to_sym
-            self.method("#{prop}=").call @resource[prop] if prop != :ensure
-        end
-        @property_hash[:name] = @resource[:name]
-
         if @current
             api.modify_team @current, @property_hash
         else
+            @resource.eachproperty do |prop|
+                prop = prop.to_s.to_sym
+                self.method("#{prop}=").call @resource[prop] if prop != :ensure
+            end
+            @property_hash[:name] = @resource[:name]
+
             api.create_team @property_hash
         end
     end
