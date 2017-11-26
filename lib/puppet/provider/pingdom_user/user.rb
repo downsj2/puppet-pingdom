@@ -19,10 +19,6 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
         # in a second API call.
         @current = api.create_user :name => @resource[:name]
         @current[:name] = @resource[:name]
-        @resource.eachproperty do |prop|
-            prop = prop.to_s.to_sym
-            self.method("#{prop}=").call @resource[prop] if prop != :ensure
-        end
     end
 
     def flush
@@ -31,8 +27,12 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
             return
         end
 
-        @property_hash[:name] = @resource[:name]
+        @resource.eachproperty do |prop|
+            prop = prop.to_s.to_sym
+            self.method("#{prop}=").call @resource[prop] if prop != :ensure
+        end
 
+        @property_hash[:name] = @resource[:name]
         @current = api.modify_user @current, @property_hash
     end
 
