@@ -8,11 +8,6 @@ This module has no external dependencies, and should be widely-compatible and si
 
 Please consider helping by submitting [bug reports](https://github.com/cwells/puppet-pingdom/issues). Pull requests also welcome.
 
-#### Warning
-<img align="left" src="https://image.flaticon.com/icons/svg/159/159469.svg" width="50" height="50" />
-
-[0.9.0](https://github.com/cwells/puppet-pingdom/releases/tag/0.9.0) introduces a breaking change. `Pingdom_check.contacts` has been renamed to `Pingdom_check.users` to be consistent with naming conventions.
-
 ---
 
 #### Types
