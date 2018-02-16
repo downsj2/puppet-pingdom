@@ -67,7 +67,7 @@ Puppet::Type.type(:pingdom_user).provide(:user, :parent => Puppet::Provider::Pin
 
     def contact_targets=(value)
         value.each do |v|
-            v[:severitylevel] = v.delete('severity') if v.include? 'severity'
+            v['severitylevel'] = v.delete('severity') if v.include? 'severity'
         end
         @property_hash[:contact_targets] = value
     end

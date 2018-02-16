@@ -55,8 +55,6 @@ Puppet::Type.newtype(:pingdom_user) do
                 return should.nil?
             end
 
-            # this is a bit convoluted as Pingdom always returns severity, so
-            # if the user didn't specify a severity, then we skip that comparison
             should.each do |s|
                 type = s.include?('email') ? 'email' : 'number'
                 i = is.select { |contact| contact.fetch(type, nil) == s[type] }
@@ -64,7 +62,7 @@ Puppet::Type.newtype(:pingdom_user) do
                 i = i.first
                 s['severity'] ||= i['severity']
                 return false if s['severity'] != i['severity']
-                return false if (type == 'number' && s['countrycode'] != i['countrycode'])
+                return false if (type == 'number' && s['countrycode'].to_s != i['countrycode'])
             end
 
             true
