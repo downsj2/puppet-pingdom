@@ -236,7 +236,7 @@ module PuppetX
             end
 
             def modify_settings(params)
-                @api.put "#{@@endpoint[:settings]}", params
+                #@api.put "#{@@endpoint[:settings]}", params
             end
         end
     end
